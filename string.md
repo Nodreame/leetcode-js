@@ -335,7 +335,7 @@
             return resultArr.join('')
         };
         ```
-### 791 numSpecialEquivGroups
+### 893 numSpecialEquivGroups
 - 难度：easy
 - 题意分析：目标是将数组内特殊等价的字符串归纳为一组并求总数组长度。判断是否为特殊等价的依据是，奇位字符相同&偶位字符相同（忽略顺序）。
 - 思路：for数组，取得item并将其分开为奇字符串及偶字符串，sort两个字符串并整合放入Set中，Set长度即结果。
@@ -577,6 +577,129 @@
             return resultArr;
         };
         ```
+
+### 824. toGoatLatin
+- 难度：easy
+- 题意解析：句子可被空格分割为 n 个单词，每个单词处理如下：
+    - 单词开头为元音则尾部+ma+a*(单词在数组中的下标+1)；
+    - 非元音开头则单词摘出开头+开头+ma+a*(单词在数组中的下标+1)；
+- 解题思路：按照题意编写代码
+    - 实现：
+        ``` js
+        var toGoatLatin = function(S) {
+            let arr = S.split(' ');
+            for (let i=0, arrLen=arr.length; i<arrLen; i++) {
+                if (/[aeiouAEIOU]/.test(arr[i][0])) {
+                    arr[i] += 'ma'
+                } else {
+                    let tempArr = arr[i].split('');
+                    tempArr = tempArr.splice(1, tempArr.length)
+                    tempArr.push(arr[i][0])
+                    tempArr.push('ma')
+                    arr[i] = tempArr.join('') 
+                }
+                for (let j=0, len=i+1; j<len; j++) {
+                    arr[i] += 'a'
+                }
+            }
+            return arr.join(' ').trim()
+        };
+        ```
+
+### 609.findDuplicate
+- 难度：medium
+- 题意解析：给定一个二维数组，每个子数组第一个元素为根目录，第二到第 n 个元素为文件+文件内容，目标是将相同文本内容的文件路径名放入同一数组。
+- 初始思路：创建 map，双 for 循环组装出实际文件路径，并将内容作为key，数组为 value 放入 map, 相同数组不断插入 value，最后取 map.values() 整合出目标二维数组。
+    - 实现：
+        ``` js
+        var findDuplicate = function(paths) {
+            let map = new Map();
+            for (let i=0, pathsLen=paths.length; i<pathsLen; i++) {
+                let tempArr = paths[i].split(' ');
+                let prefix = tempArr[0];
+                for (let j=1, len=tempArr.length; j<len; j++) {
+                    let fileArr = tempArr[j].split('(');
+                    let pathName = prefix + '/' + fileArr[0];
+                    let content = fileArr[1].split(')')[0];
+                    if (!map.has(content)) {
+                        map.set(content, [])
+                    }
+                    map.get(content).push(pathName)
+                }
+            }
+            let resultArr = []
+            for (let value of map.values()) {
+                if (value.length > 1) {
+                    resultArr.push(value)
+                }
+            }
+            return resultArr
+        };
+        ```
+- 优化思路：
+    - 优化点1：将中间的"两次切分字符串"改为"字符串截取"，减少了空间消耗；
+    - 优化点2：最后从 map.values()生产目标二维数组的过程使用 ES6语法的 Array.from + filter 代替，提高执行效率（副作用是加大内存消耗）；
+        - 实现：
+        ``` js
+        var findDuplicate = function(paths) {
+            let map = new Map();
+            for (let i=0, pathsLen=paths.length; i<pathsLen; i++) {
+                let tempArr = paths[i].split(' ');
+                let prefix = tempArr[0];
+                for (let j=1, len=tempArr.length; j<len; j++) {
+                    let item = tempArr[j];
+                    let contentIndex = item.indexOf('(');
+                    let content = item.slice(contentIndex+1, item.length-1);
+                    let pathName = prefix + '/' + item.slice(0, contentIndex);
+                    if (!map.has(content)) {
+                        map.set(content, [])
+                    }
+                    map.get(content).push(pathName)
+                }
+            }
+            return Array.from(map.values()).filter(item=>item.length>1);
+        };
+        ```
+
+### 49. groupAnagrams
+- 难度：medium
+- 题意解析：从包含数个字符串的数组中获取包含字母完全相同的字符串。
+- 初始解法：通过键值对方法，将每个字符串的字母排序形成键，键相同的字符串放到一起。
+    - 复杂度：时间O(n)、空间O(n)
+    - 实现：
+    ``` js
+    var groupAnagrams = function(strs) {
+        let map = new Map();
+        for (let i=0, strsLen=strs.length; i<strsLen; i++) {
+            let sortStr = strs[i].split('').sort().join('')
+            if (map.has(sortStr)) {
+                map.get(sortStr).push(strs[i])
+            } else {
+                map.set(sortStr, [strs[i]])
+            }
+        }
+        return Array.from(map.values());
+    };
+    ```
+
+###  788. rotatedDigits
+- 难度：easy
+- 题意解析：计算 1-》N 中间的数字有多少个是好数，好数的定位为180旋转后仍为数字且不与原数相等。即满足数字为好数的前提是：
+    - 1）翻转后所有数字有效（0，1，2，5，6，8，9）；
+    - 2）至少一个数字为不同数；（2，5，6，9）
+- 初始解法：所有数均为有效=》没有无效数字=》不包含(3，4，7), 故只要满足包含(2,5,6,9)且不包含(3,4,7)即符合要求，用正则可以简单得出结果。
+    - 实现：
+    ``` js
+    var rotatedDigits = function(N) {
+    let count = 0;
+        for (let i=1, len=N+1; i<len; i++) {
+            if (!(/[347]/g.test(i)) && /[2569]/g.test(i)) {
+                count++;
+            }
+        }
+        return count;
+    };
+    ```
 
 ### To Be Continue~
 
