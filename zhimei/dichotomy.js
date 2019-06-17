@@ -1,3 +1,10 @@
+// 《数据结构与算法之美》 -- 15 | 二分查找（上）
+
+/**
+ * 无重复数组的二分查找
+ * @param {*} arr 
+ * @param {*} target 
+ */
 function bsearch (arr, target) {
   // 普通解法
   let [start, end] = [0, arr.length-1];
@@ -14,9 +21,8 @@ function bsearch (arr, target) {
   return -1;
   // return bsearch2Internally (arr, 0, arr.length-1, target);  // 递归
 }
-
 /**
- * 二分法递归方法
+ * 二分法递归写法
  * @param {*} arr 
  * @param {*} target 
  */
@@ -32,6 +38,9 @@ function bsearch2Internally (arr, start, end, target) {
   }
 }
 
+
+
+// main
 let arr = [8,11,19,23,27,33,45,55,67,98];
 let target = 23;
 let result = bsearch(arr, target);

@@ -1,4 +1,4 @@
-# ListNode 链表
+# stack 栈
 
 ## Leetcode 刷题
 
