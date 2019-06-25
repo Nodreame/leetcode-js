@@ -55,52 +55,88 @@
 
 ### 144. 二叉树的前序遍历 preorderTraversal
 - 目标:
-    - [x] 递归解答(四步解题)
-    - [x] 迭代解答
+    - [x] 模板递归法解答(四步解题)
+    - [x] 模板迭代法解答
+    - [x] 优化迭代法
     - [ ] Leetcode其他解法学习
 - 难度：medium
-- 题意解析：二叉树的前序排列实现，流程是 中-》左-》右.
-- 初始思路：递归法。用数组存储结果，过程递归（注意用递归模板写法）.
+- 题意解析：二叉树的前序排列实现，流程是 根-》左-》右.
+- 初始思路：模板递归法.
+    - 思路：用数组res存储结果，递归方法以节点node和结果数组res作为参数.
     - 复杂度分析：
         - 时间：左右子树各O(n/2) + 根节点O(1) = O(n)
         - 空间：结果数组是必备空间所以不占复杂度，占空间的是树的深度h。
-            - 当树是平衡二叉树时，树高度为logn，故其空间复杂度为O(logn)；
-            - 当树严重左偏或者右偏的时候，树高度为n，故其空间复杂度为O(n);
+            - 当树类似满二叉树时，树高度为logn，故其空间复杂度为O(logn)；
+            - 当树是斜树的时候，树高度为n，故其空间复杂度为O(n);
     - Leetcode 结果:
-        - 执行用时 : 84 ms, 在所有 JavaScript 提交中击败了84.50%的用户
-        - 内存消耗 : 33.7 MB, 在所有 JavaScript 提交中击败42.49%的用户
-    - 实现:
+    执行用时 :
+        - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了98.77%的用户
+        - 内存消耗 : 34.1 MB, 在所有 JavaScript 提交中击败5.18%的用户
+    - 实现(新):
         ``` js
         var preorderTraversal = function(root) {
+            if (!root || root.val===null) return [];     // 在此先做一次节点判空，循环中就不用做节点判空了
             let res = [];
             recursion(root, res);
             return res;
         };
 
-        function recursion (node, arr) {
+        function recursion (node, res) {
             // 1. terminator
-            if (!node || node.val===null) return;
-            
-            // 2. process
-            arr.push(node.val);  
+            //if (!node || node.val===null) return;         // 旧.
+            if (node.val===null) return;                    // 新. 去掉节点判空
 
-            // 3. drill down                                       // 根
-            if (node.left !== null) recursion(node.left, arr);          // 左
-            if (node.right !== null) recursion(node.right, arr);        // 右
+            // 2. process
+            res.push(node.val);                                         // 根
+
+            // 3. drill down                                            
+            if (node.left !== null) recursion(node.left, res);          // 左
+            if (node.right !== null) recursion(node.right, res);        // 右
             
             // 4.  recover
         }
         ```
-- 第二思路：迭代法。
-    - 思路：用栈反向存储左右树（用右左顺序存储）, 每次循环弹出并解析一个node.
+- 第二思路: 模板迭代法.**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
+    - 思路: 用栈辅助存储未处理的值,每个节点加上标志位flag,标志位的作用是标志节点的身份是否为处理完成的节点.
+    - 复杂度分析:
+        - 时间: O(n). 耗时点在于每个结点会经历两次遍历(塞入->弹出->标记->塞入->弹出)，也就是时间复杂度是O(2n);
+        - 空间: O(n). 分析同上.
+    - Leetcode 结果:
+        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  96.30%的用户
+        - 内存消耗 : 34.1MB, 在所有 JavaScript 提交中击败  5.18%的用户
+    - 实现:
+        ``` js
+            var preorderTraversal = function(root) {
+                if (!root || root.val===null) return [];
+                let res = [];
+                let stack = [root];
+                while (stack.length>0) {
+                    let node = stack.pop();
+                    if (node.val) {
+                        if (node.flag) {    // flag=true 表示这次要访问的是该节点，可以打印或者做其他处理
+                            res.push(node.val);
+                        } else {            // flag=false 表示暂时没空访问该节点，只能先将其入栈等待之后处理
+                            // 前序顺序：根-》左-》右
+                            // 进栈顺序：右-》左-》根
+                            if (node.right) stack.push(node.right);
+                            if (node.left) stack.push(node.left);
+                            // 先标记后压栈
+                            node.flag = true;
+                            stack.push(node);
+                        }
+                    }
+                }
+                return res;
+            };
+        ```
+- 第三思路：优化迭代法
+    - 思路：由第二思路的"模板迭代法"所衍生的写法，通过将两次遍历节点的过程改为一次遍历，有效将时间复杂度O(2n)降到O(n).同时由于不使用标志位及减少了压栈次数，故空间复杂度也得到了优化.
     - 复杂度分析：
-        - 时间：while 循环N次弹值，故 O(n)
-        - 空间：结果数组是必备空间所以不占复杂度，占空间的是栈的大小
-            - 当树是平衡二叉树时，正常情况存2取1，故 O(n/2)
-            - 当树严重左偏或者右偏时，存1取1，故O(1)
+        - 时间：O(n).耗时点在于每个结点会经历一次遍历(塞入->弹出)，也就是时间复杂度是O(n);
+        - 空间：O(n).分析同上.
     - Leetcode 结果：
-        - 执行用时 :80 ms, 在所有 JavaScript 提交中击败了86.07%的用户
-        - 内存消耗 :34.2 MB, 在所有 JavaScript 提交中击败了5.18%的用户
+        - 执行用时 :68 ms, 在所有 JavaScript 提交中击败了97.78%的用户
+        - 内存消耗 :33.6 MB, 在所有 JavaScript 提交中击败了51.30%的用户
     - 实现：
         ``` js
         var preorderTraversal = function(root) {
@@ -119,14 +155,16 @@
         };
         ```
 
+
 ### 94. 二叉树的中序遍历 inorderTraversal
 - 目标:
-    - [x] 递归解答(四步解题)
-    - [x] 迭代解答
+    - [x] 模板递归法解答(四步解题)
+    - [x] 模板迭代法解答
     - [ ] Leetcode其他解法学习
 - 难度：medium
 - 题意解析：二叉树的中序排列实现，流程是 左-》根-》右.
-- 初始思路：递归法。数组存储结果，过程递归（注意用递归模板写法）.
+- 初始思路：模板递归法.
+    - 思路：用数组res存储结果，递归方法以节点node和结果数组res作为参数.
     - 复杂度分析：
         - 时间：遍历整个二叉树故时间复杂度为 O(n)
         - 空间：结果数组是必备空间所以不占复杂度，占空间的是树的深度h
@@ -138,25 +176,61 @@
     - 实现:
         ``` js
         var inorderTraversal = function(root) {
+            if (!root || root===null) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
             let res = [];
             recursion(root, res);
             return res;
         };
 
-        function recursion (node, arr) {
+        function recursion (node, res) {
             // 1. terminator
-            if (!node || node.val===null) return;
+            //if (!node || node.val===null) return;         // 旧.
+            if (node.val===null) return;                    // 新. 去掉节点判空
             
             // 2. process
             // 3. drill down
-            if (node.left !== null) recursion(node.left, arr);          // 左
-            arr.push(node.val);                                         // 根
-            if (node.right !== null) recursion(node.right, arr);        // 右
+            if (node.left !== null) recursion(node.left, res);          // 左
+            res.push(node.val);                                         // 根
+            if (node.right !== null) recursion(node.right, res);        // 右
             
             // 4. recover
         }
         ```
-- 第二思路：迭代法。
+- 第二思路: 模板迭代法.**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
+    - 思路: 用栈辅助存储未处理的值,每个节点加上标志位flag,标志位的作用是标志节点的身份是否为处理完成的节点.
+    - 复杂度分析:
+        - 时间: O(n). 耗时点在于每个结点会经历两次遍历(塞入->弹出->标记->塞入->弹出)，也就是时间复杂度是O(2n);
+        - 空间: O(n). 分析同上. 
+    - Leetcode 结果:
+        - 执行用时 : 84ms, 在所有 JavaScript 提交中击败了  78.76%的用户
+        - 内存消耗 : 33.4MB, 在所有 JavaScript 提交中击败  93.28%的用户
+    - 实现:
+        ``` js
+        var inorderTraversal = function(root) {
+            if (!root || root.val===null) return [];
+            let res = [];
+            let stack = [root];
+            while (stack.length > 0) {
+                let node = stack.pop();
+                if (node.val) {
+                    if (node.flag) {    // flag=true 表示这次要访问的是该节点，可以打印或者做其他处理
+                        res.push(node.val);
+                    } else {            // flag=false 表示暂时没空访问该节点，只能先将其入栈等待之后处理
+                        // 中序顺序：左-》根-》右
+                        // 进栈顺序：右-》根-》左
+                        if (node.right) stack.push(node.right);
+                        // 先标记再进栈
+                        node.flag = true;
+                        stack.push(node);
+                        if (node.left) stack.push(node.left);
+                    }
+                }
+            }
+            return res;
+        };
+        ```
+
+- 第三思路：迭代法.
     - 思路：不断检测当前节点是否空
         - false: 继续对深度搜索左子树(同时插入栈)，直到为空。之后弹出栈最后一个节点，存值到res，并由其右子树开始继续深度搜索左子树。
         - true: 弹出栈最后一个节点，存值到res，并由其右子树开始继续深度搜索左子树。
