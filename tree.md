@@ -362,7 +362,6 @@
                 return res.reverse();
             };
             ```
-
 ### 102. 二叉树的层次遍历 levelOrder
 - 刷题进度:
     - [x] 模板递归法解答(四步解题)
@@ -467,62 +466,59 @@
 
 ### 226. 翻转二叉树 invertTree
 - 刷题进度:
-    - [x] 递归解答(四步解题)
-    - [x] 迭代解答
+    - [x] 递归法(DFS).
+    - [x] 迭代法(DFS).
     - [ ] xxx
 - 难度: easy
 - 题意解析: 依次调换刷题进度树的所有左子树和右子树.
-- 初始思路: 递归法
+- 初始思路: 自递归法(DFS).
     - 思路: 以单个node为参数开始递归，左右节点直接交换，如果左右非空则继续递归.
     - 复杂度分析:
-        - 时间: 交换次数是约为(n/2)次，故 O(n)
-        - 空间: 原地交换不占空间，消耗空间的是递归函数调用即树高O(h), 故最坏O(logn)
+        - 时间: O(n). 所有节点都遍历过一次.
+        - 空间: O(n). 消耗空间的是被放在堆上的递归函数调用，最坏情况时树高O(h)的函数调用将被放在堆上, h最好=logn,h最坏=n.
     - Leetcode 结果:
-        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  98.94%的用户
-        - 内存消耗 : 33.7MB, 在所有 JavaScript 提交中击败  36.69%的用户
+        - 执行用时 : 64ms, 在所有 JavaScript 提交中击败了  99.23%的用户
+        - 内存消耗 : 34.4MB, 在所有 JavaScript 提交中击败  5.92%的用户
     - 实现:
         ``` js
         var invertTree = function(root) {
-            // 1.terminate
-            if (!root || root.val===null) return root;
+            // 1. terminate
+            if (!root) return root;
+            
             // 2. process
             [root.left, root.right] = [root.right, root.left];
+            
             // 3. drill down
             if (root.left) invertTree(root.left);
             if (root.right) invertTree(root.right);
+            
             // 4. recover
             
             return root;
         };
         ```
-- 第二思路: 迭代法
+- 第二思路: 迭代法(DFS).
     - 思路: 思路基本同上，初始压栈 -》循环（弹栈-左右交换-左右压栈）-》返回
     - 复杂度分析:
         - 时间: O(n). 树的节点数.
         - 空间: O(n). 空间复杂度为高度O(h),满二叉树时 h=logn, 严重偏左偏右时 h=n
     - Leetcode 结果:
-        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  98.94%的用户
-        - 内存消耗 : 33.4MB, 在所有 JavaScript 提交中击败  95.86%的用户
+        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  95.38%的用户
+        - 内存消耗 : 33.5 MB, 在所有 JavaScript 提交中击败  82.84%的用户
     - 实现:
         ``` js
         var invertTree = function(root) {
-            if (!root || root.val===null) return root;
-            let stack = [];
-            stack.push(root);
-            
-            //  1. terminate
-            while (stack.length > 0) {
+            if (!root) return root;
+            let stack = [root];
+            // 1. terminate
+            while (stack.length>0) {
+                // 2. process
                 let node = stack.pop();
-
-                if (node && node.val!==null) {
-                    //  2. process
-                    [node.left, node.right] = [node.right, node.left];
-                    //  3. drill down
-                    if (node.left) stack.push(node.left);
-                    if (node.right) stack.push(node.right);
-                }
-
-                //  4. recover
+                [node.left, node.right] = [node.right, node.left];
+                // 3. drill down
+                if (node.right) stack.push(node.right);
+                if (node.left) stack.push(node.left);
+                // 4. recover
             }
             return root;
         }
@@ -530,16 +526,16 @@
 
 ###  104. 二叉树最大深度 maxDepth
 - 刷题进度:
-    - [x] 递归法
-    - [ ] 递归法
+    - [x] 递归法(DFS).
+    - [x] 迭代法(DFS)
     - [ ] xxx
 - 难度: easy
 - 题意解析: 计算**根节点**到**最远叶子节点**的**最长路径**上的**节点数**.
-- 初始思路: 递归法
-    - 思路: 自递归。最大深度即 1+root左右子树的最大深度，开始递归。
+- 初始思路: 自递归法(DFS).
+    - 思路: 最大深度即 1+root左右子树的最大深度，开始递归.
     - 复杂度分析:
         - 时间: O(n). 同节点数n.
-        - 空间: O(n). 最好O(logn), 最坏O(logn).
+        - 空间: O(n). 递归调用次数，树平衡时最好，为O(logn)；树退化成链表时最坏O，为(n).
     - Leetcode 结果:
         - 执行用时 : 92ms, 在所有 JavaScript 提交中击败了 89.09%的用户
         - 内存消耗 : 37.2MB, 在所有 JavaScript 提交中击败 39.17%的用户
@@ -550,16 +546,36 @@
             return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
         };
         ```
-- 第二思路: 迭代法。
+- 第二思路: 迭代法(DFS)
     - 思路: 用栈存储{node: node, level: level}对象, 
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(N).
+        - 空间: O(N).
     - Leetcode 结果:
-        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时 : 108ms, 在所有 JavaScript 提交中击败了 56.60%的用户
+        - 内存消耗 : 37.4MB, 在所有 JavaScript 提交中击败 11.96%的用户
     - 实现:
         ``` js
+        var maxDepth = function(root) {
+            if (!root) return 0;
+            let res = 1;
+            root.level = 1;
+            let stack = [root];
+            while (stack.length > 0) {
+                let node = stack.pop();
+                let level = node.level;
+                res = Math.max(res, level);
+                if (node.right) {
+                    node.right.level = level + 1;
+                    stack.push(node.right);
+                }
+                if (node.left) {
+                    node.left.level = level + 1;
+                    stack.push(node.left);
+                }
+            }
+            return res;
+        };
         ```
 
 ### 111. 二叉树最小深度 minDepth
@@ -633,7 +649,7 @@
 - 难度: medium
 - 题意解析: 给一个棵树，通过验证其三个特征来判断这是否是一颗二叉树.
 - 初始思路: 中序遍历递归.
-    - 思路: 利用中序遍历递增的特性，依次对比前后元素即可.
+    - 思路: 利用中序遍历递增的特性，依次对比前后元素即可. 这个思路比较难想，需要先下钻到最左然后开始验证每个结点.
     - 复杂度分析:
         - 时间: O(n)
         - 空间: O(n). 最好O(logn),最坏O(n).
@@ -644,24 +660,28 @@
         ``` js
         var isValidBST = function(root) {
             // 空树也是二叉搜索树
+            if (!root) return true;
             let arr = [Number.NEGATIVE_INFINITY];
             return recursion(root, arr);
         };
 
         function recursion (node, arr) {
-            // 1.terminate
-            if (!node || node.val===null) return true;
-            // 2.process
-            // 3.drill down
+            // 1. terminate
+            if (!node) return true;
+            
+            // 2. process
+            // 3. drill down
+            //   DFS 到最左，开始验证，保证每个节点都是：
+            //      先左子树过，再根节点过，接下来右子树过，获取右边最大值
             if (recursion(node.left, arr)) {
                 if (arr[0] < node.val) {
-                    arr[0] = node.val;
-                    return recursion(node.right, arr);
-                }        
+                    arr[0] = node.val
+                    return recursion(node.right, arr)
+                }
             }
-            // 4.recover
+            return false;       // 对比失败，非二叉搜索树
             
-            return false;
+            // 4. recover
         }
         ```
 - 第二思路:
