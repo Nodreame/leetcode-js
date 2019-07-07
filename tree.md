@@ -362,6 +362,7 @@
                 return res.reverse();
             };
             ```
+
 ### 102. 二叉树的层次遍历 levelOrder
 - 刷题进度:
     - [x] 模板递归法解答(四步解题)
@@ -732,6 +733,278 @@
             }
             return null;
         };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 429. N叉树的层序遍历
+- 刷题进度:
+    - [x] 递归法(DFS).
+    - [x] 迭代法(DFS).
+    - [x] 递归法(BFS).
+    - [x] 迭代法(BFS).
+- 难度: easy
+- 题意解析: 类似 102.
+- 初始思路: 递归法(DFS).
+    - 思路: 用 level 记层级，用 res 存储结果.
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有故 O(n).
+        - 空间: O(n). O(logn)->O(n).
+    - Leetcode 结果:
+        - 执行用时 : 964ms, 在所有 JavaScript 提交中击败了  85.21%的用户
+        - 内存消耗 : 86.2MB, 在所有 JavaScript 提交中击败  19.74%的用户
+    - 实现:
+        ``` js
+        var levelOrder = function(root) {
+            if (!root) return [];
+            let level = 0;
+            let res = [];
+            recursion(level, root, res);
+            return res;
+        };
+
+        function recursion (level, node, res) {
+            // 1. terminate
+            
+            // 2. process
+            if (!res[level]) res[level] = [];
+            res[level].push(node.val);
+            if (!node.children || node.children.length===0) return;
+            
+            // 3. drill down 
+            for (let i=0, len = node.children.length; i<len; i++) {
+                recursion(level+1, node.children[i], res);
+            }
+            
+            // 4. recover
+        }
+        ```
+- 第二思路: 迭代法(DFS).
+    - 思路: node 加上 level 标志，用 stack 存储未处理节点；
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有故 O(n).
+        - 空间: O(n). O(logn)->O(n).
+    - Leetcode 结果:
+        - 执行用时 : 928ms, 在所有 JavaScript 提交中击败了  92.25%的用户
+        - 内存消耗 : 81.6MB, 在所有 JavaScript 提交中击败  38.16%的用户
+    - 实现:
+        ``` js
+        var levelOrder = function(root) {
+            if (!root) return [];
+            root.level = 0;
+            let stack = [root];
+            let res = [];
+            // 1. terminate
+            while (stack.length > 0) {
+                // 2. process
+                let node = stack.pop();
+                let currLevel = node.level;
+                if (!res[currLevel]) res[currLevel] = [];
+                res[currLevel].push(node.val);
+                
+                // 3. drill down
+                if (!node.children || node.children.length===0) continue;
+                let childLen = node.children.length;
+                for (let i=childLen-1; i>=0; i--) {
+                    if (node.children[i]) {
+                        node.children[i].level = currLevel + 1;
+                        stack.push(node.children[i]);
+                    }
+                }
+                
+                // 4. recover
+            } 
+            return res;
+        };
+        ```
+- 第三思路: 递归法(BFS).
+    - 思路: 传递 level、queue、res 来递归, 一层处理完递归处理下一层.
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有故 O(n).
+        - 空间: O(n). O(logn)->O(n).
+    - Leetcode 结果:
+        - 执行用时 : 888 ms, 在所有 JavaScript 提交中击败了 98.59 %的用户
+        - 内存消耗 : 77.5 MB, 在所有 JavaScript 提交中击败 81.58%的用户
+    - 实现:
+        ``` js
+        var levelOrder = function(root) {
+            if (!root) return [];
+            let res = [];
+            let queue = [root];
+            recursion (0, queue, res);
+            return res;
+        };
+
+
+        function recursion (level, queue, res) {
+            // 1. terminate
+            if (queue.length===0) return;
+            
+            // 2. process
+            res[level] = [];
+            for (let i=0, len=queue.length; i<len; i++) {
+                let node = queue.shift();
+                res[level].push(node.val);
+                if (!node.children || node.children.length===0) continue;
+                for (let j=0, cLen=node.children.length; j<cLen; j++) {
+                    queue.push(node.children[j]);
+                }
+            }
+            
+            // 3. drill down
+            recursion(level+1, queue, res);
+        }
+        ```
+- 第四思路: 迭代法(BFS).
+    - 思路: 每次处理一层，并用 queue 存储下一层节点.
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有故 O(n).
+        - 空间: O(n). O(logn)->O(n).
+    - Leetcode 结果:
+        - 执行用时 : 924 ms, 在所有 JavaScript 提交中击败了 94.37%的用户
+        - 内存消耗 : 80.5 MB, 在所有 JavaScript 提交中击败  59.21%的用户
+    - 实现:
+        ``` js
+        var levelOrder = function(root) {
+            if (!root) return [];
+            let level = 0;
+            let res = [];
+            let queue = [root];
+            // 1. termimate
+            while (queue.length > 0) {
+                res[level] = [];
+                for (let i=0, len=queue.length; i<len; i++) {
+                    // 2. process
+                    let node = queue.shift();
+                    res[level].push(node.val);
+                    // 3. drill down
+                    if (!node.children || node.children.length===0) continue;
+                    for (let j=0, cLen=node.children.length; j<cLen; j++) {
+                        queue.push(node.children[j]);
+                    }
+                }
+                level++;
+            }
+            return res;
+        };
+        ```
+
+### 107. 二叉树的层次遍历 II
+- 刷题进度:
+    - [ ] 102反转结果法 复杂度:102复杂度+反转数组复杂度
+    - [ ] 先获取最大深度，再DFS或BFS 复杂度: 104复杂度+102复杂度
+    - [ ] 102 递归x迭代(BFSxDFS), 插入数组顺序调整  复杂度：102复杂度
+
+
+### 103. 二叉树的锯齿形层次遍历
+- 刷题进度:
+    - [x] 102递归法(BFS).
+    - [x] 102迭代法(BFS).
+    - [ ] 本题专属套路解法.
+- 难度: medium
+- 题意解析: 同 102，奇数层反转. **切勿调换插入队列顺序!**.
+- 初始思路: 递归法(BFS).
+    - 思路: 同 102递归法(BFS).
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有故 O(n).
+        - 空间: O(n). O(logn)->O(n).
+    - Leetcode 结果:
+        - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了 90.44 %的用户
+        - 内存消耗 : 32MB, 在所有 JavaScript 提交中击败 43.75 %的用户
+    - 实现:
+        ``` js
+        function recursion (level, queue, res) {
+            // 1. terminate
+            if (queue.length === 0) return;
+            
+            res[level] = [];
+            // 2. process
+            for (let i=0, len=queue.length; i<len; i++) {
+                let node = queue.shift();
+                res[level].push(node.val);
+                
+                if (node.left) queue.push(node.left);
+                if (node.right) queue.push(node.right);
+            }
+            if(level%2===1) res[level].reverse();
+            
+            // 3. drill down 
+            recursion(level+1, queue, res);
+            
+            // 4. recover
+        }
+        ```
+- 第二思路: 迭代法(BFS).
+    - 思路: 同 102迭代法(BFS).
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有故 O(n).
+        - 空间: O(n). O(logn)->O(n).
+    - Leetcode 结果:
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  98.53%的用户
+        - 内存消耗 : 34.4MB, 在所有 JavaScript 提交中击败  6.25%的用户
+    - 实现:
+        ``` js
+        var zigzagLevelOrder = function(root) {
+            if (!root) return [];
+            let level = 0;
+            let queue = [root];
+            let res = [];
+            // 1.terminate
+            while (queue.length > 0) {
+                res[level] = [];
+                for (let i=0, len=queue.length; i<len; i++) {
+                    // 2. process
+                    let node = queue.shift();
+                    res[level].push(node.val);
+                    // 3.drill down
+                    if (node.left) queue.push(node.left);
+                    if (node.right) queue.push(node.right);
+                    // 4. recover
+                }
+                if (level%2===1) res[level].reverse();
+                level++;
+            }
+            return res;
+        };
+        ```
+
+### 529. 扫雷游戏
+- 刷题进度:
+    - [ ] xxx
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析: 挖地雷. 根据**给定面板数组** & **挖掘位置** 来更新 **结果面板数组**. 点击之后响应如下:
+    - 'M'是未挖的地雷，被点击则将其更新为'X';
+    - 'E'是未挖的空格，被点击则检查周围格子是否有地雷
+        - 有则更新为'1'-'8', 结束;
+        - 无则更新为'B', 然后**与其相邻的方块都将被递归地揭露(直到边界 or 周边有)**;
+    - 'X'是已挖到的地雷，被点击无反应;
+    - '1'-'8'是周围有地雷的格子，被点击无反应;
+    - 'B'是被打开的空白格子，被点击无反应;
+- 总思路：
+    - 'M'打开直接更新为'X'即可;
+    - 'E'打开要判断周围,
+    - 非'M' & 'E', 直接返回即可;
+- 初始思路: 
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
         ```
 - 第二思路:
     - 思路:
