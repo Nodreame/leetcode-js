@@ -55,13 +55,15 @@
 
 ### 144. 二叉树的前序遍历 preorderTraversal
 - 刷题进度:
-    - [x] 模板递归法解答(四步解题)
-    - [x] 模板迭代法解答
-    - [x] 优化迭代法
-    - [ ] Leetcode其他解法学习
+    - [x] 模板递归法(DFS)
+    - [x] 含状态的模板迭代法(DFS) & 优化模板迭代法(DFS)
+    - [x] 模板迭代法2(DFS)
+    - [x] 优化模板迭代法(DFS)
+    - [x] 栈只存右节点(DFS, 迭代)
+    - [ ] 莫里斯遍历(优化空间)
 - 难度：medium
 - 题意解析：二叉树的前序排列实现，流程是 根-》左-》右.
-- 初始思路：模板递归法.
+- 初始思路：模板递归法(DFS).
     - 思路：用数组res存储结果，递归方法以节点node和结果数组res作为参数.
     - 复杂度分析：
         - 时间：左右子树各O(n/2) + 根节点O(1) = O(n)
@@ -75,7 +77,7 @@
     - 实现(新):
         ``` js
         var preorderTraversal = function(root) {
-            if (!root || root.val===null) return [];     // 在此先做一次节点判空，循环中就不用做节点判空了
+            if (!root) return [];     // 在此先做一次节点判空，循环中就不用做节点判空了
             let res = [];
             recursion(root, res);
             return res;
@@ -89,13 +91,13 @@
             res.push(node.val);                                         // 根
 
             // 3. drill down                                            
-            if (node.left !== null) recursion(node.left, res);          // 左
-            if (node.right !== null) recursion(node.right, res);        // 右
+            node.left? recursion(node.left, res): '';          // 左
+            node.right? recursion(node.right, res): '';        // 右
             
             // 4.  recover
         }
         ```
-- 第二思路: 模板迭代法.**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
+- 第二思路: 含状态的模板迭代法(DFS).**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
     - 思路: 用栈辅助存储未处理的值,每个节点加上标志位flag,标志位的作用是标志节点的身份是否为处理完成的节点.
     - 复杂度分析:
         - 时间: O(n). 耗时点在于每个结点会经历两次遍历(塞入->弹出->标记->塞入->弹出)，也就是时间复杂度是O(2n);
@@ -106,7 +108,7 @@
     - 实现:
         ``` js
             var preorderTraversal = function(root) {
-                if (!root || root.val===null) return [];
+                if (!root) return [];
                 let res = [];
                 let stack = [root];
                 while (stack.length>0) {
@@ -116,8 +118,8 @@
                     } else {            // flag=false 表示暂时没空访问该节点，只能先将其入栈等待之后处理
                         // 前序顺序：根-》左-》右
                         // 进栈顺序：右-》左-》根
-                        if (node.right) stack.push(node.right);
-                        if (node.left) stack.push(node.left);
+                        node.right? stack.push(node.right): '';
+                        node.left? stack.push(node.left): '';
                         // 先标记后压栈
                         node.flag = true;
                         stack.push(node);
@@ -126,7 +128,7 @@
                 return res;
             };
         ```
-- 第三思路：优化迭代法
+- 第三思路：优化模板迭代法(DFS).
     - 思路：由第二思路的"模板迭代法"所衍生的写法，通过将两次遍历节点的过程改为一次遍历，有效将时间复杂度O(2n)降到O(n).同时由于不使用标志位及减少了压栈次数，故空间复杂度也得到了优化.
     - 复杂度分析：
         - 时间：O(n).耗时点在于每个结点会经历一次遍历(塞入->弹出)，也就是时间复杂度是O(n);
@@ -158,13 +160,71 @@
             return res;
         };
         ```
-
+- 第四思路: 模板迭代法2(DFS). 
+    - 思路: 不断检测当前节点是否存在：
+        - true: 塞val进结果，塞node进栈，继续左子树 DFS推进;
+        - false: 弹栈赋值给node, node 右子树推进一步，循环继续 
+    - 复杂度分析:
+        - 时间: 执行次数等同于树节点个数，故 O(n)
+        - 空间: 结果数组是必备空间所以不占复杂度，占空间的是栈的大小
+            - 当树是平衡二叉树时，正常情况存2取1，故 O(n/2)
+            - 当树严重左偏时，全存再取，故O(n)
+            - 当树严重右偏时，存1取1，故O(1)
+    - Leetcode 结果:
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了 96.68%的用户
+        - 内存消耗 : 33.8MB, 在所有 JavaScript 提交中击败 17.62%的用户
+    - 实现:
+        ``` js
+        var preorderTraversal = function(root) {
+            if (!root) return [];
+            let res = [];
+            let stack = [];
+            let node = root;
+            while (node || stack.length > 0) {
+                while (node) {
+                    res.push(node.val);
+                    stack.push(node);
+                    node = node.left;
+                }
+                node = stack.pop();
+                node = node.right;
+            }
+            return res;
+        };
+        ```
+- 第五思路: 栈只存右节点(DFS, 迭代)
+    - 思路: 栈只存右节点，在左斜树的情况下空间复杂度近似O(1)
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1)-O(N). 左斜树 O(1), 右斜树 O(n).
+    - Leetcode 结果:
+        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗 : 33.8MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var preorderTraversal = function(root) {
+            if (!root) return [];
+            let node = root;
+            let res = [];
+            let stack = [];
+            while (node) {
+                res.push(node.val);
+                node.right? stack.push(node.right): '';
+                node = node.left;
+                if (!node) {
+                    node = stack.pop();
+                }
+            }
+            return res;
+        };
+        ```
 
 ### 94. 二叉树的中序遍历 inorderTraversal
 - 刷题进度:
-    - [x] 模板递归法解答(四步解题)
-    - [x] 模板迭代法解答
-    - [ ] Leetcode其他解法学习
+    - [x] 模板递归法(DFS).
+    - [x] 含状态的模板迭代法(DFS).
+    - [x] 模板迭代法2(DFS).
+    - [ ] 莫里斯遍历(优化空间).
 - 难度：medium
 - 题意解析：二叉树的中序排列实现，流程是 左-》根-》右.
 - 初始思路：模板递归法.
@@ -180,7 +240,7 @@
     - 实现:
         ``` js
         var inorderTraversal = function(root) {
-            if (!root || root===null) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
+            if (!root) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
             let res = [];
             recursion(root, res);
             return res;
@@ -192,9 +252,9 @@
             
             // 2. process
             // 3. drill down
-            if (node.left !== null) recursion(node.left, res);          // 左
+            node.left? recursion(node.left, res): '';          // 左
             res.push(node.val);                                         // 根
-            if (node.right !== null) recursion(node.right, res);        // 右
+            node.right? recursion(node.right, res): '';        // 右
             
             // 4. recover
         }
@@ -230,11 +290,11 @@
             return res;
         };
         ```
-- 第三思路：迭代法（仿递归思路）.
-    - 思路：不断检测当前节点是否空
-        - false: 继续对深度搜索左子树(同时插入栈)，直到为空。之后弹出栈最后一个节点，存值到res，并由其右子树开始继续深度搜索左子树。
-        - true: 弹出栈最后一个节点，存值到res，并由其右子树开始继续深度搜索左子树。
-        - 由上可得，终止条件是 "当前节点为空" && "栈.length===0"
+- 第三思路：模板迭代法2(DFS).
+    - 思路：不断检测当前节点是否存在
+        - true: DFS左子树(同时插入栈)，直到为空。
+        - false: 弹栈, 由其右子树开始, 继续DFS左子树。 Next round.
+        - 由上可得，终止条件是 "当前节点为空" && "栈大小===0", 反推得循环条件为"当前节点非空 || 栈大小>0"
     - 复杂度分析：
         - 时间：执行次数等同于树节点个数，故 O(n)
         - 空间：结果数组是必备空间所以不占复杂度，占空间的是栈的大小
@@ -250,8 +310,8 @@
             let res = [];
             let stack = [];
             let curr = root;
-            while (curr!=null || stack.length>0) {
-                while (curr!=null) {
+            while (curr || stack.length>0) {
+                while (curr) {
                     stack.push(curr);
                     curr = curr.left;
                 }
@@ -283,7 +343,7 @@
     - 实现:
         ``` js
         var preorderTraversal = function(root) {
-            if (!root || root===null) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
+            if (!root) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
             let res = [];
             recursion(root, res);
             return res;
@@ -295,8 +355,8 @@
             
             // 2. process
             // 3. drill down
-            if (node.left !== null) recursion(node.left, res);          // 左
-            if (node.right !== null) recursion(node.right, res);        // 右
+            node.left? recursion(node.left, res): '';          // 左
+            node.right? recursion(node.right, res): '';        // 右
             res.push(node.val);                                         // 根
             
             // 4. recover
@@ -313,7 +373,7 @@
     - 实现:
         ``` js
         var postorderTraversal = function(root) {
-            if (!root || root.val === null) return [];
+            if (!root) return [];
             let res = [];
             let stack = [root];
             while (stack.length > 0) {
@@ -326,14 +386,14 @@
                     //   先标记后入栈
                     node.flag = true;
                     stack.push(node);
-                    if (node.right) stack.push(node.right);
-                    if (node.left) stack.push(node.left);
+                    node.right? stack.push(node.right): '';
+                    node.left? stack.push(node.left): '';
                 }
             }
             return res;
         };
         ```
-- 第三思路：类前序迭代法。
+- 第三思路.1：结果反转法(迭代,DFS,类似前序).
     - 初始思路：通过判断左右子树是否空来实现，但是存在判断上的问题(除非改变树内容)，所以先看答案了.
     - 简易思路：后序顺序为:左-右-根，其入栈顺序为: 根-右-左，和前序相近，用前序方式实现并将结果反转即可.
         - 复杂度（同前序的迭代法）：
@@ -347,10 +407,9 @@
         - 实现：
             ``` js
             var postorderTraversal = function(root) {
-                if (!root || root.val === null) return [];
+                if (!root) return [];
                 let res = [];
-                let stack = [];
-                stack.push(root);
+                let stack = [root];
                 
                 while (stack.length>0) {
                     let node = stack.pop();
@@ -362,6 +421,30 @@
                 return res.reverse();
             };
             ```
+- 第三思路.2: 前序头插法(迭代,DFS,类似前序)
+    - 思路: 类似第三思路，将结尾反转改为结果头插.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  90.68%的用户
+        - 内存消耗 : 34.1MB, 在所有 JavaScript 提交中击败  5.74%的用户
+    - 实现:
+        ``` js
+        var postorderTraversal = function(root) {
+            if (!root) return [];
+            let res = [];
+            let stack = [root];
+            while (stack.length > 0) {
+                // 后序：左右中 -》 反转为类前序：中右左 -》 stack 左右反转
+                let node = stack.pop();
+                res.unshift(node.val);
+                node.left? stack.push(node.left): '';
+                node.right? stack.push(node.right): '';
+            }
+            return res;
+        };
+        ```
 
 ### 102. 二叉树的层次遍历 levelOrder
 - 刷题进度:
