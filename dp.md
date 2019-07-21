@@ -145,7 +145,9 @@
     - [x] 模板动态规划.
     - [x] 模板动态规划优化.
 - 难度: easy
-- 题意解析: 将数日的股价存在数组中，只能做一次买入和一次卖出操作，求最大利益.
+- 题意解析: 将数日的股价存在数组中，求最大利益.
+    - 限制枚举：
+        - (新) 只能做一次买入和一次卖出操作;
 - 初始思路: 暴力解.
     - 思路: 双重循环对比出最大利润结果.
     - 复杂度分析:
@@ -206,15 +208,14 @@
                 - dp[-1][k][1] = 负无穷  =>  日期未开始必定无持仓；
                 - dp[i][0][0] = 0       =>  最大交易次数为 0即不允许交易；
                 - dp[i][0][1] = 负无穷   =>  不允许交易时必定无持仓；
-
         - 本题分析:
             - 本题限制： n 天内允许最多一次交易，即 k=1;
                 - 初始状态转移方程如下(借助基础状态做简化)：
-                    - dp[i][1][0] = max(dp[i-1][1][0] + dp[i-1][1][1] + prices[i])
-                    - dp[i][1][1] = max(dp[i-1][1][1] + dp[i-1][0][0] - prices[i]) = max(dp[i-1][1][1] - prices[i])
+                    - dp[i][1][0] = max(dp[i-1][1][0], dp[i-1][1][1] + prices[i])
+                    - dp[i][1][1] = max(dp[i-1][1][1], dp[i-1][0][0] - prices[i]) = max(dp[i-1][1][1] - prices[i])
                 - k=1，可以简化掉：
                     - dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
-                    - dp[i][1] = max(dp[i-1][1], - prices[i])
+                    - dp[i][1] = max(dp[i-1][1], - prices[i])  # 已达交易上限，故只能比对谁成本低
     - 复杂度分析:
         - 时间: O(n). 循环耗时.
         - 空间: O(n). dp 数组占空间 n*2.
@@ -234,7 +235,7 @@
             // 3. calc
             for (let i=1; i<len; i++) {
                 dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1] + prices[i]);
-                dp[i][1] = Math.max(dp[i-1][1], -prices[i]);
+                dp[i][1] = Math.max(dp[i-1][1], -prices[i]);    // 已达交易上限，故只能比对谁成本低
             }
             return dp[len-1][0];
         };
@@ -245,8 +246,8 @@
         - 时间: O(n). 循环耗时.
         - 空间: O(1). 数组存储改为变量存储.
     - Leetcode 结果:
-        - 执行用时 : 88ms, 在所有 JavaScript 提交中击败了  80%的用户
-        - 内存消耗 : 35.4MB, 在所有 JavaScript 提交中击败  40%的用户
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了 99.5%的用户
+        - 内存消耗 : 35.4MB, 在所有 JavaScript 提交中击败 39.7%的用户
     - 实现:
         ``` js
                 var maxProfit = function(prices) {
@@ -268,7 +269,10 @@
     - [x] 模板动态规划(优化).
     - [ ] xxx
 - 难度: easy.
-- 题意解析: 将 121 的最多交易 1 次改为，允许交易任意多次.
+- 题意解析: 将数日的股价存在数组中，求最大利益.
+    - 限制枚举：
+        - (新) 将 121 的"最多交易1次" 改为 "允许交易任意多次";
+        - (新) 同一日期最多持有一股;
 - 初始思路: 模板动态规划.
     - 思路: 
         - 初始状态转移方程(k无限制之后，考虑 k 无意义)：
@@ -327,7 +331,11 @@
     - [x] 模板动态规划(优化).
     - [ ] xxx
 - 难度: medium.
-- 题意解析: 同 122，买卖次数不限，增加限制：卖完之后要过一天才能买.
+- 题意解析: 将数日的股价存在数组中，求最大利益.
+    - 限制枚举：
+        - 将 121 的"最多交易1次" 改为 "允许交易任意多次";
+        - 同一日期最多持有一股.卖完之后要过一天才能买;
+        - (新)加入冷冻期，一次交易卖出之后，次日不能购买;
 - 初始思路: 模板动态规划.
     - 思路:
         - 初始状态转移方程(直接去k,dp[i][1]需要有所改变)：
@@ -349,8 +357,8 @@
             dp[0][1] = -prices[0];
             for (let i=1; i<len; i++) {
                 dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]);
-                dp[i][1] = i>1? Math.max(dp[i-1][1], dp[i-2][0]-prices[i]): 
-                    Math.max(dp[i-1][1], -prices[i]);
+                // 第三个数之前不能再次买入，期间盈利为 0
+                dp[i][1] = Math.max(dp[i-1][1], (i>1? dp[i-2][0]: 0)-prices[i]);
             }
             return dp[len-1][0];
         };
@@ -381,35 +389,146 @@
         };
         ```
 
+### 714. 买卖股票的最佳时机含手续费
+- 刷题进度:
+    - [x] 模板动态规划.
+    - [x] 模板动态规划(优化).
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 将数日的股价存在数组中，求最大利益.
+    - 限制枚举：
+        - 将 121 的"最多交易1次" 改为 "允许交易任意多次";
+        - 同一日期最多持有一股.卖完之后要过一天才能买;
+        - (新)加入手续费，一次交易(买+卖)需扣除一次手续费;
+- 初始思路:
+    - 思路: 模板动态规划.
+        - 状态转移方程: 每次卖出时扣除手续费.
+            - dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1]+prices[i]-fee)
+            - dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i])
+        - 交易次数无限制，故去 k：
+            - dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i]-fee)
+            - dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i]) 
+    - 复杂度分析:
+        - 时间: O(n). 循环耗时.
+        - 空间: O(n). dp数组消耗空间大小为2*n.
+    - Leetcode 结果:
+        - 执行用时 : 420ms, 在所有 JavaScript 提交中击败了  7%的用户
+        - 内存消耗 : 94.4MB, 在所有 JavaScript 提交中击败  33%的用户
+    - 实现:
+        ``` js
+        var maxProfit = function(prices, fee) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            // 1. dp
+            let dp = Array.from({length: len}, ()=>[]);
+            // 2. init
+            dp[0][0] = 0;
+            dp[0][1] = -prices[0];
+            // 3. calc
+            for (let i=1; i<len; i++) {
+                dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]-fee);
+                dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0]-prices[i]);
+            }
+            return dp[len-1][0];
+        };
+        ```
+- 第二思路:
+    - 思路: 用两个个变量存储所需状态，转化过程中需要借助临时变量存值.
+    - 复杂度分析:
+        - 时间: O(n). 循环消耗.
+        - 空间: O(1). 忽略不计.
+    - Leetcode 结果:
+        - 执行用时 : 108ms, 在所有 JavaScript 提交中击败了  87%的用户
+        - 内存消耗 : 44.6MB, 在所有 JavaScript 提交中击败  100%的用户
+    - 实现:
+        ``` js
+        var maxProfit = function(prices, fee) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            // 1. init
+            let [dp_i_0, dp_i_1] = [0, -prices[0]];
+            // 2. calc
+            for (let i=1; i<len; i++) {
+                let temp = dp_i_0;
+                dp_i_0 = Math.max(dp_i_0, dp_i_1+prices[i]-fee);
+                dp_i_1 = Math.max(dp_i_1, temp-prices[i]);
+            }
+            return dp_i_0;
+        };
+        ```
 
 ### 123. 买卖股票的最佳时机 III
 - 刷题进度:
+    - [x] 模板动态规划.
+    - [x] 模板动态规划(优化).
     - [ ] xxx
-    - [ ] xxx
-    - [ ] xxx
-- 难度: 
-- 题意解析:
-- 初始思路:
-    - 思路:
+- 难度: difficult.
+- 题意解析: 将数日的股价存在数组中，求最大利益.
+    - 限制枚举：
+        - (新)将 121 的"最多交易1次" 改为 "最多交易2次";
+        - 同一日期最多持有一股.卖完之后要过一天才能买;
+- 初始思路: 
+    - 思路: 模板动态规划. Tip：dp的k代表已操作次数
+        - 状态转移方程(由于 k 有明显限制：kMax=2, 所以无法去k，写代码需要考虑多一层 k)：
+            - dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1]+prices[i])
+            - dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i])
+        - 初始状态：
+            - dp[0][2][0] = 0, dp[0][1][0] = -prices[0];
+            - dp[0][1][0] = 0, dp[0][1][1] = -prices[0];
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n*k). 循环耗时.
+        - 空间: O(n*k*2). dp数组空间占用.
     - Leetcode 结果:
-        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时 : 136ms, 在所有 JavaScript 提交中击败了  42%的用户
+        - 内存消耗 : 52MB, 在所有 JavaScript 提交中击败  20%的用户
     - 实现:
         ``` js
+        var maxProfit = function(prices) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            let dp = Array.from({length: len}, ()=>[[],[],[]]);
+            dp[0][2][0] = 0;              // 第一天完成两次操作，不盈利
+            dp[0][2][1] = -prices[0];     // 第一天完成两次操作并持有，即减去第一天股价
+            dp[0][1][0] = 0;              // 第一天完成一次操作，不盈利
+            dp[0][1][1] = -prices[0];     // 第一天完成一次操作并持有，即减去第一天股价
+
+            for (let i=1; i<len; i++) {
+                for (let k=2; k>0; k--) {
+                    dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1]+prices[i]);
+                    dp[i][k][1] = Math.max(dp[i-1][k][1], (k>1? dp[i-1][k-1][0]: 0)-prices[i]);   // 买入减少次数
+                }
+                // dp[i][2][0] = Math.max(dp[i-1][2][0], dp[i-1][2][1]+prices[i]);
+                // dp[i][2][1] = Math.max(dp[i-1][2][1], dp[i-1][1][0]-prices[i]);
+                // dp[i][1][0] = Math.max(dp[i-1][1][0], dp[i-1][1][1]+prices[i]);
+                // dp[i][1][1] = Math.max(dp[i-1][1][1], -prices[i]);
+            }
+            console.log(dp);
+            return dp[len-1][2][0];
+        };
         ```
-- 第二思路:
-    - 思路:
+- 第二思路: 模板动态规划(优化).
+    - 思路: 用变量取代 dp 数组.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n*k). 循环耗时
+        - 空间: O(1). 变量存储，空间消耗可忽视.
     - Leetcode 结果:
-        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了  98.39%的用户
+        - 内存消耗 : 36MB, 在所有 JavaScript 提交中击败  60%的用户
     - 实现:
         ``` js
+        var maxProfit = function(prices) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            dp_i20 = dp_i10 = 0;
+            dp_i21 = dp_i11 = -prices[0];
+            for (let i=1; i<len; i++) {
+                dp_i20 = Math.max(dp_i20, dp_i21+prices[i]);
+                dp_i21 = Math.max(dp_i21, dp_i10-prices[i]);
+                dp_i10 = Math.max(dp_i10, dp_i11+prices[i]);
+                dp_i11 = Math.max(dp_i11, -prices[i]);
+            }
+            return dp_i20;
+        };
         ```
 
 
