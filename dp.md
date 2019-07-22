@@ -535,33 +535,127 @@
 
 ### 188. 买卖股票的最佳时机 IV
 - 刷题进度:
-    - [ ] xxx
-    - [ ] xxx
-    - [ ] xxx
-- 难度: 
-- 题意解析:
-- 初始思路:
-    - 思路:
+    - [x] 模板动态规划(无优化，堆内存溢出).
+    - [x] 模板动态规划(条件分支优化).
+    - [x] 模板动态规划(数组优化)
+- 难度: Difficult.
+- 题意解析: 将数日的股价存在数组中，求最大利益.
+    - 限制枚举：
+        - (新)将 121 的"最多交易1次" 改为 "最多交易k次";
+        - 同一日期最多持有一股.卖完之后要过一天才能买;
+- 初始思路: 模板动态规划(无优化，堆内存溢出).
+    - 思路: 直接 dp.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
-    - Leetcode 结果:
-        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+        - 时间: O(n*k). 循环消耗.
+        - 空间: O(n*k*2). dp 数组占用空间.
+    - Leetcode 结果: 堆内存溢出
     - 实现:
         ``` js
+        var maxProfit = function(k, prices) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            let dp = Array.from({length: len}, ()=>Array.from({length: k+1}, ()=>[[], []]));
+            for (let i=0; i<len; i++) {
+                for (let j=k; j>0; j--) {
+                    if (i===0) {
+                        dp[i][j][0] = 0;
+                        dp[i][j][1] = -prices[0];
+                        continue;
+                    }
+                    dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i-1][j][1]+prices[i]);
+                    dp[i][j][1] = Math.max(dp[i-1][j][1], dp[i-1][j-1][0]-prices[i]);
+                }
+            }
+            return dp[len-1][k][0];
+        };
         ```
-- 第二思路:
-    - 思路:
+- 第二思路: 模板动态规划(条件分支优化)
+    - 思路: 当 k >= n/2时, k 的限制无意义。故当 k >= n/2, k可以直接使用 122 的思路，其他情况继续使用 188 的思路.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n)=>O(n*k). 循环消耗. 
+        - 空间: O(n*2)=>O(n*k*2). dp数组空间消耗.
     - Leetcode 结果:
-        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时 : 208ms, 在所有 JavaScript 提交中击败了 15%的用户
+        - 内存消耗 : 62.8MB, 在所有 JavaScript 提交中击败  25%的用户
     - 实现:
         ``` js
+        var maxProfit = function(k, prices) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            if (k >= Math.floor(len/2)) {
+                let dp = Array.from({ length: len }, () => []);
+                for (let i=0; i<len; i++) {
+                    if (i===0) {
+                        dp[0][0] = 0;
+                        dp[0][1] = -prices[0];
+                        continue;
+                    }
+                    dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]);
+                    dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0]-prices[i]);
+                }
+                return dp[len-1][0];
+            } else {
+                let dp = Array.from({ length: len }, 
+                        () => Array.from({ length: k+1 }, ()=>[[], []]));
+                for (let i=0; i<len; i++) {
+                    for (let j=k; j>0; j--) {
+                        if (i===0) {
+                            dp[0][j][0] = 0;
+                            dp[0][j][1] = -prices[0];
+                            continue;
+                        }
+                        dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i-1][j][1]+prices[i]);
+                        dp[i][j][1] = Math.max(dp[i-1][j][1], dp[i-1][j-1][0]-prices[i]);
+                    }
+                }
+                return dp[len-1][k][0];
+            }
+        };
         ```
+- 第三思路: 模板动态规划(数组优化)
+    - 思路: 使用变量代替 dp 的方式简化复杂度.
+    - 复杂度分析:
+        - 时间: O(n)=>O(n*k). 循环消耗. 
+        - 空间: O(1). 变量空间占用基本可以忽略不计.
+    - Leetcode 结果:
+        - 执行用时 : 92ms, 在所有 JavaScript 提交中击败了 95%的用户
+        - 内存消耗 : 37.2MB, 在所有 JavaScript 提交中击败  50%的用户
+    - 实现:
+        ``` js
+        var maxProfit = function(k, prices) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            if (k >= Math.floor(len/2)) {
+                let [dp_i0, dp_i1] = [0, -prices[0]];
+                for (let i=1; i<len; i++) {
+                    let temp = dp_i0;
+                    dp_i0 = Math.max(dp_i0, dp_i1+prices[i]);
+                    dp_i1 = Math.max(dp_i1, temp-prices[i]);
+                }
+                return dp_i0;
+            } else {
+                let dp = Array.from({ length: k+1 }, () => [0, -prices[0]]);
+                for (let i=1; i<len; i++) {
+                    for (let j=k; j>0; j--) {
+                        dp[j] = [
+                            Math.max(dp[j][0], dp[j][1]+prices[i]),
+                            Math.max(dp[j][1], dp[j-1][0]-prices[i])
+                        ];
+                    }
+                }
+                return dp[k][0];
+            }
+        };
+        ```
+
+        dp: [ 
+                [ [ [], [] ], [ 0, -3 ], [ 0, -3 ] ],
+                [ [ [], [] ], [ 0, -2 ], [ 0, -2 ] ],
+                [ [ [], [] ], [ 4, -2 ], [ 4, -2 ] ],
+                [ [ [], [] ], [ 4, -2 ], [ 4, -1 ] ],
+                [ [ [], [] ], [ 4, 0 ],  [ 4, 4 ] ],
+                [ [ [], [] ], [ 4, 0 ],  [ 7, 4 ] ] 
+            ]
 
 ### 502. IPO
 - 刷题进度:
