@@ -9,7 +9,7 @@
     - [x] 递推(DFS).
     - [x] 递归+记忆化(DFS).
     - [x] 动态规划.
-    - [ ] 斐波那契(特殊题目契合).
+    - [x] 动态规划优化.
     - [ ] Binets(矩阵).
 - 难度: easy.
 - 题意解析: 目标是爬 n 步， 每步可以走 1 或者走 2, 求走法总数.
@@ -22,14 +22,9 @@
     - 实现:
         ``` js
         var climbStairs = function(n) {
-            return recursion(0, n);
+            if (n < 2) return 1;
+            return climbStairs(n-1) + climbStairs(n-2);
         };
-
-        function recursion (curr, target) {
-            if (curr > target) return 0;
-            if (curr === target) return 1;
-            return recursion(curr+1, target) + recursion(curr+2, target);
-        }
         ```
 - 第二思路: 递归+记忆化(DFS).
     - 思路: 思路同上，用 memory 数据去掉重复计算.
@@ -37,50 +32,56 @@
         - 时间: O(n). memory将题目简化为树形递归.
         - 空间: O(n). 树深度为n.
     - Leetcode 结果:
-        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  89.09%的用户
-        - 内存消耗 : 33.6MB, 在所有 JavaScript 提交中击败  62.77%的用户
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  93.6%的用户
+        - 内存消耗 : 34MB, 在所有 JavaScript 提交中击败  7%的用户
     - 实现:
         ``` js
         var climbStairs = function(n) {
-            return recursion(0, n, []);
+            return recursion(n, [1, 1]);
         };
 
-        function recursion (curr, target, memory) {
-            if (curr > target) return 0;
-            if (curr === target) return 1;
-            if (memory[curr] > 0) return memory[curr];
-            memory[curr] =  recursion(curr+1, target, memory) + recursion(curr+2, target, memory);
-            return memory[curr];
+        function recursion (total, memory) {
+            if (!memory[total]) {
+                memory[total] = recursion(total-1, memory) + recursion(total-2, memory);
+            }
+            return memory[total];
         }
         ```
 - 第三思路: 动态规划.
     - 思路: 定义 dp[n] 为：到达 n 的走法总数, 故易得 dp[n] = dp[n-1] + dp[n-2].
     - 复杂度分析:
-        - 时间: O(n). 循环 3->n.
+        - 时间: O(n). 循环 2->n.
         - 空间: O(n). dp 数组所用的空间.
     - Leetcode 结果:
-        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  89.09%的用户
-        - 内存消耗 : 33.7MB, 在所有 JavaScript 提交中击败  41.12%的用户
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  93%的用户
+        - 内存消耗 : 33.8MB, 在所有 JavaScript 提交中击败  20%的用户
     - 实现:
         ``` js
         var climbStairs = function(n) {
-            let dp = ['', 1, 2];
-            for (let i=3; i<=n; i++) {
+            let dp = [1, 1];
+            for (let i=2; i<=n; i++) {
                 dp[i] = dp[i-1] + dp[i-2];
             }
             return dp[n];
         };
         ```
-- 第四思路: 
+- 第四思路: 动态规划优化(斐波那契).
     - 思路: 
     - 复杂度分析:
-        - 时间: .
-        - 空间: .
+        - 时间: O(n).遍历耗时.
+        - 空间: O(1).使用变量可以忽略不计.
     - Leetcode 结果:
-        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  93%的用户
+        - 内存消耗 : 33.6MB, 在所有 JavaScript 提交中击败  40%的用户
     - 实现:
         ``` js
+        var climbStairs = function(n) {
+            let [dp1, dp2] = [1, 1];
+            for (let i=2; i<=n; i++) {
+                [dp1, dp2] = [dp2, dp1+dp2];
+            }
+            return dp2;
+        };
         ```
 
 ### 746. 使用最小花费爬楼梯
@@ -92,14 +93,19 @@
 - 题意解析: 有一段阶梯，行走每步的体力消耗用数组存储，走到数组末位(下标=数组长度)即视为走完. 每次可以走一步或者两步，求最低花费.
 - 初始思路: 动态规划.
     - 思路: 
-        - 状态定义：题目要求求解走楼梯的最低花费，故 dp[n] 指每一步的最低花费;
-        - 初始状态：
-            - dp[0]: 第一步走index=0的阶梯，最小花费为 cost[0];
-            - dp[1]: 第一步走index=1的阶梯，最小花费为 Math.min(cost[0], cost[0]+cost[1]), 故为 cost[1];
-        - 状态转移方程：
-            - dp[n]: 每一步的最小花费 = 当前这一步的花费 + 最小值(上一步最小花费, 上上步最小花费)
-            - 上面文字的实现: dp[n] = cost[n] + Math.min(dp[n-1], dp[n-2]);
-        - Tip: 边界定义：可以在倒数第一位或者倒数第二位停下来, 所以我们**要计算的是 dp[cost.length]的值, 而不是dp[cost.length-1]的值！**;
+        - 已知：步数及其对应的体力消耗;
+        - 目标：到达楼层顶部的最低花费;
+        - 过程：计算到达每步的最低花费，最终得到总最低花费，故使用动态规划来计算;
+        - 状态定义：dp[n] 指第(n+1)步的最低花费;
+            - 初始状态：
+                - dp[0]: 第一步.到达cost[0]的阶梯最小花费为 cost[0];
+                - dp[1]: 第二步.到达cost[1]的阶梯最小花费为 cost[1]+第一步花费(不走或走第一阶) => cost[1]+min(0, cost[0]) => cost[1];
+                - dp[2]: 第三步.到达cost[2]的阶梯最小花费为 cost[2]+第二步花费(前两步的最优) => cost[2]+min(dp[1], dp[0])
+            - 状态转移方程：
+                - dp[n]: 第(n+1)步.到达cost[n]的阶梯最小花费为 cost[n] + 第n步花费(前两步的最优) => cost[n]+min(dp[n-1], dp[n-2])
+        - 边界定义:
+            - 理想: 可以在倒数第一位或者倒数第二位停下来, 所以我们**要计算的是刚好超出cost边界的值，即dp[cost.length]！**;
+            - 现实: 刚好超出cost边界的值即cost[cost.length],不存在，所以向cost推入一个0, 最后求dp[cost.length-1]的值即可;
     - 复杂度分析: 
         - 时间: O(n). 循环耗时.
         - 空间: O(n). 存储 dp 状态消耗.
