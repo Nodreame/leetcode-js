@@ -331,7 +331,7 @@
         };
         ```
 
-### 309. 买卖股票的最佳时机含冷冻期
+### 309. 最佳买卖股票时机含冷冻期
 - 刷题进度:
     - [x] 模板动态规划.
     - [x] 模板动态规划(优化).
@@ -341,7 +341,7 @@
     - 限制枚举：
         - 将 121 的"最多交易1次" 改为 "允许交易任意多次";
         - 同一日期最多持有一股.卖完之后要过一天才能买;
-        - (新)加入冷冻期，一次交易卖出之后，次日不能购买;
+        - (新)加入冷冻期，一次交易卖出之后，次日不能购买;   
 - 初始思路: 模板动态规划.
     - 思路:
         - 初始状态转移方程(直接去k,dp[i][1]需要有所改变)：
@@ -351,7 +351,7 @@
         - 时间: O(n). 循环消耗.
         - 空间: O(2n). dp 数组占空间 n*2.
     - Leetcode 结果:
-        - 执行用时 : 92ms, 在所有 JavaScript 提交中击败了  74%的用户
+        - 执行用时 : 88ms, 在所有 JavaScript 提交中击败了  74%的用户
         - 内存消耗 : 36.3MB, 在所有 JavaScript 提交中击败  11%的用户
     - 实现:
         ``` js
@@ -359,12 +359,15 @@
             if (prices.length < 2) return 0;
             let len = prices.length;
             let dp = Array.from({length: len}, ()=>[]);
-            dp[0][0] = 0;
-            dp[0][1] = -prices[0];
-            for (let i=1; i<len; i++) {
-                dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]);
-                // 第三个数之前不能再次买入，期间盈利为 0
-                dp[i][1] = Math.max(dp[i-1][1], (i>1? dp[i-2][0]: 0)-prices[i]);
+            for (let i=0; i<len; i++) {
+                if (i===0) {
+                    dp[0][0] = 0;
+                    dp[0][1] = -prices[0];
+                } else {
+                    dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]);
+                    // 买入需要有一天的空窗期，故需要提前一天开始空仓今日才可买入
+                    dp[i][1] = Math.max(dp[i-1][1], (i>1?dp[i-2][0]:0)-prices[i]);
+                }
             }
             return dp[len-1][0];
         };
@@ -376,22 +379,20 @@
         - 空间: O(1). 忽略不计.
     - Leetcode 结果:
         - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了  98%的用户
-        - 内存消耗 : 35MB, 在所有 JavaScript 提交中击败  55.56%的用户
+        - 内存消耗 : 34.2MB, 在所有 JavaScript 提交中击败  100%的用户
     - 实现:
         ``` js
         var maxProfit = function(prices) {
             if (prices.length < 2) return 0;
             let len = prices.length;
-            dp_i_0 = 0;
-            dp_i_1 = -prices[0];
-            dp_pre_0 = 0;
-            for (let i=1; i<len; i++) {
-                let temp = dp_i_0;
-                dp_i_0 = Math.max(dp_i_0, dp_i_1+prices[i]);
-                dp_i_1 = Math.max(dp_i_1, dp_pre_0-prices[i]);
-                dp_pre_0 = temp;
+            let [dp0, dp1, dp_prev] = [0, -prices[0], 0];
+            for (let i = 1; i < len; i++) {
+                let tmp = dp0;
+                dp0 = Math.max(dp0, dp1 + prices[i]);
+                dp1 = Math.max(dp1, (i>1 ? dp_prev : 0) - prices[i]);
+                dp_prev = tmp;  // 获得 dp[i-1], 下次循环再使用即为 dp[i-2]
             }
-            return dp_i_0;
+            return dp0;
         };
         ```
 
@@ -425,15 +426,16 @@
         var maxProfit = function(prices, fee) {
             if (prices.length < 2) return 0;
             let len = prices.length;
-            // 1. dp
             let dp = Array.from({length: len}, ()=>[]);
-            // 2. init
-            dp[0][0] = 0;
-            dp[0][1] = -prices[0];
-            // 3. calc
-            for (let i=1; i<len; i++) {
-                dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]-fee);
-                dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0]-prices[i]);
+            for (let i = 0; i < len; i++) {
+                if (i === 0) {
+                    dp[0][0] = 0;
+                    dp[0][1] = -prices[i];
+                } else {
+                    // 卖出时减去手续费
+                    dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1] + prices[i] - fee);
+                    dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0] - prices[i]);
+                }
             }
             return dp[len-1][0];
         };
@@ -451,15 +453,13 @@
         var maxProfit = function(prices, fee) {
             if (prices.length < 2) return 0;
             let len = prices.length;
-            // 1. init
-            let [dp_i_0, dp_i_1] = [0, -prices[0]];
-            // 2. calc
-            for (let i=1; i<len; i++) {
-                let temp = dp_i_0;
-                dp_i_0 = Math.max(dp_i_0, dp_i_1+prices[i]-fee);
-                dp_i_1 = Math.max(dp_i_1, temp-prices[i]);
+            let [dp_i0, dp_i1] = [0, -prices[0]];
+            for (let i = 1; i < len; i++) {
+                let tmp = dp_i0;
+                dp_i0 = Math.max(dp_i0, dp_i1 + prices[i] - fee);
+                dp_i1 = Math.max(dp_i1, tmp - prices[i]);
             }
-            return dp_i_0;
+            return dp_i0;
         };
         ```
 
