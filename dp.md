@@ -466,21 +466,23 @@
 ### 123. 买卖股票的最佳时机 III
 - 刷题进度:
     - [x] 模板动态规划.
-    - [x] 模板动态规划(优化).
-    - [ ] xxx
+    - [x] 模板动态规划(优化: 只保存当天状态).
+    - [x] 动态规划(优化: k=2专属优化, 四变量替换 dp).
 - 难度: difficult.
 - 题意解析: 将数日的股价存在数组中，求最大利益.
     - 限制枚举：
         - (新)将 121 的"最多交易1次" 改为 "最多交易2次";
         - 同一日期最多持有一股.卖完之后要过一天才能买;
-- 初始思路: 
-    - 思路: 模板动态规划. Tip：dp的k代表已操作次数
+- 初始思路: 模板动态规划. 
+    - 思路: k 无法忽略故加入计算，增加一次循环(Tip:dp的k代表已操作次数)
         - 状态转移方程(由于 k 有明显限制：kMax=2, 所以无法去k，写代码需要考虑多一层 k)：
             - dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1]+prices[i])
-            - dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i])
+            - dp[i][k][1] = 
+                当 k>1 时, max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i]) ;
+                当 k<=1 时, max(dp[i-1][k][1], -prices[i]) ;
         - 初始状态：
-            - dp[0][2][0] = 0, dp[0][1][0] = -prices[0];
-            - dp[0][1][0] = 0, dp[0][1][1] = -prices[0];
+            - 首日交易两次&首日交易一次，即原股买卖，无收益故: dp[0][2][0] = 0, dp[0][1][0] =0;
+            - 首日买入，总利润减去首日价格: dp[0][1][0] = 0, dp[0][1][1] = -prices[0];
     - 复杂度分析:
         - 时间: O(n*k). 循环耗时.
         - 空间: O(n*k*2). dp数组空间占用.
@@ -492,27 +494,53 @@
         var maxProfit = function(prices) {
             if (prices.length < 2) return 0;
             let len = prices.length;
-            let dp = Array.from({length: len}, ()=>[[],[],[]]);
-            dp[0][2][0] = 0;              // 第一天完成两次操作，不盈利
-            dp[0][2][1] = -prices[0];     // 第一天完成两次操作并持有，即减去第一天股价
-            dp[0][1][0] = 0;              // 第一天完成一次操作，不盈利
-            dp[0][1][1] = -prices[0];     // 第一天完成一次操作并持有，即减去第一天股价
-
-            for (let i=1; i<len; i++) {
-                for (let k=2; k>0; k--) {
-                    dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1]+prices[i]);
-                    dp[i][k][1] = Math.max(dp[i-1][k][1], (k>1? dp[i-1][k-1][0]: 0)-prices[i]);   // 买入减少次数
+            let k = 2;
+            let dp = Array.from({length: len}, () => 
+                            Array.from({length: k+1}, () => []));
+            for (let i=0; i<len; i++) {
+                for (let j=1; j<k+1; j++) {
+                    if (i===0) {
+                        dp[0][j][0] = 0;
+                        dp[0][j][1] = -prices[0];
+                    } else {
+                        dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i-1][j][1]+prices[i]);
+                        dp[i][j][1] = Math.max(dp[i-1][j][1], (j>1?dp[i-1][j-1][0]:0)-prices[i]);
+                    }
                 }
-                // dp[i][2][0] = Math.max(dp[i-1][2][0], dp[i-1][2][1]+prices[i]);
-                // dp[i][2][1] = Math.max(dp[i-1][2][1], dp[i-1][1][0]-prices[i]);
-                // dp[i][1][0] = Math.max(dp[i-1][1][0], dp[i-1][1][1]+prices[i]);
-                // dp[i][1][1] = Math.max(dp[i-1][1][1], -prices[i]);
             }
-            console.log(dp);
-            return dp[len-1][2][0];
+            return dp[len-1][k][0];
         };
         ```
-- 第二思路: 模板动态规划(优化).
+- 第二思路: 模板动态规划(优化: 只保存当天状态)
+    - 思路: 建立长度为 (k+1)*2 的二维数组dp，dp[k][state]意义是直到当天已执行 k 次交易且当前状态为 state(0-空仓，1-持仓).
+    - 复杂度分析:
+        - 时间: O(n*k). 循环消耗.
+        - 空间: O(1). 即 dp 二维数组空间消耗. O((k+1)*2) => O(1)
+    - Leetcode 结果:
+        - 执行用时 : 84ms, 在所有 JavaScript 提交中击败了  94.5%的用户
+        - 内存消耗 : 36.5MB, 在所有 JavaScript 提交中击败  47%的用户
+    - 实现:
+        ``` js
+        var maxProfit = function(prices) {
+            if (prices.length < 2) return 0;
+            let len = prices.length;
+            let k = 2;
+            let dp = Array.from({length: k+1}, ()=>[]);
+            for (let i=0; i<len; i++) {
+                for (let j=1; j<k+1; j++) {
+                    if (i===0) {
+                        dp[j][0] = 0;
+                        dp[j][1] = -prices[0];
+                    } else {
+                        dp[j][0] = Math.max(dp[j][0], dp[j][1]+prices[i]);
+                        dp[j][1] = Math.max(dp[j][1], (j>1?dp[j-1][0]: 0)-prices[i]);
+                    }
+                }
+            }
+            return dp[k][0];
+        }
+        ```
+- 第三思路: 动态规划(优化: k=2专属优化, 四变量替换 dp).
     - 思路: 用变量取代 dp 数组.
     - 复杂度分析:
         - 时间: O(n*k). 循环耗时
@@ -522,19 +550,17 @@
         - 内存消耗 : 36MB, 在所有 JavaScript 提交中击败  60%的用户
     - 实现:
         ``` js
-        var maxProfit = function(prices) {
-            if (prices.length < 2) return 0;
-            let len = prices.length;
-            dp_i20 = dp_i10 = 0;
-            dp_i21 = dp_i11 = -prices[0];
-            for (let i=1; i<len; i++) {
-                dp_i20 = Math.max(dp_i20, dp_i21+prices[i]);
-                dp_i21 = Math.max(dp_i21, dp_i10-prices[i]);
-                dp_i10 = Math.max(dp_i10, dp_i11+prices[i]);
-                dp_i11 = Math.max(dp_i11, -prices[i]);
-            }
-            return dp_i20;
-        };
+        if (prices.length < 2) return 0;
+        let len = prices.length;
+        let dp_i20 = dp_i10 = 0;
+        let dp_i21 = dp_i11 = -prices[0];
+        for (let i=1; i<len; i++) {
+            dp_i20 = Math.max(dp_i20, dp_i21+prices[i]);
+            dp_i21 = Math.max(dp_i21, dp_i10-prices[i]);
+            dp_i10 = Math.max(dp_i10, dp_i11+prices[i]);
+            dp_i11 = Math.max(dp_i11, -prices[i]);
+        }
+        return dp_i20;
         ```
 
 
