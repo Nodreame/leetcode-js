@@ -9,7 +9,7 @@
     - [x] 递推(DFS).
     - [x] 递归+记忆化(DFS).
     - [x] 动态规划.
-    - [x] 动态规划优化.
+    - [x] 动态规划(空间优化).
     - [ ] Binets(矩阵).
 - 难度: easy.
 - 题意解析: 目标是爬 n 步， 每步可以走 1 或者走 2, 求走法总数.
@@ -29,7 +29,7 @@
 - 第二思路: 递归+记忆化(DFS).
     - 思路: 思路同上，用 memory 数据去掉重复计算.
     - 复杂度分析: 
-        - 时间: O(n). memory将题目简化为树形递归.
+        - 时间: O(n). memory将题目简化为修复的递归树.
         - 空间: O(n). 树深度为n.
     - Leetcode 结果:
         - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  93.6%的用户
@@ -65,7 +65,7 @@
             return dp[n];
         };
         ```
-- 第四思路: 动态规划优化(斐波那契).
+- 第四思路: 动态规划(空间优化).
     - 思路: 
     - 复杂度分析:
         - 时间: O(n).遍历耗时.
@@ -81,6 +81,139 @@
                 [dp1, dp2] = [dp2, dp1+dp2];
             }
             return dp2;
+        };
+        ```
+
+### 509. 斐波那契数
+- 刷题进度:
+    - [x] 记忆化 x 递归
+    - [x] 动态规划
+    - [x] 动态规划(空间优化)
+- 难度: easy
+- 题意解析: 同 70 题
+- 初始思路: 记忆化 x 递归
+    - 思路: 暴力递归不可取，所以用记忆化x 递归
+    - 复杂度分析:
+        - 时间: O(n). 记忆化将题目简化为修复的递归树.
+        - 空间: O(n). 树深度为n.
+    - Leetcode 结果:
+        - 执行用时 : 60 ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗 : 33.8 MB, 在所有 JavaScript 提交中击败 50 %的用户
+    - 实现:
+        ``` js
+        var fib = function(N) {
+            return recursion(N, [0, 1]);
+        };
+
+        function recursion (target, arr) {
+            if (arr[target] === undefined) arr[target] = recursion(target-1, arr) + recursion(target-2, arr)
+            return arr[target];
+        }
+        ```
+- 第二思路: 动态规划
+    - 思路: 定义 dp[n] 为：到达 n 的走法总数, 故易得 dp[n] = dp[n-1] + dp[n-2].
+    - 复杂度分析: 
+        - 时间: O(n)
+        - 空间: O(n)
+    - Leetcode 结果:
+        - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了 77 %的用户
+        - 内存消耗 : 33.9MB, 在所有 JavaScript 提交中击败 43 %的用户
+    - 实现:
+        ``` js
+        var fib = function(N) {
+            let dp = [0, 1];
+            for (let i=2; i<=N; i++) {
+                dp[i] = dp[i-1] + dp[i-2];
+            }
+            return dp[N];
+        };
+        ```
+- 第三思路: 动态规划(空间优化)
+    - 思路: 相比原本的动态规划减少了dp的存储空间消耗.
+    - 复杂度分析: 
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了 87 %的用户
+        - 内存消耗 : 33.7MB, 在所有 JavaScript 提交中击败 66 %的用户
+    - 实现:
+        ``` js
+        var fib = function(N) {
+            let [dp1, dp2] = [0, 1];
+            if (N === 0) return dp1;
+            if (N === 1) return dp2;
+            for (let i=2; i<=N; i++) {
+                [dp1, dp2] = [dp2, dp1+dp2];
+            }
+            return dp2;
+        };
+        ```
+
+### 1137. 第 N 个泰波那契数
+- 刷题进度:
+    - [x] 递归+记忆化
+    - [x] 动态规划
+    - [x] 动态规划（空间优化）
+- 难度: easy
+- 题意解析: 斐波那契额数增加一个数.
+- 初始思路: 递归+记忆化.
+    - 思路: 
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(n)
+    - Leetcode 结果:
+        - 执行用时 : 68 ms, 在所有 JavaScript 提交中击败了 92 %的用户
+        - 内存消耗 : 33.7 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var tribonacci = function(n) {
+            return recursion(n, [0, 1, 1])
+        };
+
+        function recursion (target, arr) {
+            if (arr[target] === undefined) {
+                arr[target] = recursion(target-1, arr) + recursion(target-2, arr) + recursion(target-3, arr);
+            }
+            return arr[target];
+        }
+        ```
+- 第二思路: 动态规划.
+    - 思路:
+    - 复杂度分析:
+        - 时间:  O(n)
+        - 空间:  O(n)
+    - Leetcode 结果:
+        - 执行用时 : 64ms, 在所有 JavaScript 提交中击败了 98 %的用户
+        - 内存消耗 : 33.8MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var tribonacci = function(n) {
+            let dp = [0, 1, 1];
+            for (let i=3; i<=n; i++) {
+                dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
+            }
+            return dp[n];
+        };
+        ```
+- 第三思路: 动态规划（空间优化）.
+    - 思路: 相比原本的动态规划减少了dp的存储空间消耗.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了 58 %的用户
+        - 内存消耗 : 33.7 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var tribonacci = function(n) {
+            let [dp1, dp2, dp3] = [0, 1, 1];
+            if (n===0) return dp1;
+            if (n===1) return dp2;
+            if (n===2) return dp3;
+            for (let i=3; i<=n; i++) {
+                [dp1, dp2, dp3] = [dp2, dp3, dp1+dp2+dp3];
+            }
+            return dp3;
         };
         ```
 
