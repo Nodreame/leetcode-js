@@ -406,7 +406,7 @@
 - 刷题进度: 
     - [x] 模板动态规划.
     - [x] 模板动态规划(优化).
-    - [ ] xxx
+    - [x] 炒波段.
 - 难度: easy.
 - 题意解析: 将数日的股价存在数组中，求最大利益.
     - 限制枚举：
@@ -461,6 +461,26 @@
                 dp_i_1 = Math.max(dp_i_1, dp_i_0-prices[i])
             }
             return dp_i_0;
+        };
+        ```
+- 第三思路: 炒波段.
+    - 思路: 每笔钱都要挣到.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: 1
+    - Leetcode 结果:
+        - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了 83 %的用户
+        - 内存消耗 : 35.6MB, 在所有 JavaScript 提交中击败 16.8 %的用户
+    - 实现:
+        ``` js
+        var maxProfit = function(prices) {
+            let max = 0;
+            for (let i=0, len=prices.length; i<len; i++) {
+                if (prices[i] > prices[i-1]) {
+                    max += prices[i]-prices[i-1];
+                }
+            }
+            return max;
         };
         ```
 
@@ -842,6 +862,199 @@
         ```
 - 第二思路:
     - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 120. 三角形最小路径和
+- 刷题进度:
+    - [x] 自底向上递归
+    - [x] 记忆化自底向上递归(新空间)
+    - [x] 记忆化自底向上递归(原地替换)
+- 难度: medium
+- 题意解析: 给定代表三角形的二维数组，计算自顶向下最小路径和。
+- 初始思路: 自底向上递归
+    - 思路: 回到常规数学题的解答思维
+        - 从上到下计算：在过程中不能直观看出大小，必须最后把所有结果做对比，故放弃;
+        - 从下到上计算：可以在过程中不断对比左右大小，最后得到最大结果；
+    - 复杂度分析:
+        - 时间: O(h*w). 遍历个数。 
+        - 空间: O(h). 递归树高度.
+    - Leetcode 结果: 超时.
+    - 实现:
+        ``` js
+        var minimumTotal = function(triangle) {
+            return recursion(triangle, triangle.length, 0, 0);
+        };
+
+        function recursion (arr, level, currLevel, currPos) {
+            if (currLevel === level-1) return arr[currLevel][currPos];
+            let left = recursion(arr, level, currLevel+1, currPos);
+            let right = recursion(arr, level, currLevel+1, currPos+1);
+            return Math.min(left, right) + arr[currLevel][currPos];
+        }
+        ```
+- 第二思路: 记忆化自底向上递归(新空间)
+    - 思路: 基于初始思路优化，创建新数组用以记忆和递归时复用.
+    - 复杂度分析:
+        - 时间: O(h*w). 遍历个数.
+        - 空间: O(n). 同 triangle大小.
+    - Leetcode 结果:
+        - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了 76 %的用户
+        - 内存消耗 : 35.4MB, 在所有 JavaScript 提交中击败 14 %的用户
+    - 实现:
+        ``` js
+        var minimumTotal = function(triangle) {
+            let len = triangle.length;
+            return recursion(triangle, Array.from({length:len}, ()=>[]), len, 0, 0);
+        };
+
+        function recursion (arr, newArr, level, currLevel, currPos) {
+            if (newArr[currLevel][currPos]) return newArr[currLevel][currPos];
+            if (currLevel === level-1) return newArr[currLevel][currPos] = arr[currLevel][currPos];
+            let left = recursion(arr, newArr, level, currLevel+1, currPos);
+            let right = recursion(arr, newArr, level, currLevel+1, currPos+1);
+            return newArr[currLevel][currPos] = Math.min(left, right) + arr[currLevel][currPos];
+        }
+        ```
+- 第三思路: 记忆化自底向上递归(原地替换)
+    - 思路: 基于初始思路优化，自底向上不断取较小值，通过累加来替换数组元素，最终只需输出triangle[0][0]即可.
+    - 复杂度分析:
+        - 时间: O(h*w).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了 76 %的用户
+        - 内存消耗 : 34.7MB, 在所有 JavaScript 提交中击败 75 %的用户
+    - 实现:
+        ``` js
+        var minimumTotal = function(triangle) {
+            let len = triangle.length;
+            if (len < 1) return 0;
+            if (len === 1) return triangle[0][0];
+            for (let i=len-2; i>=0; i--) {
+                for (let j=0, jLen=triangle[i].length; j<jLen; j++) {
+                    triangle[i][j] += Math.min(triangle[i+1][j], triangle[i+1][j+1]);
+                }
+            }
+            return triangle[0][0];
+        };
+        ```
+- 第四思路: 
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 320. 零钱兑换（*）
+- 刷题进度:
+    - [x] 自递归
+    - [x] 递归 + 记忆化
+    - [x] 动态规划
+    - [ ] TODO
+- 难度: medium
+- 题意解析: 用最少数量的 coins 组合获得 amount
+- 输入处理：
+    - 原文：如果没有任何一种硬币组合能组成总金额，返回 -1;
+    - 翻译：如果总金额不正常则返回 0；如果总金额正常且没有硬币组合能够组成，则返回-1; 
+- 初始思路: 自递归.
+    - 思路: 动态规划阶段一：状态枚举 & 递归处理，coinChange(coins, amount) 必定返回最小硬币数. 
+        - 状态枚举：
+            - coins[i] == amount : return 1
+            - coins[i] > amount : continue (可去除)
+            - coins[i] < amount : 计算 amount-coins[i] 的最小硬币数 temp：
+                - temp == -1: amount-coins[i] 无最小硬币数 (路径废弃)
+                - else: amount的最小硬币数 =  min(amount-coins[i]的最小硬币数 + 1, amount当前最小硬币数)
+    - 复杂度分析:
+        - 时间: O(树高^coinsLen), 指数型.
+        - 空间: O(树高)
+    - Leetcode 结果: 超时
+    - 实现:
+        ``` js
+        var coinChange = function (coins, amount) {
+            if (amount < 1) return 0;
+            let res = Number.POSITIVE_INFINITY;
+            for (let i=0, len=coins.length; i<len; i++) {
+                if (coins[i] === amount) {
+                    return 1;
+                } else if (coins[i] < amount) {
+                    let temp = coinChange(coins, amount-coins[i]);
+                    if (temp !== -1) { // temp===1 =》路径废弃
+                        res = Math.min(res, temp+1);
+                    }
+                }
+            }
+            return res === Number.POSITIVE_INFINITY? -1: res;
+        }
+        ```
+- 第二思路: 递归 + 记忆化
+    - 思路: 通过记忆化将递归的时间复杂度优化为线性;
+    - 复杂度分析:
+        - 时间: O(amount). 最多每个数值计算一次.
+        - 空间: O(amount). 一维数组长度.
+    - Leetcode 结果:
+        - 执行用时 : 256 ms, 在所有 JavaScript 提交中击败了 18 %的用户
+        - 内存消耗 : 41.6 MB, 在所有 JavaScript 提交中击败 20 %的用户
+    - 实现:
+        ``` js
+        var coinChange = function(coins, amount) {
+            return recursion (coins, amount, [0]);
+        };
+
+        function recursion (coins, amount, arr) {
+            if (arr[amount] != null) return arr[amount];
+            let res = Number.POSITIVE_INFINITY;
+            for (let i=0, len=coins.length; i<len; i++) {
+                if (coins[i] === amount) {
+                    arr[amount] = 1;
+                    return 1;
+                } else if (coins[i] < amount) {
+                    let temp = recursion (coins, amount-coins[i], arr);
+                    if (temp !== -1) res = Math.min(res, temp+1);
+                    arr[amount] = res;
+                }
+            }
+            // console.log('arr:', arr);
+            return res === Number.POSITIVE_INFINITY ? -1: res;
+        }
+        ```
+- 第三思路: 动态规划
+    - 思路: dp[i]存储每个金额的最小硬币组成数量， dp[i] = Math.min(dp[i], dp[i-count[j]]+1)
+    - 复杂度分析:
+        - 时间: O(amount * coinsLens)
+        - 空间: O(amount)
+    - Leetcode 结果:
+        - 执行用时 : 252ms, 在所有 JavaScript 提交中击败了 19 %的用户
+        - 内存消耗 : 37MB, 在所有 JavaScript 提交中击败 66 %的用户
+    - 实现:
+        ``` js
+        var coinChange = function(coins, amount) {
+            if (amount < 1) return 0;
+            let dp = Array.from({length: amount+1}, ()=>Number.POSITIVE_INFINITY);
+            dp[0] = 0;
+            for (let i=1, len=amount+1; i<len; i++) {
+                for (let j=0, coinsLen=coins.length; j<coinsLen; j++) {
+                    if (coins[j] <= i) {
+                        dp[i] = Math.min(dp[i], dp[i-coins[j]]+1);
+                    }
+                }
+            }
+            return dp[amount] === Number.POSITIVE_INFINITY? -1: dp[amount];
+        };
+        ```
+- 第四思路: TODO
+    - 思路: 动态规划全部取值的方式时空消耗过大
     - 复杂度分析:
         - 时间: 
         - 空间: 
