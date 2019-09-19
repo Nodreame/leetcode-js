@@ -1064,3 +1064,186 @@
     - 实现:
         ``` js
         ```
+### 53. 最大子序和
+- 刷题进度:
+    - [x] 循环连乘.
+    - [x] "连续类型"的动态规划.
+    - [x] 分治法.
+- 难度: easy.
+- 题意解析: 求给定整数数组的最大"连续"子序列(最少一个数)的和.
+- 输入处理: 输入数组长度小于 1 时, 返回 0.
+- 初始思路: 循环连乘.
+    - 思路: 获取数组长度n，然后依次获取数组长度为 1~n 的连续组合和.
+    - 复杂度分析:
+        - 时间: O(n^3). 数组长度 1->n & 每次从子序列的开头开始 & 子序列逐个相乘. n!型.
+        - 空间: O(1).
+    - Leetcode 结果: 超时.
+    - 实现:
+        ``` js
+        var maxSubArray = function(nums) {
+            let len = nums.length;
+            let res = Number.NEGATIVE_INFINITY;
+            for (let i=1; i<=len; i++) { // 连续子序列长度
+                for (let j=0; j<=(len-i); j++) { // 连续子序列的开头位置
+                    let temp;
+                    for (let k=0; k<i; k++) { // 子序列逐个相加
+                        temp = temp==null? nums[j+k]: temp + nums[j+k];
+                    }
+                    res = Math.max(temp, res);
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路: "连续类型"的动态规划.
+    - 思路: 目标是连续子序列的最大和，所以在循环中不断推进子序列的头并获取子序列的尾部.
+    - TODO: "连续"类型的动态规划解题步骤
+    - 复杂度分析:
+        - 时间: O(n). 一次 for.
+        - 空间: O(1). 
+    - Leetcode 结果:
+        - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了 93.5 %的用户
+        - 内存消耗 : 35.6MB, 在所有 JavaScript 提交中击败 17 %的用户
+    - 实现:
+        ``` js
+        var maxSubArray = function(nums) {
+            let len = nums.length;
+            if (len < 1) return 0;
+            let max = Number.NEGATIVE_INFINITY;
+            let temp = 0;
+            for (let i=0; i<len; i++) {
+                if (temp >= 0) {
+                    temp += nums[i];
+                } else {
+                    temp = nums[i];
+                }
+                max = Math.max(max, temp);
+            }
+            return max;
+        };
+        ```
+- 第三思路: 分治法.
+    - 思路: 对半分，然后对比左 & 右 & 中, 取最大值.
+    - 复杂度分析:
+        - 时间: O(nlogn). 分治的折半递归即 n * 深度logn.
+        - 空间: O(1). 
+    - Leetcode 结果:
+        - 执行用时 : 96ms, 在所有 JavaScript 提交中击败了 35 %的用户
+        - 内存消耗 : 37.8MB, 在所有 JavaScript 提交中击败 5 %的用户
+    - 实现:
+        ``` js
+        var maxSubArray = function(nums) {
+            let numsLen = nums.length;
+            if (numsLen === 1) return nums[0];
+            let halfNum = Math.ceil(numsLen/2);
+            let maxLeft = maxSubArray(nums.slice(0, halfNum));          // 计算左部连续子串最大值
+            let maxRight = maxSubArray(nums.slice(halfNum, numsLen));    // 计算右部连续子串最大值
+            // 从左部末值出发 & 从右部首值出发, 计算中部连续子串最大值
+            let maxL = Number.NEGATIVE_INFINITY;
+            let temp = 0;
+            for (let i=halfNum-1; i>=0; i--) {
+                temp += nums[i];
+                maxL = Math.max(maxL, temp);
+            }
+            let maxR = Number.NEGATIVE_INFINITY;
+            temp = 0;
+            for (let i=halfNum; i<numsLen; i++) {
+                temp += nums[i];
+                maxR = Math.max(maxR, temp);
+            }
+            return Math.max(maxLeft, maxRight, maxL+maxR);
+        };
+        ```
+- 总结：避免指数型计算的方式是得出规律，本题是加法增益规律，加上一个数后>=0即可继续加，若小于0则放弃当前的连续，从下一个开始.
+
+### 152. 乘积最大子序列
+- 刷题进度:
+    - [x] 循环连乘.
+    - [x] 动态规划.
+    - [x] 分治法.
+- 难度: medium
+- 题意解析: 求给定整数数组的最大"连续"子序列(最少一个数)的积. 不同于 53 题的加法，乘法的规律并不是找最大，因为最小值为负数时，下一个负数可能直接使其变成最大，所以乘法的规律应该是求 max 和 min， 然后每次计算出一个 superMax.
+- 输入处理: 输入数组长度小于 1 时, 返回 0.
+- 初始思路: 循环连乘.
+    - 思路: 获取数组长度n，然后依次获取数组长度为 1~n 的连续组合乘积.
+    - 复杂度分析:
+        - 时间: O(n^3). 数组长度 1->n & 每次从子序列的开头开始 & 子序列逐个相乘. n!型.
+        - 空间: O(1).
+    - Leetcode 结果: 超时.
+    - 实现:
+        ``` js
+        var maxProduct = function(nums) {
+            let len = nums.length;
+            let res = Number.NEGATIVE_INFINITY;
+            for (let i=1; i<=len; i++) { // 每次的连续子序列长度
+                for (let j=0; j<=(len-i); j++) { // 连续子序列的开头位置
+                    let temp = 1;
+                    for (let k=0; k<i; k++) { // 子序列逐个相乘
+                        temp *= nums[j+k];
+                    }
+                    res = Math.max(res, temp);
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路: 动态规划.
+    - 思路: for 循环数组，求每次计算后的 max、min、superMax. 
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 100 %的用户
+        - 内存消耗 : 36.2MB, 在所有 JavaScript 提交中击败 29 %的用户
+    - 实现:
+        ``` js
+        var maxProduct = function(nums) {
+            let len = nums.length;
+            if (len < 1) return nums[0];
+            let superMax = Number.NEGATIVE_INFINITY;
+            let max = 1;
+            let min = 1;
+            for (let i=0; i<len; i++) {
+                // 求最大积，遇到负数直接反转
+                if (nums[i] < 0)  [max, min] = [min, max]
+                // 对比大小，当前积比不过当前值时，使用当前值将其替换
+                max = Math.max(nums[i], max*nums[i]);
+                min = Math.min(nums[i], min*nums[i]);
+                superMax = Math.max(superMax, max);
+            }
+            return superMax;
+        };
+        ```
+- 第三思路：分治法.
+    - 思路: 对半分解求解 左 & 右 & 中的最大.
+    - 复杂度分析:
+        - 时间: O(nlogn). n * 深度logn
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时 : 84 ms, 在所有 JavaScript 提交中击败了 70 %的用户
+        - 内存消耗 : 38 MB, 在所有 JavaScript 提交中击败 12 %的用户
+    - 实现:
+        ``` js
+        var maxProduct = function(nums) {
+            let len = nums.length;
+            if (len === 1) return nums[0];
+            let halfNum = Math.floor(len/2);
+            let maxLeft = maxProduct(nums.slice(0, halfNum));
+            let maxRight = maxProduct(nums.slice(halfNum, len));
+            // console.log(`maxLeft of (0~${halfNum-1}): ${maxLeft}`);
+            // console.log(`maxRight of (${halfNum}~${len-1}): ${maxRight}`);
+            let [temp, maxL, minL] = [1, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY];
+            for (let i=halfNum-1; i>=0; i--) {
+                temp *= nums[i]; // 单边推进
+                [maxL, minL] = [ Math.max(maxL, temp), Math.min(minL, temp) ];
+            }
+            let [maxR, minR] = [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY];
+            temp = 1; // reset 推进器
+            for (let i=halfNum; i<len; i++) {
+                temp *= nums[i]; // 单边推进
+                [maxR, minR] = [ Math.max(maxR, temp), Math.min(minR, temp) ];
+            }
+            // console.log(`maxR: ${maxR}, minR: ${minR}`);
+            return Math.max(maxLeft, maxRight, maxL*maxR, maxL*minR, minL*maxR, minL*minR);
+        };
+        ```
