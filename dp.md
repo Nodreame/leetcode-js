@@ -1064,6 +1064,7 @@
     - 实现:
         ``` js
         ```
+
 ### 53. 最大子序和
 - 刷题进度:
     - [x] 循环连乘.
@@ -1246,4 +1247,100 @@
             // console.log(`maxR: ${maxR}, minR: ${minR}`);
             return Math.max(maxLeft, maxRight, maxL*maxR, maxL*minR, minL*maxR, minL*minR);
         };
+        ```
+
+### 198. 打家劫舍
+- 刷题进度:
+    - [x] 动态规划.
+    - [x] 动态规划(空间优化).
+- 难度: easy
+- 题意解析: 每个房屋都存在价值为>=0的财物，目标是最终财物综合价值最高，限制条件是不能偷窃相邻的房屋。
+- 输入处理: 输入数组不得为空.
+- 初始思路: 动态规划.
+    - 思路: 金钱房屋逐个推进也会越来越多，故价值最高结果必定是最后一间房屋的结果，故用动态规划```dp[len]```存储到达每间屋子时的最大收益。程序设计逻辑应注意：
+        - 本间房拿了上一间必定不能拿；
+        - 三间房间至少拿一次，因为限制只在相邻房屋存在；
+        - 综上可以推出状态转移方程：目前为之最大利益 = 上次偷这次不偷 or 上次不偷这次偷
+        - 程序表示如下``` dp[i] = max(dp[i-1], dp[i-2]+nums[i])```
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(n)
+    - Leetcode 结果:
+        - 执行用时 : 68 ms, 在所有 JavaScript 提交中击败了 93 %的用户
+        - 内存消耗 : 34.1 MB, 在所有 JavaScript 提交中击败 6.9 %的用户
+    - 实现:
+        ``` js
+        var rob = function(nums) {
+            let len = nums.length;
+            if (len < 1) return 0;
+            let dp = [];
+            dp[0] = nums[0];
+            dp[1] = Math.max(nums[0], nums[1]);
+            for (let i=2; i<len; i++) {
+                dp[i] = Math.max(dp[i-1], dp[i-2]+nums[i]);
+            }
+            return dp[len-1];
+        };
+        ```
+- 第二思路: 动态规划(空间优化).
+    - 思路: 有用的只有上次最大收益和上上次最大收益，故无需使用数组存储.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 98 %的用户
+        - 内存消耗 : 34.1 MB, 在所有 JavaScript 提交中击败 6.9 %的用户
+    - 实现:
+        ``` js
+        var rob = function(nums) {
+            let len = nums.length;
+            if (len < 1) return 0;
+            let [last, curr] = [0, nums[0]];
+            for (let i=1; i<len; i++) {
+                [last, curr] = [curr, Math.max(curr, last+nums[i])];
+            }
+            return curr;
+        };
+        ```
+
+### 213. 打家劫舍Ⅱ
+- 刷题进度:
+    - [x] 动态规划(避开条件).
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 相比198，不同点在于房屋首尾相连.
+- 输入处理: 输入数组<1 => 0, 输入数组<2 => nums[i].
+- 初始思路: 动态规划(避开条件).
+    - 思路: 既然 0 和 n-1 相邻，那么求 0 ~ n-2 和 1 ~ n-1 的最大值即可.
+    - 复杂度分析: 
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时 : 68 ms, 在所有 JavaScript 提交中击败了 96.6 %的用户
+        - 内存消耗 : 34.3 MB, 在所有 JavaScript 提交中击败 12.9 %的用户
+    - 实现:
+        ``` js
+        var rob = function(nums) {
+            let len = nums.length;
+            if (len < 1) return 0;
+            if (len < 2) return nums[0];
+            let [last1, last2, curr1, curr2] = [0, 0, nums[0], nums[1]];
+            for (let i=1; i<len; i++) {
+                if (i < len-1) [last1, curr1] = [curr1, Math.max(curr1, last1+nums[i])];
+                if (i > 1) [last2, curr2] = [curr2, Math.max(curr2, last2+nums[i])];
+            }
+            return Math.max(curr1, curr2);
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
         ```
