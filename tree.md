@@ -611,33 +611,66 @@
 ### 104. 二叉树最大深度 maxDepth
 - 刷题进度:
     - [x] 递归法(DFS).
-    - [x] 迭代法(DFS)
-    - [ ] xxx
+    - [x] 自迭代法(DFS).
+    - [x] 迭代法(DFS).
+    - [x] 迭代法(BFS).
+    - [x] 优化迭代法(BFS).  【最快】
+    
 - 难度: easy
 - 题意解析: 计算**根节点**到**最远叶子节点**的**最长路径**上的**节点数**.
-- 初始思路: 自递归法(DFS).
-    - 思路: 最大深度即 1+root左右子树的最大深度，开始递归.
+- 初始思路: 递归法(DFS).
+    - 思路: 借助数组存储当前最大深度.
     - 复杂度分析:
         - 时间: O(n). 同节点数n.
-        - 空间: O(n). 递归调用次数，树平衡时最好，为O(logn)；树退化成链表时最坏O，为(n).
+        - 空间: O(logn). 递归调用次数，树平衡时最好，为O(logn)；树退化成链表时最坏O，为(n).
     - Leetcode 结果:
-        - 执行用时 : 92ms, 在所有 JavaScript 提交中击败了 89.09%的用户
-        - 内存消耗 : 37.2MB, 在所有 JavaScript 提交中击败 39.17%的用户
+        - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 99.6 %的用户
+        - 内存消耗 : 37.5 MB, 在所有 JavaScript 提交中击败 10.3 %的用户
     - 实现:
         ``` js
         var maxDepth = function(root) {
-            if (!root || root.val===null) return 0;
-            return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+            let res = [0];
+            iteration(root, 0, res);
+            return res[0];
+        };
+
+        function iteration (root, level, res) {
+            // 1. terminate
+            if (!root) return;
+            // 2. process
+            res[0] = Math.max(++level, res[0]);
+            // 3. drill down
+            if(root.left) iteration(root.left, level, res);
+            if(root.right) iteration(root.right, level, res);
+        }
+        ```
+- 第二思路: 自递归法(DFS).
+    - 思路: 最大深度即 1+root左右子树的最大深度，开始递归.
+    - 复杂度分析:
+        - 时间: O(n). 同节点数n.
+        - 空间: O(logn). 递归调用次数，树平衡时最好，为O(logn)；树退化成链表时最坏O，为(n).
+    - Leetcode 结果:
+        - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗 : 36.7MB, 在所有 JavaScript 提交中击败 95 %的用户
+    - 实现:
+        ``` js
+        var maxDepth = function(root) {
+            // root为null -> 0
+            // root无左右子树 -> 1
+            // root有一颗子树 -> lvL||lvR + 1 
+            // root有两颗子树 -> max(lvL, lvR) + 1
+            if (!root) return 0;
+            return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
         };
         ```
-- 第二思路: 迭代法(DFS)
+- 第三思路: 迭代法(DFS)
     - 思路: 用栈存储{node: node, level: level}对象, 
     - 复杂度分析:
-        - 时间: O(N).
-        - 空间: O(N).
+        - 时间: O(n).
+        - 空间: O(logn).
     - Leetcode 结果:
-        - 执行用时 : 108ms, 在所有 JavaScript 提交中击败了 56.60%的用户
-        - 内存消耗 : 37.4MB, 在所有 JavaScript 提交中击败 11.96%的用户
+        - 执行用时 : 80 ms, 在所有 JavaScript 提交中击败了 92.9 %的用户
+        - 内存消耗 : 37 MB, 在所有 JavaScript 提交中击败 60.4 %的用户
     - 实现:
         ``` js
         var maxDepth = function(root) {
@@ -661,68 +694,192 @@
             return res;
         };
         ```
+- 第四思路: 迭代法(BFS)
+    - 思路: 每层累加一次.
+    - 复杂度分析:
+        - 时间: O(n). 遍历所有节点故O(n)
+        - 空间: O(logn). 遍历故O(logn). 退化为斜树时为O(n).
+    - Leetcode 结果:
+        - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 99.6 %的用户
+        - 内存消耗 : 36.7 MB, 在所有 JavaScript 提交中击败 95.7 %的用户
+    - 实现:
+        ``` js
+        var maxDepth = function(root) {
+            if (!root) return 0;
+            let queue = [root];
+            let max = 0;
+            while (queue.length > 0) {
+                max++;
+                for (let i=0, len=queue.length; i<len; i++) {
+                    let temp = queue.shift();
+                    if (temp.left) queue.push(temp.left);
+                    if (temp.right) queue.push(temp.right);
+                }
+            }
+            return max;
+        };
+        ```
 
 ### 111. 二叉树最小深度 minDepth
 - 刷题进度:
-    - [x] 迭代法
-    - [x] 递归法
+    - [x] 初版递归法(DFS)
+    - [x] 自递归法(DFS)
+    - [x] 迭代法(DFS)
+    - [x] 迭代法(BFS).
+    - [x] 优化迭代法(BFS).
 - 难度: easy
 - 题意解析: 计算**根节点**到**最近叶子节点**的**最短路径**上的**节点数**.
 - 二次读题: 注意说明**"叶子节点是指没有子节点的节点"**.
-- 初始思路: 递归法.
-    - 思路: 自递归。思路和二叉树最大深度一样。
-    - **遇到问题**: Leetcode刷题者普遍遇到的问题。
-        ![问题](img/二叉树最小深度问题.png)
-        由题意可知"最小深度是**从根节点到最近叶子节点**的最短路径上的节点数量"，并且题目中有说明"叶子节点是指没有子节点的节点", 所以问题出自没有好好看题。
+- 初始思路: 初版迭代法(DFS)
+    - 思路: root的情况特殊所以特别处理，其他节点照常递归即可：
+        - 树为空时(即root===null)                                 ->  深度为0
+        - 树只有一个节点(即root.left===null && root.right===null) ->  深度为 1
+        - 树有两个节点(即root.left===null || root.right===null)   ->  深度为 1 + root的非空子节点的最小深度
+        - 树有三个或以上节点(即root有左右子节点)                    ->  深度为 1 + min(root.left的最小深度, root.right的最小深度)
+    - 复杂度分析:
+        - 时间: O(n). DFS遍历全部故O(n).
+        - 空间: O(logn). 平衡情况O(logn), 退化情况O(n).
+    - Leetcode 结果:
+        - 执行用时 : 72 ms, 在所有 JavaScript 提交中击败了 97.6 %的用户
+        - 内存消耗 : 37.5 MB, 在所有 JavaScript 提交中击败 23.5 %的用户
+    - 实现:
+        ``` js
+        var minDepth = function(root) {
+            if (!root) return 0;
+            if (root.left===null && root.right===null) return 1;
+            return recursion(root);
+        };
+
+        function recursion (node) {
+            if (!node) return 0;
+            // 当一边为空时其结果必为0，故相加即可
+            if (node.left===null || node.right===null) return recursion(node.left)  + recursion(node.right) + 1;
+            return Math.min(recursion(node.left), recursion(node.right)) + 1;
+        }
+        ```
+- 第二思路: 递归法(DFS).
+    - 思路：并不是root特殊，而是最小深度的计算方式为"从root到最近叶子节点", 而叶子节点的意思是"没有子节点的节点", 故结论该题可用"自递归"求解.
+        - root空                     ->  0
+        - root没有 or 只有一个子节点  ->  1 + (可能存在的子节点的最小深度)
+        - root有两个子节点            ->  1 + min(root.left的最小深度, root.right的最小深度)
     - 复杂度分析:
         - 时间: O(n). 同节点数n.
         - 空间: O(n). 最好O(logn), 最坏O(n).
     - Leetcode 结果:
-        - 执行用时 : 96ms, 在所有 JavaScript 提交中击败了  85.52%的用户
-        - 内存消耗 : 37.5MB, 在所有 JavaScript 提交中击败  24.69%的用户
+        - 执行用时 : 68 ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗 : 37.5 MB, 在所有 JavaScript 提交中击败 22.2 %的用户
     - 实现:
         ``` js
         var minDepth = function(root) {
-            if (!root || root.val===null) return 0;
-            let [left, right] = [minDepth(root.left), minDepth(root.right)];
-            return left&&right? 1+Math.min(left, right): 1+left+right;
+            if (!root) return 0;
+            return root.left && root.right? 
+                1+Math.min(minDepth(root.left), minDepth(root.right)):
+                1+minDepth(root.left)+minDepth(root.right);
         };
         ```
-- 第二思路: 迭代法.
-    - 思路: 每个节点加入 level 属性，向下查找所有叶子节点（即左右子树为空）,对比并返回最小 level.
+- 第三思路: 迭代法(DFS).
+    - 思路: 迭代是循环，故重点在于循环中何时计算最小值，分析可知是节点两子树皆空时可以计算.
     - 复杂度分析:
-        - 时间: O(n). 遍历树所有节点即 n.
-        - 空间: O(n). 最好 logn，最坏 n.
+        - 时间: O(n).
+        - 空间: O(logn). 
     - Leetcode 结果:
-        - 执行用时 : 92ms, 在所有 JavaScript 提交中击败了  91.36%的用户
-        - 内存消耗 : 37.9MB, 在所有 JavaScript 提交中击败  5.55%的用户
+        - 执行用时 : 84 ms, 在所有 JavaScript 提交中击败了 88.6 %的用户
+        - 内存消耗 : 37.2 MB, 在所有 JavaScript 提交中击败 51.8 %的用户
     - 实现:
         ``` js
         var minDepth = function(root) {
-            if (!root || root.val===null) return 0;
-            let res = Number.POSITIVE_INFINITY;
+            if (!root) return 0;
+            let min = Number.POSITIVE_INFINITY;
             root.level = 1;
             let stack = [root];
             while (stack.length > 0) {
-                let node = stack.pop();
-                let level = node.level;
-                if (node.left || node.right) {
-                    if (node.right) { 
-                        node.right.level = level + 1;
-                        stack.push(node.right); 
-                    }
-                    if (node.left) {
-                        node.left.level = level + 1;
-                        stack.push(node.left); 
-                    }
+                let temp = stack.pop();
+                if (!temp.left && !temp.right) {
+                    min = Math.min(min, temp.level);
                 } else {
-                    res = Math.min(res, level);
+                    if (temp.left) {
+                        temp.left.level = temp.level + 1;
+                        stack.push(temp.left);
+                    }
+                    if (temp.right) {
+                        temp.right.level = temp.level + 1;
+                        stack.push(temp.right);
+                    }
                 }
             }
-            return res;
+            return min;
         };
         ```
-
+- 第四思路: 迭代法(BFS).
+    - 思路: 同迭代法(DFS),搜索到节点子树皆空时计算最小值.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 96.5 %的用户
+        - 内存消耗: 37.2 MB, 在所有 JavaScript 提交中击败 52.5 %的用户
+    - 实现:
+        ``` js
+        var minDepth = function(root) {
+            if (!root) return 0;
+            let min = Number.POSITIVE_INFINITY;
+            root.level = 1;
+            let queue = [root];
+            while (queue.length > 0) {
+                for (let i=0, len=queue.length; i<len; i++) {
+                    let temp = queue.shift();
+                    if (!temp.left && !temp.right) {
+                        min = Math.min(min, temp.level);
+                    } else {
+                        if (temp.left) {
+                            temp.left.level = temp.level + 1;
+                            queue.push(temp.left);
+                        }
+                        if (temp.right) {
+                            temp.right.level = temp.level + 1;
+                            queue.push(temp.right);
+                        }
+                    }
+                }
+            }
+            return min;
+        };
+        ```
+- 第五思路: 优化迭代法(BFS).
+    - 思路: 写迭代法(BFS)的过程中意识到:
+        - 由于使用BFS故每次将遍历一层，若本层出现节点子树皆空即可停止循环直接退出.减少了之后的运算及其他子树的向下推进.
+        - 无需对比，触发退出时的层数即为最小层数.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 99.6 %的用户
+        - 内存消耗: 36.9 MB, 在所有 JavaScript 提交中击败 87.65 %的用户
+    - 实现:
+        ``` js
+        var minDepth = function(root) {
+            if (!root) return 0;
+            root.level = 1;
+            let queue = [root];
+            while (queue.length > 0) {
+                for (let i=0, len=queue.length; i<len; i++) {
+                    let temp = queue.shift();
+                    if (!temp.left && !temp.right) {
+                        return temp.level; // 直接返回
+                    } else {
+                        if (temp.left) {
+                            temp.left.level = temp.level + 1;
+                            queue.push(temp.left);
+                        }
+                        if (temp.right) {
+                            temp.right.level = temp.level + 1;
+                            queue.push(temp.right);
+                        }
+                    }
+                }
+            }
+        };
+        ```
 
 
 ### 98. 验证二叉搜索树 isValidBST
