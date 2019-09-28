@@ -608,7 +608,7 @@
         }
         ```
 
-###  104. 二叉树最大深度 maxDepth
+### 104. 二叉树最大深度 maxDepth
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 迭代法(DFS)
@@ -1099,4 +1099,61 @@
         - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
         ``` js
+        ```
+
+### 100. 相同的树
+- 刷题进度:
+    - [x] 自递归.
+    - [x] 迭代.
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 判断两颗树是否相同.
+- 输入处理: 两棵树皆为 null 也相同，此时皆为空树.
+- 初始思路: 自递归.
+    - 思路: 当前方法可以被复用，直接自递归.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时 : 56 ms, 在所有 JavaScript 提交中击败了 99.5 %的用户
+        - 内存消耗 : 34.1MB, 在所有 JavaScript 提交中击败 5.3 %的用户
+    - 实现:
+        ``` js
+        var isSameTree = function(p, q) {
+            if (p===null && q===null) return true;
+            if (p===null || q===null) return false;
+            if (p.val !== q.val) return false;
+            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        };
+        ```
+- 第二思路: 迭代.
+    - 思路: 创建栈，塞入原始数据，在不断推进的过程中做判断，能够完全完成为 true.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(logn)
+    - Leetcode 结果:
+        - 执行用时 : 52 ms, 在所有 JavaScript 提交中击败了 99,8 %的用户
+        - 内存消耗 : 33.8 MB, 在所有 JavaScript 提交中击败 18.6 %的用户
+    - 实现:
+        ``` js
+        var isSameTree = function(p, q) {
+            let stack = [[p, q]];
+            while (stack.length > 0) {
+                let temp = stack.pop();
+                if (!isEqual(temp[0], temp[1])) {
+                    return false;
+                }
+                if (temp[0]!==null && temp[1]!==null) {
+                    stack.push([temp[0].left, temp[1].left])
+                    stack.push([temp[0].right, temp[1].right]);
+                }
+            }
+            return true;
+        };
+        function isEqual (a, b) {
+            if (a===null && b===null) return true;
+            if (a===null || b===null) return false;
+            if (a.val !== b.val) return false;
+            return true;
+        }
         ```
