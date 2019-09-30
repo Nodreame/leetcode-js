@@ -449,7 +449,8 @@
 ### 102. 二叉树的层次遍历 levelOrder
 - 刷题进度:
     - [x] 模板递归法解答(四步解题)
-    - [x] 模板迭代法解答
+    - [x] 模板状态迭代法(DFS)
+    - [x] 模板状态迭代法(BFS)
     - [ ] Leetcode其他解法学习
 - 难度: medium
 - 题意解析: 自顶向下逐层遍历并放入数组
@@ -482,18 +483,18 @@
             // 4. recover
         }
         ```
-- 第二思路: 模板状态迭代法
+- 第二思路: 模板状态迭代法(DFS).
     - 思路: 给节点加上level开始迭代.
     - 复杂度分析:
         - 时间: O(n). 
-        - 空间: O(n). 
+        - 空间: O(logn). 
     - Leetcode 结果:
-        - 执行用时 : 88ms, 在所有 JavaScript 提交中击败了  76.21%的用户
-        - 内存消耗 : 35.3 MB, 在所有 JavaScript 提交中击败  5.47%的用户
+        - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 96 %的用户
+        - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 5.47 %的用户
     - 实现:
         ``` js
         var levelOrder = function(root) {
-            if (!root || root.val===null) return [];
+            if (!root) return [];
             let res = [];
             root.level = 0;
             let stack = [root];
@@ -514,18 +515,18 @@
             return res;
         }
         ```
-- 第三思路: 迭代法
+- 第三思路: 模板状态迭代法(BFS).
     - 思路: 创建res、queue、level. 提前将root塞进queue，以queue>0为条件开始循环. 先向res加入[]，然后再以queue长度为次数循环加 res 和 queue.
     - 复杂度分析:
         - 时间: 满二叉树下while循环logn次，for循环次数分别为1, 2, 4..., 综合时间复杂度为O(n)
         - 空间: 满二叉树情况下为约为O(n/2)，即最底层长度.
     - Leetcode 结果:
-        - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了  92.80%的用户
-        - 内存消耗 : 34.6MB, 在所有 JavaScript 提交中击败  73.13%的用户
+        - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 98.34 %的用户
+        - 内存消耗 : 35.1MB, 在所有 JavaScript 提交中击败 7.46 %的用户
     - 实现:
         ``` js
         var levelOrder = function(root) {
-            if (!root || root.val===null) return [];
+            if (!root) return [];
             let res = [];
             let queue = [];
             let level = 0;
