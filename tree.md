@@ -448,24 +448,24 @@
 
 ### 102. 二叉树的层次遍历 levelOrder
 - 刷题进度:
-    - [x] 模板递归法解答(四步解题)
+    - [x] 模板递归法(DFS)
     - [x] 模板状态迭代法(DFS)
     - [x] 模板状态迭代法(BFS)
-    - [ ] Leetcode其他解法学习
+    - [x] 模板递归法(BFS)
 - 难度: medium
 - 题意解析: 自顶向下逐层遍历并放入数组
-- 初始思路: 递归法. 
+- 初始思路: 模板递归法(DFS). 
     - 思路: 每层加上level做标记。某level第一次出现创建数组并插入res, 同level数值放入同一数组。
     - 复杂度:
-        - 时间: 等同二叉树节点个数，故为 O(n)
-        - 空间: 正常情况压二弹一，故为 O(n/2)
+        - 时间: O(n).等同二叉树节点个数，故为 O(n)
+        - 空间: O(n).
     - Leetcode 结果:
-        - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了 15.89%的用户
-        - 内存消耗 : 34.7MB, 在所有 JavaScript 提交中击败  45.77%的用户
+        - 执行用时 : 72 ms, 在所有 JavaScript 提交中击败了 91 %的用户
+        - 内存消耗 : 34.5 MB, 在所有 JavaScript 提交中击败 80 %的用户
     - 实现:
         ``` js
         var levelOrder = function(root) {
-            if (!root || root.val===null) return [];    // 上提到这里，递归方法中无需再做处理
+            if (!root) return [];    // 上提到这里，递归方法中无需再做处理
             let res = [];
             recursion(0, root, res);
             return res;
@@ -478,8 +478,8 @@
             if (!res[level]) res[level] = [];
             res[level].push(node.val);
             // 3. drill down
-            if (node.left) { recursion(level+1, node.left, res); }
-            if (node.right) { recursion(level+1, node.right, res); }
+            if (node.left) recursion(level+1, node.left, res);
+            if (node.right) recursion(level+1, node.right, res);
             // 4. recover
         }
         ```
@@ -487,7 +487,7 @@
     - 思路: 给节点加上level开始迭代.
     - 复杂度分析:
         - 时间: O(n). 
-        - 空间: O(logn). 
+        - 空间: O(n). 
     - Leetcode 结果:
         - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 96 %的用户
         - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 5.47 %的用户
@@ -518,8 +518,8 @@
 - 第三思路: 模板状态迭代法(BFS).
     - 思路: 创建res、queue、level. 提前将root塞进queue，以queue>0为条件开始循环. 先向res加入[]，然后再以queue长度为次数循环加 res 和 queue.
     - 复杂度分析:
-        - 时间: 满二叉树下while循环logn次，for循环次数分别为1, 2, 4..., 综合时间复杂度为O(n)
-        - 空间: 满二叉树情况下为约为O(n/2)，即最底层长度.
+        - 时间: O(n).满二叉树下while循环logn次，for循环次数分别为1, 2, 4..., 综合时间复杂度为O(n)
+        - 空间: O(n).满二叉树情况下为约为O(n/2)，即最底层长度.
     - Leetcode 结果:
         - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 98.34 %的用户
         - 内存消耗 : 35.1MB, 在所有 JavaScript 提交中击败 7.46 %的用户
@@ -540,12 +540,42 @@
                     let node = queue.shift();
                     res[level].push(node.val);
                     // 3. drill down
-                    if (node.left) { queue.push(node.left) } 
-                    if (node.right) { queue.push(node.right); }
+                    if (node.left) queue.push(node.left);
+                    if (node.right) queue.push(node.right);
                 }
                 level++;
             }
             return res;
+        }
+        ```
+- 第四思路: 模板递归法(BFS).
+    - 思路: 模仿BFS迭代思路，如果只是单节点递归最终必将沦为 DFS，故将一层的数据组合传递.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 96 %的用户
+        - 内存消耗: 34.7 MB, 在所有 JavaScript 提交中击败 47 %的用户
+    - 实现:
+        ``` js
+        var levelOrder = function(root) {
+            if (!root) return [];
+            let res = [];
+            let queue = [root];
+            recursion(queue, 0, res);
+            return res;
+        };
+
+        function recursion (queue, level, res) {
+            if (queue.length === 0) return;
+            for (let i=0, len=queue.length; i<len; i++) {
+                let temp = queue.shift();
+                if (!res[level]) res[level] = [];
+                res[level].push(temp.val);
+                if (temp.left) queue.push(temp.left);
+                if (temp.right) queue.push(temp.right);
+            }
+            recursion(queue, level+1, res);
         }
         ```
 
@@ -615,7 +645,6 @@
     - [x] 自迭代法(DFS).
     - [x] 迭代法(DFS).
     - [x] 迭代法(BFS).
-    - [x] 优化迭代法(BFS).  【最快】
     
 - 难度: easy
 - 题意解析: 计算**根节点**到**最远叶子节点**的**最长路径**上的**节点数**.
@@ -631,11 +660,11 @@
         ``` js
         var maxDepth = function(root) {
             let res = [0];
-            iteration(root, 0, res);
+            recursion(root, 0, res);
             return res[0];
         };
 
-        function iteration (root, level, res) {
+        function recursion (root, level, res) {
             // 1. terminate
             if (!root) return;
             // 2. process
@@ -721,13 +750,14 @@
         };
         ```
 
+
 ### 111. 二叉树最小深度 minDepth
 - 刷题进度:
     - [x] 初版递归法(DFS)
     - [x] 自递归法(DFS)
     - [x] 迭代法(DFS)
     - [x] 迭代法(BFS).
-    - [x] 优化迭代法(BFS).
+    - [x] 优化迭代法(BFS).【最快】
 - 难度: easy
 - 题意解析: 计算**根节点**到**最近叶子节点**的**最短路径**上的**节点数**.
 - 二次读题: 注意说明**"叶子节点是指没有子节点的节点"**.
@@ -1314,4 +1344,176 @@
             if (a.val !== b.val) return false;
             return true;
         }
+        ```
+
+### 112. 路径总和
+- 刷题进度:
+    - [x] 递归法(DFS).
+    - [x] 迭代法(DFS).
+    - [x] 递归法(BFS).
+    - [x] 迭代法(BFS).
+- 难度: easy
+- 题意解析: 求树有无等同于给定值的根-》叶子的路径总和，故获取所有路径总和做匹配.
+- 输入处理: root=null 时, 返回 false.
+- 初始思路: 递归法(DFS).
+    - 思路: 在递归方法中加入"叶子节点判断条件", 获得叶子节点值之后进行匹配.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 98 %的用户
+        - 内存消耗: 37 MB, 在所有 JavaScript 提交中击败 70 %的用户
+    - 实现:
+        ``` js
+        var hasPathSum = function(root, sum) {
+            if (!root) return false;
+            return recursion (root, 0, sum);
+        };
+
+        function recursion (node, total, sum) {
+            if (!node) return false;
+            if (!node.left && !node.right) {
+                total += node.val;
+                return total===sum;
+            }
+            return recursion(node.left, total+node.val, sum) || recursion(node.right, total+node.val, sum);
+        }
+        ```
+- 第二思路: 迭代法(DFS).
+    - 思路: 在模板迭代法的 while 部分加入"叶子节点判断条件", 并将获取到的累积值加入 res.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 96.4 %的用户
+        - 内存消耗: 37.1 MB, 在所有 JavaScript 提交中击败 55 %的用户
+    - 实现:
+        ``` js
+        var hasPathSum = function(root, sum) {
+            if (!root) return false;
+            let stack = [root];
+            while (stack.length > 0) {
+                let temp = stack.pop();
+                if (!temp.left && !temp.right && temp.val === sum) {
+                    return true;
+                }
+                if (temp.right) {
+                    temp.right.val += temp.val;
+                    stack.push(temp.right);
+                }
+                if (temp.left) {
+                    temp.left.val += temp.val;
+                    stack.push(temp.left);
+                }
+            }
+            return false;
+        };
+        ```
+- 第三思路: 递归法(BFS).
+    - 思路: BFS 方式都是借助数组存储一层结果，再对整层进行处理.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 90.9 %的用户
+        - 内存消耗: 37.2 MB, 在所有 JavaScript 提交中击败 39.7 %的用户
+    - 实现:
+        ``` js
+        var hasPathSum = function(root, sum) {
+            if (!root) return false;
+            let arr = [root];
+            return recursion(arr, sum);
+        };
+
+        function recursion (nodes, sum) {
+            if (nodes.length === 0) return false;
+            let tempArr = [];
+            while (nodes.length > 0) {
+                let temp = nodes.shift();
+                if (!temp.left && !temp.right && temp.val===sum) {
+                    return true;
+                }
+                if (temp.left) {
+                    temp.left.val += temp.val;
+                    tempArr.push(temp.left);
+                }
+                if (temp.right) {
+                    temp.right.val += temp.val;
+                    tempArr.push(temp.right);
+                }
+            }
+            return recursion(tempArr, sum);
+        }
+        ```
+- 第四思路: 迭代法(BFS).
+    - 思路: BFS 模板迭代法加上"叶子节点判断"即可.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 98.3 %的用户
+        - 内存消耗: 37.1 MB, 在所有 JavaScript 提交中击败 54.6 %的用户
+    - 实现:
+        ``` js
+        var hasPathSum = function(root, sum) {
+            if (!root) return false;
+            let stack = [root];
+            while (stack.length > 0) {
+                let temp = stack.pop();
+                if (!temp.left && !temp.right && temp.val===sum) {
+                    return true;
+                }
+                if (temp.right) {
+                    temp.right.val += temp.val;
+                    stack.push(temp.right);
+                }
+                if (temp.left) {
+                    temp.left.val += temp.val;
+                    stack.push(temp.left);
+                }
+            }
+            return false;
+        };
+        ```
+
+### 110. 平衡二叉树
+- 刷题进度:
+    - [ ] xxx
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 判断二叉树是否为高度平衡二叉树（每个节点的左右两个子树的高度差绝对值不超过 1）.
+- 输入处理: 空为 true.
+- 初始思路: 递归法(DFS).
+    - 思路: 由于每个节点的左右子树高度差超过 1 就不满足条件，故递归计算每个节点的最小高度差，如果有超过 2 的马上标志为 -1 来停止迭代.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 98.4 %的用户
+        - 内存消耗: 37.4 MB, 在所有 JavaScript 提交中击败 69.3 %的用户
+    - 实现:
+        ``` js
+        var isBalanced = function(root) {
+            return recursion(root) !== -1;
+        };
+        function recursion (node) {
+            if (!node) return 0;
+            let left = recursion(node.left);
+            if (left === -1) return -1;
+            let right = recursion(node.right);
+            if (right === -1) return -1;
+            return Math.abs(left-right)<2 ? Math.max(left, right)+1: -1;
+        }
+        ```
+- 第二思路: 迭代法(DFS).
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
         ```
