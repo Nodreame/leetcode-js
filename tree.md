@@ -1478,7 +1478,7 @@
 
 ### 110. 平衡二叉树
 - 刷题进度:
-    - [ ] xxx
+    - [x] 递归法(DFS).
     - [ ] xxx
     - [ ] xxx
 - 难度: easy.
@@ -1505,15 +1505,4 @@
             if (right === -1) return -1;
             return Math.abs(left-right)<2 ? Math.max(left, right)+1: -1;
         }
-        ```
-- 第二思路: 迭代法(DFS).
-    - 思路:
-    - 复杂度分析:
-        - 时间: 
-        - 空间: 
-    - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
-    - 实现:
-        ``` js
         ```
