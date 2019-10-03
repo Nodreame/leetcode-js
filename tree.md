@@ -1506,3 +1506,99 @@
             return Math.abs(left-right)<2 ? Math.max(left, right)+1: -1;
         }
         ```
+
+### 108. 将有序数组转换为二叉搜索树
+- 刷题进度:
+    - [x] 递归法(DFS).
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 将有序一维数组转换成为一颗二叉搜索树，且要求是高度平衡的（左右子树高度差的绝对值<2）。
+- 输入处理: 空树 => 空数组.
+- 输出处理：左右子树皆空无需处理，左右子树只有一颗空时，空树为null(JS in leetcode的输出过关要求).
+- 初始思路: 递归法(DFS).
+    - 思路: 高度平衡的二叉搜索树，即每个节点的左右子树高度差绝对值<2，且数组为一维&有序，明显可用二分法. 以二分不断获取根节点，并使左右数组不断递归并加入当前根节点即可.
+        - 递归式：recursion(root, arrL, arrR)
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间:  
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 99.5 %的用户
+        - 内存消耗: 37.6 MB, 在所有 JavaScript 提交中击败 53.2 %的用户
+    - 实现:
+        ``` js
+        var sortedArrayToBST = function(nums) {
+            if (nums.length === 0) return null;
+            let numsLen = nums.length;
+            let midIdx = Math.floor(numsLen/2);
+            let root = new TreeNode(nums[midIdx]);
+            recursion(root, nums.slice(0, midIdx), nums.slice(midIdx+1, numsLen));
+            return root;
+        };
+
+        function recursion (root, arrL, arrR) {
+            if (arrL.length === 0 && arrR.length === 0) return;
+            let lenL = arrL.length;
+            let midIdxL = Math.floor(lenL/2);
+            let nodeL = null;
+            if (arrL[midIdxL]!==undefined) {
+                nodeL = new TreeNode(arrL[midIdxL]);
+                recursion(nodeL, arrL.slice(0, midIdxL), arrL.slice(midIdxL+1, lenL));
+            }
+            root.left = nodeL;
+            let lenR = arrR.length;
+            let midIdxR = Math.floor(lenR/2);
+            let nodeR = null;
+            if (arrR[midIdxR]!==undefined) {
+                nodeR = new TreeNode(arrR[midIdxR]);
+                recursion(nodeR, arrR.slice(0, midIdxR), arrR.slice(midIdxR+1, lenR));   
+            }
+            root.right = nodeR;
+        }
+        ```
+    - 抽出calc方法版本：
+        ``` js
+        var sortedArrayToBST = function(nums) {
+            let res = calc(nums);
+            recursion(res[0], res[1], res[2]);
+            return res[0];
+        };
+
+        function recursion (root, arrL, arrR) {
+            if (arrL.length === 0 && arrR.length === 0) return;
+            let resL = calc(arrL);
+            recursion(resL[0], resL[1], resL[2]);
+            root.left = resL[0];
+
+            let resR = calc(arrR);
+            recursion(resR[0], resR[1], resR[2]);
+            root.right = resR[0];
+        }
+
+        function calc (arr){
+            let len = arr.length;
+            let midIdx = Math.floor(len/2);
+            let [root, arrL, arrR] = [null, [], []];
+            if (arr[midIdx] !== undefined) {
+                root = new TreeNode(arr[midIdx]);
+                arrL = arr.slice(0, midIdx);
+                arrR = arr.slice(midIdx+1, len);        
+            }
+            return [root, arrL, arrR];
+        }
+        ```
+    - 最简版本：
+        ``` js
+        var sortedArrayToBST = function(nums) {
+            return recursion(nums, 0, nums.length-1);
+        };
+
+        function recursion (nums, left, right) {
+            if (left > right) return null;
+            let midIdx = Math.floor((right+left)/2);
+            let root = new TreeNode(nums[midIdx]);
+            root.left = recursion(nums, left, midIdx-1);
+            root.right = recursion(nums, midIdx+1, right);
+            return root;
+        }
+        ```
