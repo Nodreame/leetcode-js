@@ -1476,6 +1476,106 @@
         };
         ```
 
+### 113. 路径总和 II
+- 刷题进度:
+    - [x] 递归法(DFS).
+    - [x] 优化递归法(DFS).【首选】
+    - [x] 迭代法(BFS).
+- 难度: medium.
+- 题意解析: 类似112. 路径总和， 不过要求打印所有结果详情.
+- 输入处理: 空树返回[].
+- 初始思路: 递归法(DFS).
+    - 思路: 在每个节点上存储当前数组;
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n^2). 每个节点添加一个存储数组，数组长度最差情况下为n.
+    - Leetcode 结果:
+        - 执行用时: 88 ms, 在所有 JavaScript 提交中击败了 94.5 %的用户
+        - 内存消耗: 46.5 MB, 在所有 JavaScript 提交中击败 5.77 %的用户
+    - 实现:
+        ``` js
+        var pathSum = function(root, sum) {
+            let res = [];
+            if (!root) return res;
+            root.arr = [root.val]
+            recursion(root, res, sum);
+            return res;
+        };
+
+        function recursion (node, res, sum) {
+            if (!node.left && !node.right) {
+                if (node.arr.reduce((a,b)=>a+b) === sum) res.push(node.arr);
+            }
+            if (node.left) {
+                node.left.arr = node.arr.concat(node.left.val);
+                recursion(node.left, res, sum);
+            }
+            if (node.right) {
+                node.right.arr = node.arr.concat(node.right.val);
+                recursion(node.right, res, sum);
+            }
+        }
+        ```
+- 第二思路: 优化递归法(DFS).
+    - 思路: 用一个临时数组存储当前元素，如果匹配再复制该数组插入结果，其他位置也稍有优化.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 100 %的用户
+        - 内存消耗: 36.9 MB, 在所有 JavaScript 提交中击败 96 %的用户
+    - 实现:
+        ``` js
+        var pathSum = function(root, sum) {
+            let res = [];
+            recursion(root, res, [], sum);
+            return res;
+        };
+
+        function recursion (node, res, saveArr, sum) {
+            if (!node) return;
+            saveArr.push(node.val); // save
+            if (!node.left && !node.right && node.val===sum) { // company with final one
+                res.push(saveArr.slice(0));  // copy arr
+            }
+            sum -= node.val; // calc
+            if (node.left) recursion(node.left, res, saveArr, sum);
+            if (node.right) recursion(node.right, res, saveArr, sum);
+            saveArr.pop(); // pop after finish 
+        }
+        ```
+- 第三思路: 迭代法(BFS).
+    - 思路: 思路同DFS递归法.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n^2).
+    - Leetcode 结果:
+        - 执行用时: 92 ms, 在所有 JavaScript 提交中击败了 93 %的用户
+        - 内存消耗: 41 MB, 在所有 JavaScript 提交中击败 48 %的用户
+    - 实现:
+        ``` js
+        var pathSum = function(root, sum) {
+            let res = [];
+            if (!root) return res;
+            root.arr = [root.val];
+            let stack = [root];
+            while (stack.length > 0) {
+                let node = stack.pop();
+                if (!node.right && !node.left && (node.arr.reduce((a,b)=>a+b)===sum)) res.push(node.arr);
+                if (node.right) {
+                    node.right.arr = node.arr.concat(node.right.val);
+                    stack.push(node.right);
+                }
+                if (node.left) {
+                    node.left.arr = node.arr.concat(node.left.val);
+                    stack.push(node.left);
+                }
+            }
+            return res;
+        };
+        ```
+
+
 ### 110. 平衡二叉树
 - 刷题进度:
     - [x] 递归法(DFS).
