@@ -1602,3 +1602,327 @@
             return root;
         }
         ```
+
+### 235. 二叉搜索树的最近公共祖先
+- 刷题进度:
+    - [x] 二分自递归
+    - [x] 二分循环
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 在给定二叉搜索树（树中值不重复）中，找到最靠近两个给定节点的公共祖先，可为其本身. 
+    - Tip: 二叉搜索树性质，左<根，右>根, 每个节点具有相同性质. 故可以通过当前值与给定值大小对比判定.
+- 输入处理: 空树即结果为null.
+- 初始思路: 二分自递归
+    - 思路: 指针放在当前节点上，根据判断结果向下移动节点.
+    - 复杂度分析:
+        - 时间: O(logn). 最大执行树的高度次，故为logn.
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗: 43.6 MB, 在所有 JavaScript 提交中击败 76.85 %的用户
+    - 实现:
+        ``` js
+        var lowestCommonAncestor = function(root, p, q) {
+            let [rootVal, pVal, qVal] = [root.val, p.val, q.val];
+            if (pVal > rootVal && qVal > rootVal) {
+                return lowestCommonAncestor(root.right, p, q);
+            } else if (pVal < rootVal && qVal < rootVal) {
+                return lowestCommonAncestor(root.left, p, q);
+            } else {
+                return root;
+            }
+        };
+        ```
+- 第二思路: 二分循环
+    - 思路: 用循环复现上面的递归.
+    - 复杂度分析:
+        - 时间: O(logn).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 88 ms, 在所有 JavaScript 提交中击败了 97.8 %的用户
+        - 内存消耗: 43.4 MB, 在所有 JavaScript 提交中击败 88.9 %的用户
+    - 实现:
+        ``` js
+        var lowestCommonAncestor = function(root, p, q) {
+            let [pVal, qVal] = [p.val, q.val];
+            while (root !== null) {
+                let rootVal = root.val;
+                if (rootVal < pVal && rootVal < qVal) {
+                    root = root.right;
+                } else if (rootVal > pVal && rootVal > qVal) {
+                    root = root.left;
+                } else {
+                    return root;
+                }
+            }
+            return null;
+        };
+        ```
+
+### 257. 二叉树的所有路径
+- 刷题进度:
+    - [x] 递归法(DFS).
+    - [x] 迭代法(DFS).
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 获取二叉树所有根节点到叶子节点的路径.
+- 输入处理: 空树返回空数组.
+- 初始思路: 递归法(DFS).
+    - 思路: 用DFS的方式推进累积字符串数组.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn). 暂存最后一层结果.
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 96.5 %的用户
+        - 内存消耗: 34.2 MB, 在所有 JavaScript 提交中击败 78 %的用户
+    - 实现:
+        ``` js
+        var binaryTreePaths = function(root) {
+            if (!root) return [];
+            let res = [];
+            recursion(root, res, root.val+'');
+            return res;
+        };
+
+        function recursion (node, res, tmpS) {
+            if (!node.left && !node.right) {
+                res.push(tmpS);
+                return;
+            }
+            if (node.left) recursion(node.left, res, tmpS+'->'+node.left.val);
+            if (node.right) recursion(node.right, res, tmpS+'->'+node.right.val);
+        }
+        ```
+- 第二思路: 迭代法(DFS).
+    - 思路: 模仿递归法(DFS).
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时: 56 ms, 在所有 JavaScript 提交中击败了 99.5 %的用户
+        - 内存消耗: 34.3 MB, 在所有 JavaScript 提交中击败 76 %的用户
+    - 实现:
+        ``` js
+        var binaryTreePaths = function(root) {
+            if (!root) return [];
+            let res = [];
+            root.path = root.val + '';
+            let stack = [root];
+            while (stack.length > 0) {
+                let tmp = stack.pop();
+                if (!tmp.left && !tmp.right) {
+                    res.push(tmp.path);
+                }
+                if (tmp.right) {
+                    tmp.right.path = tmp.path + '->' + tmp.right.val;
+                    stack.push(tmp.right);
+                }
+                if (tmp.left) {
+                    tmp.left.path = tmp.path + '->' + tmp.left.val;
+                    stack.push(tmp.left);
+                }
+            }
+            return res;
+        };
+        ```
+
+### 404. 左叶子之和
+- 刷题进度:
+    - [x] 递归法(DFS).
+    - [x] 迭代法(DFS).
+    - [x] 迭代法(BFS).
+    - [x] 递归法(BFS).
+- 难度: easy.
+- 题意解析: 给定二叉树，求所有左叶子节点之和;
+- 输入处理: 空树返回0.
+- 初始思路: 递归法(DFS).
+    - 思路: 用数组缓存结果.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.3 %的用户
+        - 内存消耗: 34.1 MB, 在所有 JavaScript 提交中击败 55.5 %的用户
+    - 实现:
+        ``` js
+        var sumOfLeftLeaves = function(root) {
+            let res = [0];
+            recursion(root, false, res);
+            return res[0];
+        };
+
+        function recursion(node, isLeft, res) {
+            if (!node) return;
+            if (!node.left && !node.right && isLeft) {
+                res[0] += node.val;
+            }
+            if (node.left) recursion(node.left, true, res);
+            if (node.right) recursion(node.right, false, res);
+        }
+        ```
+- 第二思路: 迭代法(DFS). 
+    - 思路: 用迭代实现DFS递归思路.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.3 %的用户
+        - 内存消耗: 33.7 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var sumOfLeftLeaves = function(root) {
+            if (!root) return 0;
+            let stack = [root];
+            let res = 0;
+            while (stack.length > 0) {
+                let tmp = stack.pop();
+                if (!tmp.left && !tmp.right && tmp.isLeft) res += tmp.val;
+                if (tmp.right) stack.push(tmp.right);            
+                if (tmp.left) {
+                    tmp.left.isLeft = true;
+                    stack.push(tmp.left);            
+                }
+            }
+            return res;
+        };
+        ```
+- 第三思路: 迭代法(BFS).
+    - 思路: 层次遍历.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn). 队列最多存储最底层元素.
+    - Leetcode 结果:
+        - 执行用时: 56 ms, 在所有 JavaScript 提交中击败了 98.6 %的用户
+        - 内存消耗: 34.1 MB, 在所有 JavaScript 提交中击败 55.6 %的用户
+    - 实现:
+        ``` js
+        var sumOfLeftLeaves = function(root) {
+            if (!root) return 0;
+            let res = 0;
+            let queue = [root];
+            while (queue.length > 0) {
+                for (let i=0, len=queue.length; i<len; i++) {
+                    let tmp = queue.shift();
+                    if (!tmp.left && !tmp.right && tmp.isLeft) res += tmp.val;
+                    if (tmp.left) {
+                        tmp.left.isLeft = true;
+                        queue.push(tmp.left);
+                    }
+                    if (tmp.right) queue.push(tmp.right);
+                }
+            }
+            return res;
+        };
+        ```
+- 第四思路: 递归法(BFS).
+    - 思路: 层次遍历.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(logn). 队列存储.
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.3 %的用户
+        - 内存消耗: 34.8 MB, 在所有 JavaScript 提交中击败 22.2 %的用户
+    - 实现:
+        ``` js
+        var sumOfLeftLeaves = function(root) {
+            if (!root) return 0;
+            return recursion([root]);
+        };
+
+        function recursion (nodeArr) {
+            if (nodeArr.length === 0) return 0;
+            let res = 0;
+            let arr = [];
+            for (let i=0, len = nodeArr.length; i<len; i++) {
+                let tmp = nodeArr[i];
+                if (!tmp.left && !tmp.right && tmp.isLeft) res+=tmp.val;
+                if (tmp.left) {
+                    tmp.left.isLeft = true;
+                    arr.push(tmp.left);
+                }
+                if (tmp.right) arr.push(tmp.right);
+            }
+            return recursion(arr) + res;
+        }
+        ```
+
+### 501. 二叉搜索树中的众数
+- 刷题进度:
+    - [x] 先递归(DFS)，再比对.
+    - [x] 中序遍历过程中比对赋值(不适用额外空间).
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 遍历特别定义的二叉搜索树
+- 输入处理: 空树为 [].
+- 初始思路: 先递归(DFS)，再比对.
+    - 思路: 递归用于累计计数，通过比对获取结果.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 96.9 %的用户
+        - 内存消耗: 41.6 MB, 在所有 JavaScript 提交中击败 57.7 %的用户
+    - 实现:
+        ``` js
+        var findMode = function(root) {
+            if(!root) return [];
+            let map = new Map();
+            recursion(root, map);
+            let res = [];
+            let max = 0;
+            for (let key of map.keys()) {
+                // console.log(`key:${key}, value: ${map.get(key)}.`);
+                if (map.get(key) > max) {
+                    res.length = 0;
+                    max = map.get(key);
+                    res.push(key);
+                } else if (map.get(key) === max) {
+                    res.push(key);
+                }
+            }
+            return res;
+        };
+
+        function recursion (node, map) {
+            if (!node) return;
+            map.set(node.val, map.has(node.val)? map.get(node.val)+1: 1);
+            if (node.left) recursion(node.left, map);
+            if (node.right) recursion(node.right, map);
+        }
+        ```
+- 第二思路: 中序遍历过程中比对赋值(不适用额外空间).
+    - 思路: 利用二叉搜索树性质，中序遍历即从小到大遍历，无需转数据即可逐步计算。
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 96.9 %的用户
+        - 内存消耗: 40.3 MB, 在所有 JavaScript 提交中击败 84.6 %的用户
+    - 实现:
+        ``` js
+        var findMode = function(root) {
+            if (!root) return [];
+            let res = [];
+            let params = [0, null, 0]; // maxCount, currVal, currCount
+            recursion(root, res, params);
+            return res;
+        };
+
+        function recursion (node, res, params) {
+            if (node.left) recursion(node.left, res, params);
+            if (node.val === params[1]) {
+                params[2]++;
+            } else {
+                params[1] = node.val;
+                params[2] = 1;
+            }
+            if (params[0] === params[2]) {
+                res.push(node.val);
+            } else if (params[0] < params[2]) {
+                params[0] = params[2];
+                res.length = 0;
+                res.push(node.val);
+            }
+            if (node.right) recursion(node.right, res, params);
+        }
+        ```
