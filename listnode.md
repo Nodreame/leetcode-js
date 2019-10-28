@@ -82,3 +82,117 @@
 - from: 极客时间《数据结构与算法之美》第七篇|链表（下）[https://time.geekbang.org/column/article/fda84f8a5e99425f9ccf15c8076313b7/share?code=QL4k0yL62vmfx42gu7VS9i592A2AV6EbqBJEXwyI22Y%3D] 课后题04.
 ### 876. 求链表的中间结点
 - from: 极客时间《数据结构与算法之美》第七篇|链表（下）[https://time.geekbang.org/column/article/fda84f8a5e99425f9ccf15c8076313b7/share?code=QL4k0yL62vmfx42gu7VS9i592A2AV6EbqBJEXwyI22Y%3D] 课后题05.
+
+### 237. 删除链表中的节点
+- 刷题进度:
+    - [x] 直接next
+    - [x] "替身攻击"
+- 难度: easy
+- 题意解析: 给定当前节点，要求删除而并不给目标链表. 看答案后知道要求在不给定目标链表的情况下删除给定节点(有点东西).
+- 输入处理: 无.
+- 初始思路: 直接next.
+    - 思路: 想用 node = node.next, 发现无效果，原因有大佬给出来了[对象赋值](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/solution/jsxiao-keng-by-chitanda-eru/)，也就是所直接对象赋值改变的只是指向的对象地址，只有直接改变对象数据才有用，于是我们使用Object.assign替换对象的val和next属性.
+    - 复杂度分析:
+        - 时间: O(1)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗: 35.6 MB, 在所有 JavaScript 提交中击败 55 %的用户
+    - 实现:
+        ``` js
+        var deleteNode = function(node) {
+          Object.assign(node, node.next);
+        };
+        ```
+- 第二思路: "替身攻击"
+    - 思路: 网友的思路，将node.next的值赋给当前节点node, 然后将当前节点node的next指向下下个节点
+    - 复杂度分析:
+        - 时间: O(1)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗: 35.7 MB, 在所有 JavaScript 提交中击败 43 %的用户
+    - 实现:
+        ``` js
+        var deleteNode = function(node) {
+            node.val = node.next.val;
+            node.next = node.next.next;
+        };
+        ```
+
+### 206. 反转链表
+- 刷题进度:
+    - [x] 迭代法
+    - [x] 递归法
+- 难度: easy.
+- 题意解析: 反转给定链表.
+- 输入处理: head为空直接返回空.
+- 初始思路: 迭代法
+    - 思路: 设置一个前指针prev和推进指针curr，推进直到curr为空，返回prev.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 99 %的用户
+        - 内存消耗: 34.9 MB, 在所有 JavaScript 提交中击败 51 %的用户
+    - 实现:
+        ``` js
+        var reverseList = function(head) {
+            let [prev, curr] = [null, head];
+            while (curr) {
+                let tmp = curr.next;    // 1. 临时存储当前指针后续内容
+                curr.next = prev;       // 2. 反转链表
+                prev = curr;            // 3. 接收反转结果
+                curr = tmp;             // 4. 接回临时存储的后续内容
+            }
+            return prev;
+        };
+        ```
+    - 简化实现：
+        ``` js
+        var reverseList = function(head) {
+            let [prev, curr] = [null, head];
+            while (curr) {
+                [curr.next, prev, curr] = [prev, curr, curr.next];
+            }
+            return prev;
+        };
+        ```
+- 第二思路: 递归法
+    - 思路: 类似迭代，初始传递前指针prev和当前指针curr(初始即head)到递归方法中，curr为空则返回prev.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 96 %的用户
+        - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 27 %的用户
+    - 实现:
+        ``` js
+        var reverseList = function(head) {
+            return reverse(null, head);
+        };
+
+        function reverse (prev, curr) {
+            if (!curr) return prev;
+            let tmp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = tmp;
+            return reverse(prev, curr);
+        }
+        ```
+    - 简化实现:
+        ``` js
+        var reverseList = function(head) {
+            return reverse(null, head);
+        };
+
+        function reverse (prev, curr) {
+            if (!curr) return prev;
+            let tmp = curr.next;
+            curr.next = prev;
+            // prev = curr;
+            // curr = tmp;
+            return reverse(curr, tmp);
+        }
+        ```
