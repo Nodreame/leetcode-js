@@ -196,3 +196,152 @@
             return reverse(curr, tmp);
         }
         ```
+
+### 876. 链表的中间结点
+- 刷题进度:
+    - [x] 快慢指针
+    - [x] 循环计数
+    - [ ] xxx
+- 难度: easy
+- 题意解析: 给定带头节点的非空链表（实际本题用例不带头），返回链表的中间节点，链表长度为1~100.
+- 输入处理: 链表长度为1的情况直接返回.
+- 初始思路: 快慢指针.
+    - 思路: 快指针步伐是慢指针的两倍，快指针&快指针的next存在时可以继续推进.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 55 %的用户
+        - 内存消耗: 33.6 MB, 在所有 JavaScript 提交中击败 66 %的用户
+    - 实现:
+        ``` js
+        var middleNode = function(head) {
+            let [fast, slow] = [head, head];
+            while (fast && fast.next) {
+                fast = fast.next.next;
+                slow = slow.next;
+            }
+            return slow;
+        };
+        ```
+- 第二思路: 两次循环.
+    - 思路: 第一轮计数并取目标下标，第二轮循环到下标.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 67 %的用户
+        - 内存消耗: 33.6 MB, 在所有 JavaScript 提交中击败 71 %的用户
+    - 实现:
+        ``` js
+        var middleNode = function(head) {
+            let count = 0;
+            let curr = head;
+            while (curr) {
+                curr = curr.next;
+                count++;
+            }
+            let idx = Math.floor(count/2);
+            for (let i=0; i<idx; i++) {
+                head = head.next;
+            }
+            return head;
+        };
+        ```
+
+### 148. 排序链表
+- 刷题进度:
+    - [x] 归并递归法(空间复杂度不符合题意)
+    - [x] 归并迭代法
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 对给定链表进行排序，要求时间复杂度为O(nlogn), 空间复杂度为O(1).
+- 输入处理: 给定链表为空 & 链表长度为1时，直接返回.
+- 初始思路: 归并递归法.
+    - 思路: 不断二分再归并.
+    - 复杂度分析:
+        - 时间: O(nlogn).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时: 116 ms, 在所有 JavaScript 提交中击败了 81 %的用户
+        - 内存消耗: 41.8 MB, 在所有 JavaScript 提交中击败 32 %的用户
+    - 实现:
+        ``` js
+        var sortList = function(head) {
+            if (!head || !head.next) return head;
+            let [slow, fast, mid] = [head, head.next, null];
+            while (fast && fast.next) {
+                fast = fast.next.next;
+                slow = slow.next;
+            }
+            [mid, slow.next] = [slow.next, null];
+            
+            let [left, right] = [sortList(head), sortList(mid)];
+            let curr = res = new ListNode(null);
+            while (left && right) {
+                if (left.val <= right.val) {
+                    curr.next = left;
+                    left = left.next;
+                } else {
+                    curr.next = right;
+                    right = right.next;
+                }
+                curr = curr.next;
+            }
+            curr.next = left ? left : right;
+            return res.next;
+        };
+        ```
+- 第二思路: 归并迭代法
+    - 思路: 两两比较合并.
+    - 复杂度分析:
+        - 时间: O(nlogn)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 264 ms, 在所有 JavaScript 提交中击败了 23.8 %的用户
+        - 内存消耗: 49.2 MB, 在所有 JavaScript 提交中击败 8.8 %的用户
+    - 实现:
+        ``` js
+        var sortList = function(head) {
+            if (!head || !head.next) return head;   
+            let len = 0;
+            let tmp = head;
+            while (tmp) {
+                len++;
+                tmp = tmp.next;
+            }
+            let res = new ListNode(null);
+            res.next = head;
+            let step = 1;
+            while (step < len) {
+                let [prev, curr] = [res, res.next];
+                while (curr) {
+                    let [h1, h2, i] = [curr, null, step];
+                    while (curr && i) {
+                        [curr, i] = [curr.next, i-1];
+                    }
+                    if (i) break;
+                    [h2, i] = [curr, step];
+                    while (curr && i) {
+                        [curr, i] = [curr.next, i-1];
+                    }
+                    let [c1, c2] = [step, step-i];
+                    while (c1 && c2) {
+                        if (h1.val < h2.val) {
+                            [prev.next, h1, c1] = [h1, h1.next, c1-1];
+                        } else {
+                            [prev.next, h2, c2] = [h2, h2.next, c2-1];
+                        }
+                        prev = prev.next;
+                    }
+                    prev.next = c1? h1: h2;
+                    while (c1>0 || c2>0) {
+                        [prev, c1, c2] = [prev.next, c1-1, c2-1];
+                    }
+                    prev.next = curr;
+                }
+                step *=2;
+            }
+            return res.next;
+        };
+        ```
