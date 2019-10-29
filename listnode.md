@@ -345,3 +345,78 @@
             return res.next;
         };
         ```
+
+### 24. 两两交换链表中的节点
+- 刷题进度:
+    - [x] 迭代法.
+    - [ ] 递归法.
+- 难度: medium.
+- 题意解析: 将给定的链表的两两节点进行交换，要求发生实际节点交换.
+- 输入处理: 输入链表为空及长度为1时，直接返回输入值.
+- 初始思路: 迭代法.
+    - 思路: 使用哨兵头节点， 推进指针curr从当前哨兵节点位置出发，故curr.next=head，确认接下来两个节点(curr.next, curr.next.next)是否为空
+        - 若不为空则开始交换: a为curr.next, b为curr.next.next, 同时发生curr.next=b, a.next=b.next, b.next=a; curr推进两格; 循环继续;
+        - 若有一个或一个以上为空则直接返回哨兵head节点的next;
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 86 %的用户
+        - 内存消耗: 33.9 MB, 在所有 JavaScript 提交中击败 12.3 %的用户
+    - 实现:
+        ``` js
+        var swapPairs = function(head) {
+            if (!head || !head.next) return head;
+            let res = new ListNode(null);
+            res.next = head;
+            let curr = res;
+            while (curr.next && curr.next.next) {
+                let [first, second] = [curr.next, curr.next.next]; // 1, 2
+                [curr.next, first.next, second.next] = [second, second.next, first];   // null->2, 1->3, 2->1
+                curr = curr.next.next; // 当前指针推进两格
+            }
+            return res.next;
+        };
+        ```
+- 第二思路: 递归法.
+    - 思路: 推进指针curr从哨兵节点出发，故curr.next=head，将curr传递给递归函数，并在递归函数中不断推进.
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(n)
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 61.6 %的用户
+        - 内存消耗: 33.8 MB, 在所有 JavaScript 提交中击败 13.6 %的用户
+    - 实现:
+        ``` js
+        var swapPairs = function(head) {
+            if (!head || !head.next) return head;
+            let res = new ListNode(null);
+            res.next = head;
+            recursion(res);
+            return res.next;
+        };
+
+        function recursion (curr) {
+            if (!curr.next || !curr.next.next) return;
+            let [fir, sec] = [curr.next, curr.next.next];
+            [curr.next, fir.next, sec.next] = [sec, sec.next, fir];
+            curr = curr.next.next;
+            recursion(curr);
+        }
+        ```
+- 第三思路: 自递归法.
+    - 思路: 明确输入、终止条件、返回值、递归方法逻辑
+        - 输入：自递归的输入恒为第一个节点;
+        - 终止条件：输入为空或者输入.next为空;
+        - 返回值：已经完成交换的后续链表;
+        - 递归方法逻辑：同上面方法，2.next=1 && 1.next=已完成交换的后续链表 && 
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(n)
+    - Leetcode 结果:
+        - 执行用时:  ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗:  MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+
+        ```
