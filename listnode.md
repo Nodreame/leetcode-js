@@ -633,3 +633,169 @@
     - 实现:
         ``` js
         ```
+
+### 817. 链表组件
+- 刷题进度:
+    - [x] 直接法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 给定链表 head 和 数组 G，其中数组 G 的任何一个元素都存在于链表 head 中，求数组 G 中组件的个数.
+    - 组件定义：链表中一段最长连续节点值的集合.
+- 输入处理:    
+    - LeetCode 上的分析：
+        - 1，由于数组G是链表head所有元素值的子集，所以数组G中的任何元素都能在链表中找到（这TM不是废话？）;
+        - 2，因此G中的每个元素就可以看做是链表head的一个子链表，即G中的每个元素都是链表head的组件；
+        - 3，但是此时的组件还不敢称之为真正的组件，因为完全存在这样一种可能：
+            - 3.1 G中任意组合的两个元素a, b构成了一个更长的head的子链表 a->b ，
+            - 3.2 此时根据题意 a->b 比 a 和 b 都要长，所以 a->b 包涵了 a、b 成为真正的组件，原来的a、b 就不能算组件了，
+            - 3.3 如此一来问题变成了 对于给定的集合G，G中所有的元素能构成多少个head中相连的子链表？
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n)
+        - 空间: O(1)
+    - Leetcode 结果:
+        - 执行用时: 392ms, 在所有 JavaScript 提交中击败了 19 %的用户
+        - 内存消耗: 38.2MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var numComponents = function(head, G) {
+            let count = 0;
+            while (head) {
+                if (G.indexOf(head.val) !== -1) { // 当前节点值存在于 G 中
+                    if (!head.next || G.indexOf(head.next.val) === -1) count++;  // next 值存在且不在 G 中，计数+1
+                }
+                head = head.next;
+            }
+            return count;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 86. 分隔链表
+- 刷题进度:
+    - [x] 双链表推进
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 给定链表和一个特定值 x , 用 x 分割链表，使小于 x 的节点在其他节点前面
+- 输入处理: 无需.
+- 初始思路: 双链表推进 
+    - 思路:
+        - 两个链表dummyHead1、dummyHead2分别存储小于x的节点和其他节点
+        - 用 curr1、curr2 推进curr1 尾接 dummyHead2.next, 返回 dummyHead1.next
+    - 复杂度分析:
+        - 时间: O(n). 依次推进遍历.
+        - 空间: O(n). 双链表存储占用.
+    - Leetcode 结果:
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 50 %的用户
+        - 内存消耗: 34.1 MB, 在所有 JavaScript 提交中击败 41 %的用户
+    - 实现:
+        ``` js
+        var partition = function(head, x) {
+            let dummyHead1 = new ListNode(0);
+            let dummyHead2 = new ListNode(0);
+            let curr1 = dummyHead1;
+            let curr2 = dummyHead2;
+            while (head) {
+                if (head.val < x) {
+                    curr1.next = head;
+                    head = head.next;
+                    curr1 = curr1.next;
+                    curr1.next = null;
+                } else {
+                    curr2.next = head;
+                    head = head.next;
+                    curr2 = curr2.next;
+                    curr2.next = null;
+                }
+            }
+            curr1.next = dummyHead2.next;
+            return dummyHead1.next;
+        };
+        ```
+- 第二思路: 
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 143. 重排链表
+- 刷题进度:
+    - [ ] 二分链表重组.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 给定单链表L: L0->L1->L2->L3->...->L(n-1)->L(n), 将其重排成: L0->L(n)->L1->L(n-1)->L2->....
+- 输入处理: !head || !head.next 直接返回 head
+- 初始思路: 二分链表重组.
+    - 思路:
+        - 1. 快慢针找到中点
+        - 2. 拆分链表
+        - 3. 后半链表反转
+        - 4. 两链表合并
+    - 复杂度分析:
+        - 时间: O(n). 快慢针 O(n/2) + 反转 O(n/2 * log(n/2)) + 合并链表 O(n/2)
+        - 空间: O(n). 后半部分链表空间 + 反转递归空间
+    - Leetcode 结果:
+        - 执行用时: 108 ms, 在所有 JavaScript 提交中击败了 57 %的用户
+        - 内存消耗: 41.8 MB, 在所有 JavaScript 提交中击败 41.7 %的用户
+    - 实现:
+        ``` js
+        var reorderList = function(head) {
+            if (!head || !head.next) return head;
+            let [fast, slow, mid] = [head, head, null];
+            while (fast && fast.next) [fast, slow] = [fast.next.next, slow.next];
+            [mid, slow.next] = [slow.next, null];
+            
+            let sndLinkList =  reverse(mid);
+            
+            let curr = head;
+            while (curr && sndLinkList) {
+                let tmp = curr.next;
+                curr.next = sndLinkList;
+                sndLinkList = sndLinkList.next;
+                curr = curr.next;
+                curr.next = tmp;
+                curr = curr.next;
+            }
+            // return head;
+        };
+
+        function reverse (head) {
+            if (!head || !head.next) return head;
+            let next = head.next;
+            let rHead = reverse(next);
+            head.next = null;
+            next.next = head;
+            return rHead;
+        }
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
