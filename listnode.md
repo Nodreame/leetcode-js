@@ -272,8 +272,8 @@
 ### 148. 排序链表
 - 刷题进度:
     - [x] 归并递归法(空间复杂度不符合题意)
-    - [x] 归并迭代法
-    - [ ] xxx
+    - [x] 归并迭代法(TODO: 优化)
+    - [ ] TODO：是否存在尾递归方法
 - 难度: medium
 - 题意解析: 对给定链表进行排序，要求时间复杂度为O(nlogn), 空间复杂度为O(1).
 - 输入处理: 给定链表为空 & 链表长度为1时，直接返回.
@@ -363,6 +363,7 @@
 - 刷题进度:
     - [x] 迭代法.
     - [x] 自递归法.
+    - [ ] TODO: 是否存在尾递归优化
 - 难度: medium.
 - 题意解析: 将给定的链表的两两节点进行交换，要求发生实际节点交换.
 - 输入处理: 输入链表为空及长度为1时，直接返回输入值.
@@ -843,6 +844,46 @@
             while (curr) [curr.next, prev, curr] = [prev, curr, curr.next];
             return prev;
         }
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 160. 相交链表
+- 刷题进度:
+    - [x] 【热评解答】链表互接补差
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var getIntersectionNode = function(headA, headB) {
+            if (!headA || !headB) return null;
+            let [currA, currB] = [headA, headB];
+            while (currA !== currB) {
+                currA = currA ? currA.next : headB;
+                currB = currB ? currB.next : headA;
+            }
+            return currA;
+        };
         ```
 - 第二思路:
     - 思路:
