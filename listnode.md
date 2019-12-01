@@ -799,3 +799,59 @@
     - 实现:
         ``` js
         ```
+
+### 445. 两数相加 II
+- 刷题进度:
+    - [ ] xxx
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js（未通过）
+        var addTwoNumbers = function(l1, l2) {
+            // 反转双链表，然后累加
+            // 头插
+            if (!l1) return l2;
+            if (!l2) return l1;
+            let [rL1, rL2] = [reverse(l1), reverse(l2)];
+            
+            let res = new ListNode(0);
+            let levelUpNum = 0;
+            while (rL1 || rL2 || levelUpNum) {
+                let [v1, v2] = [rL1 ? rL1.val : 0, rL2 ? rL2.val : 0]
+                let tmpVal = (v1 + v2 + levelUpNum) % 10;
+                levelUpNum = tmpVal > 9 ? 1 : 0;
+                let nowNode = new ListNode(tmpVal);
+                nowNode.next = res.next;
+                res.next = nowNode;
+            }
+            return res.next;
+        };
+
+        function reverse (head) {
+            let [prev, curr] = [null, head];
+            while (curr) [curr.next, prev, curr] = [prev, curr, curr.next];
+            return prev;
+        }
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
