@@ -601,8 +601,8 @@
             res.next = head;
             let prev = res;
             while (prev.next) {
-                let [start, end] = [prev.next, prev];
-                for (let i=0; i<k && end; i++) end = end.next;
+                let [start, end] = [prev.next, prev.next];
+                for (let i=1; i<k && end; i++) end = end.next;
                 if (!end) break; // 第(k-1)个节点为空
                 let next = end.next; // 获取反转范围后面部分
                 end.next = null; // 切断反转范围后面部分
@@ -883,6 +883,87 @@
                 currB = currB ? currB.next : headA;
             }
             return currA;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 83. 删除排序链表中的重复元素
+- 刷题进度:
+    - [ ] 前针遍历推进法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 给定有序链表，去除链表中重复元素.
+- 输入处理: !head || !head.next -> return head
+- 初始思路: 前针遍历推进法.
+    - 思路: 对比当前元素及下一个元素并持续推进，如果相等则用 n.next = n.next.next 跳过下一个元素.
+    - 复杂度分析:
+        - 时间: O(n).遍历整个链表.
+        - 空间: O(1).无额外.
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 93.7 %的用户
+        - 内存消耗: 35.9 MB, 在所有 JavaScript 提交中击败 40.9 %的用户
+    - 实现:
+        ``` js
+        var deleteDuplicates = function(head) {
+            if (!head || !head.next) return head;
+            let prev = head;
+            while (prev && prev.next) {
+                if (prev.val === prev.next.val) prev.next = prev.next.next;
+                else prev = prev.next;
+            }
+            return head;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 203. 移除链表元素
+- 刷题进度:
+    - [ ] 哨兵前针推进.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 给定链表和指定值，从链表中删除值等于指定值的节点.
+- 输入处理: 无需处理.
+- 初始思路: 哨兵前针推进.
+    - 思路: 由于有可能删除第一个节点故加上哨兵节点，剩余与题目 83 相似.
+    - 复杂度分析:
+        - 时间: O(n). 遍历耗时.
+        - 空间: O(1). 无额外.
+    - Leetcode 结果:
+        - 执行用时: 80 ms, 在所有 JavaScript 提交中击败了 92.5 %的用户
+        - 内存消耗: 37.2 MB, 在所有 JavaScript 提交中击败 42 %的用户
+    - 实现:
+        ``` js
+        var removeElements = function(head, val) {
+            let res = new ListNode(-1);
+            res.next = head;
+            let prev = res;
+            while (prev.next) {
+                if (prev.next.val === val) prev.next = prev.next.next;
+                else prev = prev.next;
+            }
+            return res.next;
         };
         ```
 - 第二思路:
