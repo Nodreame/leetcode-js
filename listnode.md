@@ -637,12 +637,21 @@
 
 ### 817. 链表组件
 - 刷题进度:
-    - [x] 直接法.
-    - [ ] xxx
-    - [ ] xxx
+    - [x] 两次检索法.
+    - [x] 一次检索 + flag.
+    - [x] Set查值 + flag.
 - 难度: medium
 - 题意解析: 给定链表 head 和 数组 G，其中数组 G 的任何一个元素都存在于链表 head 中，求数组 G 中组件的个数.
-    - 组件定义：链表中一段最长连续节点值的集合.
+    - "组件"定义：链表中一段最长连续节点值的集合. 详见 [CoderYQ 的评论] (https://leetcode-cn.com/problems/linked-list-components/comments/13068)，我也是看了这位大神的描述才看懂题目的.
+    ```
+    # 搬运 CoderYQ 大神的评论：
+    1，由于数组G是链表head所有元素值的子集，所以数组G中的任何元素都能在链表中找到（这TM不是废话？）;
+    2，因此G中的每个元素就可以看做是链表head的一个子链表，即G中的每个元素都是链表head的组件；
+    3，但是此时的组件还不敢称之为真正的组件，因为完全存在这样一种可能：
+    3.1 G中任意组合的两个元素a, b构成了一个更长的head的子链表 a->b ，
+    3.2 此时根据题意 a->b 比 a 和 b 都要长，所以 a->b 包涵了 a、b 成为真正的组件，原来的a、b 就不能算组件了，
+    3.3 如此一来问题变成了 对于给定的集合G，G中所有的元素能构成多少个head中相连的子链表？
+    ```
 - 输入处理:    
     - LeetCode 上的分析：
         - 1，由于数组G是链表head所有元素值的子集，所以数组G中的任何元素都能在链表中找到（这TM不是废话？）;
@@ -651,10 +660,10 @@
             - 3.1 G中任意组合的两个元素a, b构成了一个更长的head的子链表 a->b ，
             - 3.2 此时根据题意 a->b 比 a 和 b 都要长，所以 a->b 包涵了 a、b 成为真正的组件，原来的a、b 就不能算组件了，
             - 3.3 如此一来问题变成了 对于给定的集合G，G中所有的元素能构成多少个head中相连的子链表？
-- 初始思路:
-    - 思路:
+- 初始思路: 两次检索法.
+    - 思路: 推进链表指针，如果节点存在于 G 中，则推进直到 next 节点不存在或者不存在于 G 中.
     - 复杂度分析:
-        - 时间: O(n)
+        - 时间: O(n\*G). 遍历链表复杂度 O(n)，在 G 中检索元素复杂度 O(G)，故 O(n\*G).但每个节点可能会经过**两次 indexOf** 故变慢.
         - 空间: O(1)
     - Leetcode 结果:
         - 执行用时: 392ms, 在所有 JavaScript 提交中击败了 19 %的用户
@@ -672,16 +681,54 @@
             return count;
         };
         ```
-- 第二思路:
-    - 思路:
+- 第二思路: 一次检索 + flag.
+    - 思路: 推进链表节点，节点存在于 G 中则触发组件模式，直到退出或者结束.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n*G). 每个节点仅需一次检索.
+        - 空间: O(1).
     - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时: 272 ms, 在所有 JavaScript 提交中击败了 47 %的用户
+        - 内存消耗: 37.7 MB, 在所有 JavaScript 提交中击败 100 %的用户
     - 实现:
         ``` js
+        var numComponents = function(head, G) {
+            let [count, flag] = [0, false];
+            while (head) {
+                if (G.indexOf(head.val) > -1) {
+                    flag = true;
+                    if (!head.next) count++;
+                } else {
+                    if (flag) [count, flag] = [count+1, false];
+                }
+                head = head.next;
+            }
+            return count;
+        };
+        ```
+- 第三思路: Set查值 + flag.
+    - 思路: 思路同上. 但是用用 Set 接收 G，使其从 索引集合 -> 键值集合，优化搜索效率.
+    - 复杂度分析:
+        - 时间: O(n*G). 使用键值集合优化检索效率.
+        - 空间: O(G). 额外使用 Set 存储 G, 空间换时间.
+    - Leetcode 结果:
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 88 %的用户
+        - 内存消耗: 38.6 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var numComponents = function(head, G) {
+            let [count, flag] = [0, false];
+            let setG = new Set(G);
+            while (head) {
+                if (setG.has(head.val)) {
+                    flag = true;
+                    if (!head.next) count++;
+                } else {
+                    if (flag) [count, flag] = [count+1, false];
+                }
+                head = head.next;
+            }
+            return count;
+        };
         ```
 
 ### 86. 分隔链表
