@@ -734,8 +734,9 @@
 ### 86. 分隔链表
 - 刷题进度:
     - [x] 双链表推进
-    - [ ] xxx
-    - [ ] xxx
+    - [x] 裁减& 头插链表
+    - [x] 推进提取插入
+    - [x] 双头尾针
 - 难度: medium
 - 题意解析: 给定链表和一个特定值 x , 用 x 分割链表，使小于 x 的节点在其他节点前面
 - 输入处理: 无需.
@@ -745,17 +746,15 @@
         - 用 curr1、curr2 推进curr1 尾接 dummyHead2.next, 返回 dummyHead1.next
     - 复杂度分析:
         - 时间: O(n). 依次推进遍历.
-        - 空间: O(n). 双链表存储占用.
+        - 空间: O(n). 双链表存储共占用 n个大小的空间.
     - Leetcode 结果:
         - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 50 %的用户
         - 内存消耗: 34.1 MB, 在所有 JavaScript 提交中击败 41 %的用户
     - 实现:
         ``` js
         var partition = function(head, x) {
-            let dummyHead1 = new ListNode(0);
-            let dummyHead2 = new ListNode(0);
-            let curr1 = dummyHead1;
-            let curr2 = dummyHead2;
+            let [dummy1, dummy2] = [new ListNode(0), new ListNode(0)];
+            let [curr1, curr2] = [dummy1, dummy2];
             while (head) {
                 if (head.val < x) {
                     curr1.next = head;
@@ -773,16 +772,113 @@
             return dummyHead1.next;
         };
         ```
-- 第二思路: 
-    - 思路:
+- 第二思路: 裁减& 头插链表
+    - 思路: 
+        - 一次遍历将所有小于 x 的值从链表中裁减并入栈；
+        - 出栈并头插；
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n). 一次遍历裁减 & 一次遍历插入, 最差 O(2n), 最好 O(n)
+        - 空间: O(n). 额外栈空间，最好 O(1)，最坏 O(n).
     - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 69 %的用户
+        - 内存消耗: 34 MB, 在所有 JavaScript 提交中击败 55 %的用户
     - 实现:
         ``` js
+        var partition = function(head, x) {
+            let res = new ListNode(0);
+            res.next = head;
+            let stack = [];
+            let prev = res;
+            // 去除所有小于 x 的节点
+            while (prev.next) {
+                if (prev.next.val < x) {
+                    stack.push(prev.next.val);
+                    prev.next = prev.next.next;
+                } else {
+                    prev = prev.next;
+                }
+            }
+            // 栈弹出并依次头插链表
+            let len = stack.length;
+            for (let i=len-1; i>=0; i--) {
+                let curr = new ListNode(stack[i]);
+                curr.next = res.next;
+                res.next = curr;
+            }
+            return res.next;
+        };
+        ```
+- 第三思路: 推进提取插入
+    - 思路: 推进过程中对比，如果在遇到大于等于 x 的值后，遇到小于 x 的值则提取，插入最后一个小于 x 的节点之后.
+    - 复杂度分析:
+        - 时间: O(n^2). 最好 O(n), 最坏 O(n^2).
+        - 空间: O(n). 最好 O(1), 最坏 O(n).
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 62 %的用户
+        - 内存消耗: 34.8 MB, 在所有 JavaScript 提交中击败 9 %的用户
+    - 实现:
+        ``` js
+        var partition = function(head, x) {
+            let res = new ListNode(null);
+            res.next = head;
+            let prev = res;
+            let flag = false; // 是否遇到大与 x 的数
+            while (prev.next) {
+                if (prev.next.val < x) {
+                    if (flag) { // 没到之前小于也不移动，到之后回到原点推进
+                        let curr = prev.next;
+                        let tmp = res;
+                        while (tmp.next.val < x) tmp = tmp.next;
+                        prev.next = curr.next;
+                        curr.next = tmp.next;
+                        tmp.next = curr;
+                    } else {
+                        prev = prev.next;
+                    }
+                } else {
+                    flag = true;
+                    prev = prev.next;
+                }
+            }
+            return res.next;
+        };
+        ```
+- 第四思路: 双头尾针.
+    - 思路: 类似思路一.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 90 %的用户
+        - 内存消耗: 34.5 MB, 在所有 JavaScript 提交中击败 9 %的用户
+    - 实现:
+        ``` js
+        var partition = function(head, x) {
+            let [lessHead, lessTail, greatHead, greatTail] = [null, null, null, null];
+            while (head) {
+                if (head.val < x) {
+                    if (!lessHead) {
+                        [lessHead, lessTail] = [head, head];
+                    } else {
+                        lessTail.next = head;
+                        lessTail = lessTail.next;
+                    }
+                } else {
+                    if (!greatHead) {
+                        [greatHead, greatTail] = [head, head];
+                    } else {
+                        greatTail.next = head;
+                        greatTail = greatTail.next;
+                    }
+                }
+                head = head.next;
+            }
+            if (!lessHead) return greatHead;
+            if (!greatHead) return lessHead;
+            greatTail.next = null;
+            lessTail.next = greatHead;
+            return lessHead;
+        };
         ```
 
 ### 143. 重排链表
@@ -850,47 +946,48 @@
 
 ### 445. 两数相加 II
 - 刷题进度:
+    - [x] 栈 x 新链表
     - [ ] xxx
     - [ ] xxx
-    - [ ] xxx
-- 难度: 
-- 题意解析:
-- 输入处理:
-- 初始思路:
-    - 思路:
+- 难度: medium.
+- 题意解析: 给定两个链表，相加返回新链表.
+    - 进阶: 输入链表不能修改.
+- 输入处理: 
+- 初始思路: 栈 x 新队列
+    - 思路: 将两个链表入栈，之后弹出并相加存入新链表.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(m+n). 推进 O(m + n) + 合并 O ((m + n) / 2)
+        - 空间: O(m+n). 两个栈 O(m + n).
     - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时: 140 ms, 在所有 JavaScript 提交中击败了 61 %的用户
+        - 内存消耗: 41 MB, 在所有 JavaScript 提交中击败 18.7 %的用户
     - 实现:
-        ``` js（未通过）
+        ``` js
         var addTwoNumbers = function(l1, l2) {
-            // 反转双链表，然后累加
-            // 头插
             if (!l1) return l2;
             if (!l2) return l1;
-            let [rL1, rL2] = [reverse(l1), reverse(l2)];
-            
-            let res = new ListNode(0);
-            let levelUpNum = 0;
-            while (rL1 || rL2 || levelUpNum) {
-                let [v1, v2] = [rL1 ? rL1.val : 0, rL2 ? rL2.val : 0]
-                let tmpVal = (v1 + v2 + levelUpNum) % 10;
-                levelUpNum = tmpVal > 9 ? 1 : 0;
-                let nowNode = new ListNode(tmpVal);
-                nowNode.next = res.next;
-                res.next = nowNode;
+            let [stack1, stack2] = [[], []];
+            while (l1) {
+                stack1.push(l1.val);
+                l1 = l1.next;
+            }
+            while (l2) {
+                stack2.push(l2.val);
+                l2 = l2.next;
+            }
+            let res = new ListNode(null);
+            let count = 0;
+            while (stack1.length > 0 || stack2.length > 0 || count) {
+                let val1 = stack1.length > 0 ? stack1.pop() : 0;
+                let val2 = stack2.length > 0 ? stack2.pop() : 0;
+                let tmpVal = val1 + val2 + count;
+                [tmpVal, count] = tmpVal > 9 ? [tmpVal%10, 1] : [tmpVal, 0];
+                let tmpListNode = new ListNode(tmpVal);
+                tmpListNode.next = res.next;
+                res.next = tmpListNode;
             }
             return res.next;
         };
-
-        function reverse (head) {
-            let [prev, curr] = [null, head];
-            while (curr) [curr.next, prev, curr] = [prev, curr, curr.next];
-            return prev;
-        }
         ```
 - 第二思路:
     - 思路:
@@ -986,7 +1083,7 @@
 
 ### 203. 移除链表元素
 - 刷题进度:
-    - [ ] 哨兵前针推进.
+    - [x] 哨兵前针推进.
     - [ ] xxx
     - [ ] xxx
 - 难度: easy.
@@ -1012,6 +1109,79 @@
             }
             return res.next;
         };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 141. 环形链表
+- 刷题进度:
+    - [x] 置空推进法
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy
+- 题意解析: 给定一个链表，判断是否为环形链表.
+- 输入处理: 判断空链表.
+- 初始思路: 置空推进法.
+    - 思路: 由于链表的 next 永不为空，故不断置空当前值并推进. 如果停止则使用停止原因来确定是否为环形.
+    - 复杂度分析:
+        - 时间: O(n). 一圈确认是否环形.
+        - 空间: O(1). 无使用额外空间.
+    - Leetcode 结果:
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 85 %的用户
+        - 内存消耗: 36.7 MB, 在所有 JavaScript 提交中击败 47 %的用户
+    - 实现:
+        ``` js
+        var hasCycle = function(head) {
+            if (!head) return false;
+            // 环: head.next 一直有，于是不断置空值
+            while (head.next && head.val) {
+                head.val = null;
+                head = head.next;
+            }
+            // 直到退出，使用退出原因来确认是否为环
+            return !head.val;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+
+### 
+- 刷题进度:
+    - [ ] xxx
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
         ```
 - 第二思路:
     - 思路:
