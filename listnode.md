@@ -1164,24 +1164,44 @@
         ```
 
 
-### 
+### 61. 旋转链表
 - 刷题进度:
+    - [x] 循环头插
     - [ ] xxx
     - [ ] xxx
-    - [ ] xxx
-- 难度: 
-- 题意解析:
-- 输入处理:
+- 难度: medium
+- 题意解析: 给定一个链表，将每个节点循环右移k次，返回最终结果.
+- 输入处理: 
+    - k没说明限制，故有可能极大，计算链表长度并对其预处理为小于长度的次数.
+    - 无节点或一个节点情况直接返回即可.
 - 初始思路:
-    - 思路:
+    - 思路: 预处理k 和 0、1个节点情况, 用哨兵，循环 k 次获取 tailPrev，头插 tail.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(k*len). k 次循环（处理后） * len 次推进.
+        - 空间: O(1). 无额外空间使用.
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
         ``` js
+        vvar rotateRight = function(head, k) {
+            if (!head || !head.next) return head;
+            let [count, tmp] = [0, head];
+            while (tmp) [tmp, count] = [tmp.next, count+1];
+            k = k % count;
+            
+            let res = new ListNode(null);
+            res.next = head;
+            for (let i=0; i<k; i++) {
+                let tailPrev = res;
+                while (tailPrev.next.next) tailPrev = tailPrev.next;
+                let tail = tailPrev.next;
+                tailPrev.next = tail.next;
+                tail.next = res.next;
+                res.next = tail;
+            }
+            return res.next;
+        };
         ```
 - 第二思路:
     - 思路:
