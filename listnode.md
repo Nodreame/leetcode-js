@@ -119,7 +119,6 @@
 ### 206. 反转链表
 - 刷题进度:
     - [x] 迭代法
-    - [x] 自递归法 -- 反转后推进
     - [x] 自递归法 -- 反转后尾接
     - [x] 尾递归法
 - 难度: easy.
@@ -128,8 +127,8 @@
 - 初始思路: 迭代法
     - 思路: 设置一个前指针prev和推进指针curr，推进直到curr为空，返回prev.
     - 复杂度分析:
-        - 时间: O(n).
-        - 空间: O(1).
+        - 时间: O(n). 逐个推进故 O(n).
+        - 空间: O(1). 只用到了常数级额外空间故 O(1).
     - Leetcode 结果:
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 99 %的用户
         - 内存消耗: 34.9 MB, 在所有 JavaScript 提交中击败 51 %的用户
@@ -156,31 +155,11 @@
             return prev;
         };
         ```
-- 第二思路: 自递归法 -- 反转后推进
+- 第二思路: 自递归法 -- 反转后尾接
     - 思路: 自递归无法存储推进状态所以无法尾递归，不断将 next 放入递归方法反转链表，结果.next = 当前节点. （Tip: 记得推进结果直到 next.next 为空）
     - 复杂度分析:
-        - 时间: O(n^2)
-        - 空间: O(n)
-    - Leetcode 结果:
-        - 执行用时: 96 ms, 在所有 JavaScript 提交中击败了 14.78 %的用户
-        - 内存消耗: 35.6 MB, 在所有 JavaScript 提交中击败 11.48 %的用户
-    - 实现:
-        ``` js
-        var reverseList = function(head) {
-            if (!head || !head.next) return head;
-            let res = reverseList(head.next); // 获取 head.next 后续部分反转结果
-            let curr = res; // 用指针开始推进
-            while (curr.next) curr = curr.next;
-            head.next = null; // 裁减 head 使其成为单节点；
-            curr.next = head;
-            return res;
-        };
-        ```
-- 第三思路: 自递归法 -- 反转后尾接
-    - 思路: 自递归无法存储推进状态所以无法尾递归，不断将 next 放入递归方法反转链表，结果.next = 当前节点. （Tip: 记得推进结果直到 next.next 为空）
-    - 复杂度分析:
-        - 时间: O(n^2)
-        - 空间: O(1)
+        - 时间: O(n). 从最底层两个节点反转开始，每层时间复杂度均为 O(1), 总共 n-1 层递归，故时间复杂度为 O(n).
+        - 空间: O(n). 递归调用栈消耗空间，共 n-1 层递归，故空间复杂度为 O(n).
     - Leetcode 结果:
         - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 85 %的用户
         - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 24 %的用户
@@ -195,11 +174,11 @@
             return reverseHead;
         };
         ```
-- 第四思路: 尾递归法
+- 第三思路: 尾递归法
     - 思路: 用 prev 和 curr 存储推进状态，直到 curr 为空则输出结果.
     - 复杂度分析:
-        - 时间: O(n)
-        - 空间: O(1)
+        - 时间: O(n). 等同于正常推进，故 O(n).
+        - 空间: O(1). 尾递归方式，重复使用一个空间故空间复杂度为 O(1).
     - Leetcode 结果:
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 98 %的用户
         - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 27 %的用户
@@ -221,7 +200,7 @@
 ### 876. 链表的中间结点
 - 刷题进度:
     - [x] 快慢指针
-    - [x] 循环计数
+    - [x] 两次循环
     - [ ] xxx
 - 难度: easy
 - 题意解析: 给定带头节点的非空链表（实际本题用例不带头），返回链表的中间节点，链表长度为1~100.
@@ -229,8 +208,8 @@
 - 初始思路: 快慢指针.
     - 思路: 快指针步伐是慢指针的两倍，快指针&快指针的next存在时可以继续推进.
     - 复杂度分析:
-        - 时间: O(n)
-        - 空间: O(1)
+        - 时间: O(n). 快指针双倍速度推进，实际耗时O(n/2).
+        - 空间: O(1). 常量级额外空间使用.
     - Leetcode 结果:
         - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 55 %的用户
         - 内存消耗: 33.6 MB, 在所有 JavaScript 提交中击败 66 %的用户
@@ -248,8 +227,8 @@
 - 第二思路: 两次循环.
     - 思路: 第一轮计数并取目标下标，第二轮循环到下标.
     - 复杂度分析:
-        - 时间: O(n)
-        - 空间: O(1)
+        - 时间: O(n). 推进一轮获取长度,耗时 O(n)，推进第二轮到中间节点, 耗时 O(n/2).
+        - 空间: O(1). 无使用额外空间.
     - Leetcode 结果:
         - 执行用时: 40 ms, 在所有 JavaScript 提交中击败了 100 %的用户
         - 内存消耗: 33.6 MB, 在所有 JavaScript 提交中击败 71 %的用户
@@ -257,15 +236,12 @@
         ``` js
         var middleNode = function(head) {
             if (!head || !head.next) return head;
-            let count = 0;
-            let tmp = head;
-            while (tmp) [tmp, count] = [tmp.next, count+1];
-            let idx = Math.floor(count/2);
-            let res = head;
-            for (let i=0; i<idx; i++) {
-                res = res.next;
+            let [count, tmp] = [0, head];
+            while (tmp) [count, tmp] = [count+1, tmp.next];
+            for (let i=0, len=Math.floor(count/2); i<len; i++) {
+                head = head.next;
             }
-            return res;
+            return head;
         };
         ```
 
