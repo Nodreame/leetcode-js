@@ -248,8 +248,8 @@
 ### 148. 排序链表
 - 刷题进度:
     - [x] 归并递归法(空间复杂度不符合题意)
-    - [x] 归并迭代法(TODO: 优化)
-    - [ ] TODO：是否存在尾递归方法
+    - [x] 归并迭代法(不截断)
+    - [x] 归并迭代法(截断)
 - 难度: medium
 - 题意解析: 对给定链表进行排序，要求时间复杂度为O(nlogn), 空间复杂度为O(1).
 - 输入处理: 给定链表为空 & 链表长度为1时，直接返回.
@@ -284,11 +284,11 @@
             return res.next;
         };
         ```
-- 第二思路: 不截断归并法
+- 第二思路: 归并迭代法(不截断).
     - 思路: 两两比较合并.
     - 复杂度分析:
-        - 时间: O(nlogn)
-        - 空间: O(1)
+        - 时间: O(nlogn). 每次长度*2推进复杂度 O(logn)，中间逐个推进 O(n).
+        - 空间: O(1). 原地归并故O(1).
     - Leetcode 结果:
         - 执行用时: 264 ms, 在所有 JavaScript 提交中击败了 23.8 %的用户
         - 内存消耗: 49.2 MB, 在所有 JavaScript 提交中击败 8.8 %的用户
@@ -334,22 +334,74 @@
             return res.next;
         };
         ```
+- 第三思路: 归并迭代法(截断).
+    - 思路: 类似第二思路，但是每次都会截断和合并.
+        - 参考：[ivan_allen的答案](https://leetcode-cn.com/problems/sort-list/solution/148-pai-xu-lian-biao-bottom-to-up-o1-kong-jian-by-/)
+    - 复杂度分析:
+        - 时间: O(nlogn). 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: 140 ms, 在所有 JavaScript 提交中击败了 38.9 %的用户
+        - 内存消耗: 45 MB, 在所有 JavaScript 提交中击败 17.6 %的用户
+    - 实现:
+        ``` js
+        var sortList = function(head) {
+            if (!head || !head.next) return head;
+            let [tmp, count] = [head, 0];
+            while (tmp) [tmp, count] = [tmp.next, count+1];
+            
+            let res = new ListNode(null);
+            res.next = head;
+            for (let i=1; i<count; i*=2) {
+                let [prev, curr] = [res, res.next];
+                while (curr) {
+                    let n1 = curr;
+                    let n2 = cut(n1, i);
+                    curr = cut(n2, i);
+                    
+                    prev.next = merge(n1, n2);
+                    while (prev.next) prev = prev.next;
+                }
+            }
+            return res.next;
+        };
+
+        function cut (head, size) {
+            let curr = head;
+            while (--size && curr) curr = curr.next;
+            if (!curr) return null;
+            let next = curr.next;
+            curr.next = null;
+            return next;
+        }
+
+        function merge (n1, n2) {
+            let res = new ListNode(null);
+            let prev = res;
+            while (n1 && n2) {
+                if (n1.val < n2.val) [prev.next, n1] = [n1, n1.next];
+                else [prev.next, n2] = [n2, n2.next];
+                prev = prev.next;
+            }
+            prev.next = n1 ? n1 : n2;
+            return res.next;
+        }
+        ```
 
 ### 24. 两两交换链表中的节点
 - 刷题进度:
     - [x] 迭代法.
     - [x] 自递归法.
-    - [ ] TODO: 是否存在尾递归优化
 - 难度: medium.
 - 题意解析: 将给定的链表的两两节点进行交换，要求发生实际节点交换.
 - 输入处理: 输入链表为空及长度为1时，直接返回输入值.
 - 初始思路: 迭代法.
-    - 思路: 使用哨兵头节点， 推进指针curr从当前哨兵节点位置出发，故curr.next=head，确认接下来两个节点(curr.next, curr.next.next)是否为空
-        - 若不为空则开始交换: a为curr.next, b为curr.next.next, 同时发生curr.next=b, a.next=b.next, b.next=a; curr推进两格; 循环继续;
+    - 思路: 使用哨兵头节点， 推进指针prev从当前哨兵节点位置出发，故prev.next=head，确认接下来两个节点(prev.next, prev.next.next)是否为空
+        - 若不为空则开始交换: a为prev.next, b为prev.next.next, 同时发生prev.next=b, a.next=b.next, b.next=a; prev推进两格; 循环继续;
         - 若有一个或一个以上为空则直接返回哨兵head节点的next;
     - 复杂度分析:
-        - 时间: O(n)
-        - 空间: O(1)
+        - 时间: O(n). 推进遍历整个链表故O(n).
+        - 空间: O(1). 使用常量级空间.
     - Leetcode 结果:
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 94 %的用户
         - 内存消耗: 33.9 MB, 在所有 JavaScript 提交中击败 12.3 %的用户
@@ -361,15 +413,15 @@
             // 2. 新建链表哨兵头并创建指针curr；
             let res = new ListNode(null);
             res.next = head;
-            let curr = res;
+            let prev = res;
             // 3. 循环开始
             //    3.1 走两步，存为fst, snd;
             //    3.2 哨兵->snd, fst->snd.next, snd->fst;
             //    3.3 推进 curr = curr.next.next;
-            while (curr.next && curr.next.next) {
-                let [fst, snd] = [curr.next, curr.next.next];
-                [curr.next, fst.next, snd.next] = [snd, snd.next, fst];
-                curr = curr.next.next;
+            while (prev.next && prev.next.next) {
+                let [fst, snd] = [prev.next, prev.next.next];
+                [prev.next, fst.next, snd.next] = [snd, snd.next, fst];
+                prev = prev.next.next;
             }
             // 4. 返回res.next;
             return res.next;
@@ -382,8 +434,8 @@
         - 返回值：已经完成交换的后续链表;
         - 递归方法逻辑：同上面方法，res = 1.next && 1.next=已完成交换的后续链表 && res.next = 1
     - 复杂度分析:
-        - 时间: O(n)
-        - 空间: O(n)
+        - 时间: O(n). 从最底层两个互换到最高层，每层时间复杂度均为O(1), 共 n/2 层故时间复杂度为 O(n/2).
+        - 空间: O(n). 共 n/2 层递归调用栈， 故空间复杂度为 O(n/2).
     - Leetcode 结果:
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 94.8 %的用户
         - 内存消耗: 33.6 MB, 在所有 JavaScript 提交中击败 63.6 %的用户
@@ -476,27 +528,52 @@
 - 初始思路: 直接解法.
     - 思路: 加哨兵头节点方便替换，使用 head 持续推进，推进受阻时从头遍历，交换两值，重置 head 到当前交换后位置。
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n^2). 最好O(n), 最坏O(n^2). 插入排序 O(n^2).
+        - 空间: O(1). 插入排序是原地排序.
     - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 98 %的用户
+        - 内存消耗: 37.5 MB, 在所有 JavaScript 提交中击败 8.33 %的用户
     - 实现:
         ``` js
         var insertionSortList = function(head) {
-            let dummy = new ListNode(0);
-            dummy.next = head;
+            if (!head || !head.next) return head;
+            let res = new ListNode(null);
+            res.next = head;
             while (head && head.next) {
                 if (head.val <= head.next.val) {
                     head = head.next;
                     continue;
                 }
-                let prev = dummy;
-                while (prev.next.val < head.next.val) prev = prev.next;
                 let curr = head.next;
-                [prev.next, head.next, curr.next] = [curr, curr.next, prev.next];
+                let prev = res;
+                while (prev.next.val <= curr.val) prev = prev.next;
+                head.next = curr.next;
+                curr.next = prev.next;
+                prev.next = curr;
             }
-            return dummy.next;
+            return res.next;
+        };
+        ```
+    - 简化实现：
+        ``` js
+        var insertionSortList = function(head) {
+            if (!head || !head.next) return head;
+            let res = new ListNode(null);
+            res.next = head;
+            while (head && head.next) {
+                if (head.val <= head.next.val) {
+                    head = head.next;
+                    continue;
+                }
+                let curr = head.next;
+                let prev = res;
+                while (prev.next.val <= curr.val) prev = prev.next;
+                // head.next = curr.next;
+                // curr.next = prev.next;
+                //prev.next = curr;
+                [head.next, curr.next, prev.next] = [curr.next, prev.next, curr];
+            }
+            return res.next;
         };
         ```
 - 第二思路:
