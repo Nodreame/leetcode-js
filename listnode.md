@@ -1267,3 +1267,199 @@
     - 实现:
         ``` js
         ```
+
+### 725. 分隔链表
+- 刷题进度:
+    - [x] 计长切链表法
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析: 给定链表，将其分为k份放入数组，每份长度差不超过1.
+- 输入处理: 无需.
+- 初始思路: 计长切链表法
+    - 思路:
+        - 1) 计算链表长度, 除以k并扫地获取均值, 总长减去均值*k再次均分累加获得结果长度;
+        - 2) 依照长度切分链表，放入数组；
+    - 复杂度分析:
+        - 时间: O(n+k). 循环链表长度 n 次，如果 k 过大则需要添加多次空节点.
+        - 空间: O(1). 常量级空间占用.
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 81.5 %的用户
+        - 内存消耗: 37.4 MB, 在所有 JavaScript 提交中击败 25 %的用户
+    - 实现:
+        ``` js
+        var splitListToParts = function(root, k) {
+            let [tmp, count] = [root, 0];
+            while (tmp) [tmp, count] = [tmp.next, count+1];
+            let avgVal = Math.floor(count / k);
+            let lenArr = Array.from({length: k}, ()=>avgVal);
+            for (let i=0, len=count-k*avgVal; i<len; i++) lenArr[i] += 1;
+            
+            let res = [];
+            for (let i=0; i<k; i++) {
+                if (root) {
+                    let [start, end] = [root, root];
+                    for (let j=0, itemLen=lenArr[i]; j<itemLen; j++) {
+                        if (j === itemLen - 1) {
+                            root = end.next;
+                            end.next = null;
+                            res.push(start);
+                        } else {
+                            end = end.next;
+                        }
+                    }
+                } else {
+                    res.push(null);
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 1171. 从链表中删去总和值为零的连续节点
+- 刷题进度:
+    - [x] 双重循环法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 给定链表，要求去除总和为0的连续节点.
+- 输入处理: 无需.
+- 初始思路: 双重循环法.
+    - 思路:
+        - 1) 用哨兵尾接 head 开始推进;
+        - 2) 每个节点都向后推到末端一次, 如果发生连续节点总和为 0 则去除；
+    - 复杂度分析:
+        - 时间: O(n^2). 当无连续节点总和为 0 时存在最坏时间复杂度 O(n^2).
+        - 空间: O(1). 常量级额外空间使用.
+    - Leetcode 结果:
+        - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 90 %的用户
+        - 内存消耗: 36.3 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var removeZeroSumSublists = function(head) {
+            let res = new ListNode(null);
+            res.next = head;
+            let prev = res;
+            while (prev.next) {
+                let curr = prev.next;
+                let tmp = 0;
+                while (curr) {
+                    tmp += curr.val;
+                    if (tmp === 0) {
+                        prev.next = curr.next;
+                        break;
+                    } else {
+                        curr = curr.next;
+                    }
+                }
+                if (!curr) prev = prev.next; // 循环完也没出现总和为0的情况，自然还是要持续推进
+            }
+            return res.next;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 707. 设计链表
+- 刷题进度:
+    - [x] 数组(应用数组方法，实际不符合题意).
+    - [ ] 对象
+    - [ ] xxx
+- 难度: medium
+- 题意解析: 按照给定构造函数和操作方法，设计一个链表结构.
+- 输入处理: 无.
+- 初始思路: 数组(应用数组方法，实际不符合题意).
+    - 思路: 无.
+    - 复杂度分析:
+        - 时间: get O(1), addAtHead O(n), addAtTail O(1), addAtIndex O(n), deleteAtIndex O(n). 
+        - 空间: 同时间.
+    - Leetcode 结果:
+        - 执行用时: 108 ms, 在所有 JavaScript 提交中击败了 100 %的用户
+        - 内存消耗: 42.1 MB, 在所有 JavaScript 提交中击败 51 %的用户
+    - 实现:
+        ``` js
+        /**
+        * Initialize your data structure here.
+        */
+        var MyLinkedList = function() {
+            this.arr = [];
+        };
+
+        /**
+        * Get the value of the index-th node in the linked list. If the index is invalid, return -1. 
+        * @param {number} index
+        * @return {number}
+        */
+        MyLinkedList.prototype.get = function(index) {
+            if (this.arr.length <= index) return -1;
+            return this.arr[index];
+        };
+
+        /**
+        * Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. 
+        * @param {number} val
+        * @return {void}
+        */
+        MyLinkedList.prototype.addAtHead = function(val) {
+            this.arr.unshift(val);
+        };
+
+        /**
+        * Append a node of value val to the last element of the linked list. 
+        * @param {number} val
+        * @return {void}
+        */
+        MyLinkedList.prototype.addAtTail = function(val) {
+            this.arr.push(val);
+        };
+
+        /**
+        * Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. 
+        * @param {number} index 
+        * @param {number} val
+        * @return {void}
+        */
+        MyLinkedList.prototype.addAtIndex = function(index, val) {
+            this.arr.splice(index, 0, val);
+        };
+
+        /**
+        * Delete the index-th node in the linked list, if the index is valid. 
+        * @param {number} index
+        * @return {void}
+        */
+        MyLinkedList.prototype.deleteAtIndex = function(index) {
+            this.arr.splice(index, 1);
+        };
+        ```
+- 第二思路: 对象.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
