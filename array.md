@@ -238,3 +238,125 @@
     - 实现:
         ``` js
         ```	   
+
+### 832. 翻转图像
+- 刷题进度:
+    - [x] 对撞指针翻转+三目反转.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 给定二维数组作为矩阵，先翻转每行，再反转数值.
+- 输入处理: 无.
+- 初始思路: 对撞指针翻转+三目反转
+    - 思路: 边翻转行边翻转值.
+    - 复杂度分析:
+        - 时间: O(n). 全部遍历过一次顺便完成替换.
+        - 空间: O(1). 全程原地.
+    - Leetcode 结果:
+        - 执行用时: 80 ms, 在所有 JavaScript 提交中击败了 63 %的用户
+        - 内存消耗: 36.8 MB, 在所有 JavaScript 提交中击败 5.3 %的用户
+    - 实现:
+        ``` js
+        var flipAndInvertImage = function(A) {
+            for (let i=0, lenA=A.length; i<lenA; i++) {
+                let [a, b] = [0, A[i].length-1];
+                while (a <= b) {
+                    [A[i][a], A[i][b]] = [A[i][b]?0:1, A[i][a]?0:1];
+                    [a, b] = [a+1, b-1];
+                }
+            }
+            return A;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 1051. 高度检查器
+- 刷题进度:
+    - [x] 排序后对比.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 给定数组，要求获得"能够使其以非递减方式排列"的必要移动数量.
+- 输入处理: 无.
+- 初始思路: 排序后对比.
+    - 思路: 记得数组的 sort 会修改原数组，需要提前复制.
+    - 复杂度分析:
+        - 时间: O(nlogn). 复制循环 O(n) + 排序O(nlogn) + 对比循环 O(n).
+        - 空间: O(n). 复制的数组长度.
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.8 %的用户
+        - 内存消耗: 35 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var heightChecker = function(heights) {
+            let res = 0;
+            let arr = [...heights];
+            heights.sort((a, b) => a-b);
+            for (let i=0, len=heights.length; i<len; i++) {
+                if (heights[i] !== arr[i]) res++;
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 1266. 访问所有点的最小时间
+- 刷题进度:
+    - [ ] 计算点间距.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析: 从数组第一个点依次走到最后一个.
+- 输入处理: 无.
+- 初始思路: 计算点间距.
+    - 思路: 计算每段点间距，即x,y互减后的最大值
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 76 %的用户
+        - 内存消耗: 34.6 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var minTimeToVisitAllPoints = function(points) {
+            let totalTime = 0;
+            for (let i=0, len=points.length-1; i<len; i++) {
+                let absX = Math.abs(points[i][0] - points[i+1][0]);
+                let absY = Math.abs(points[i][1] - points[i+1][1]);
+                totalTime += Math.max(absX, absY);
+            } 
+            return totalTime;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
