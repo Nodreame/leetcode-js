@@ -360,3 +360,231 @@
         ``` js
         ```
 
+### 724. 寻找数组的中心索引
+- 刷题进度:
+    - [ ] xxx
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var pivotIndex = function(nums) {
+            if (nums.length < 1) return -1;
+            for (let i=0, len=nums.length; i<len; i++) {
+                let [left, right] = [0, 0];
+                for (let j=0; j<i; j++) left+=nums[j];
+                for (let j=i+1; j<len; j++) right+=nums[j];
+                if (left === right) return i;
+            }
+            return -1;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 747. 至少是其他数字两倍的最大数
+- 刷题进度:
+    - [ ] 获取最大数和次大数比较.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var dominantIndex = function(nums) {
+            let max = 0;
+            let maxIdx = -1;
+            for (let i=0, len=nums.length; i<len; i++) {
+                if (nums[i] > max) [max, maxIdx] = [nums[i], i];
+            }
+            nums.splice(maxIdx, 1);
+            let sndMax = Math.max.apply(null, nums);
+            return sndMax * 2 <= max ? maxIdx : -1;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 66. 加一
+- 刷题进度:
+    - [x] 倒转推进 + 进阶检测
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var plusOne = function(digits) {
+            let carry = 0;
+            let len = digits.length;
+            for (let i=len-1; i>=0; i--) {
+                let tmp = digits[i];
+                if (i === len-1) digits[i] += 1;
+                digits[i] += carry;
+                carry = digits[i] > 9 ? 1: 0;
+                digits[i] %= 10;
+                if (tmp === digits[i]) break;
+            }
+            if (carry) digits.unshift(1);
+            return digits;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 498. 对角线遍历
+- 刷题进度:
+    - [ ] 一次遍历.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 一次遍历.
+    - 思路: 观察规律，总来回数为(m+n+1)，偶数回y大x小，奇数回y小x大.
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var findDiagonalOrder = function(matrix) {
+            if (matrix.length === 0) return [];
+            let [n, m] = [matrix.length, matrix[0].length];
+            let res = [];
+            for (let i=0, len=n+m-1; i<len; i++) {
+                if (i % 2 === 0) { // 反向, x 小 y 大
+                    let [x, y] = [0, i];
+                    while (y >= n) [x, y] = [x+1, y-1];
+                    while (y >= 0 && x < m) {
+                        res.push(matrix[y][x]);
+                        [x, y] = [x+1, y-1];
+                    }
+                } else { // 正向，x 大 y 小
+                    let [x, y] = [i, 0];
+                    while (x >= m) [x, y] = [x-1, y+1];
+                    while (x >= 0 && y < n) {
+                        res.push(matrix[y][x]);
+                        [x, y] = [x-1, y+1];
+                    }
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 54. 螺旋矩阵
+- 刷题进度:
+    - [x] 暴力法：xy轴双指针对撞
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理: 由于需要获取 x 轴长度 m, 故首先要处理 matrix 为 0 的情况.
+- 初始思路: 暴力法：xy轴双指针对撞
+    - 思路: 一轮四个方向都跑一次，如果未全部撞针则继续下拉否则停止.
+    - 复杂度分析:
+        - 时间: O(n). 单轮遍历.
+        - 空间: O(1). 常量级额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var spiralOrder = function(matrix) {
+            if (matrix.length === 0) return [];
+            let res = [];
+            let [n, m] = [matrix.length, matrix[0].length];
+            let [minY, maxY, minX, maxX] = [0, n-1, 0, m-1];
+            while (true) {
+                for (let i=minX; i<=maxX; i++) res.push(matrix[minY][i]);
+                if (++minY > maxY) break;
+                for (let i=minY; i<=maxY; i++) res.push(matrix[i][maxX]);
+                if (--maxX < minX) break;
+                for (let i=maxX; i>=minX; i--) res.push(matrix[maxY][i]);
+                if (--maxY < minY) break;
+                for (let i=maxY; i>=minY; i--) res.push(matrix[i][minX]);
+                if (++minX > maxX) break;
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
