@@ -701,6 +701,156 @@
     };
     ```
 
-### To Be Continue~
+### 67. 二进制求和
+- 刷题进度:
+    - [x] 补零同位相加法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 补零同位相加法.
+    - 思路: 先补零再同位相加即可.
+    - 复杂度分析:
+        - 时间: O(n). 最好情况为同长度 O(n/2). 最坏长度悬殊 O(n).
+        - 空间: O(n). 借助额外数组.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var addBinary = function(a, b) {
+            // 计算长度补0
+            // 逐个累加
+            // 得到结果数组并改为字符串
+            let [lenA, lenB] = [a.length, b.length];
+            if (lenA !== lenB) {
+                let tmpArr = Array.from({length: Math.abs(lenA-lenB)}, ()=>0);
+                tmpArr.push(lenA < lenB ? a:b);
+                if (lenA < lenB) {
+                    a = tmpArr.join('');
+                    lenA = a.length;
+                } else {
+                    b = tmpArr.join('');
+                    lenB = b.length;
+                }
+            } 
+            let count = lenA-1;
+            let arr = [];
+            let carry = 0;
+            while (count >= 0) {
+                let tmp = (a[count]-0) + (b[count]-0) + carry;
+                arr[count] = tmp % 2;
+                carry = tmp >= 2 ? 1 : 0;
+                count--;
+            }
+            if(carry === 1) arr.unshift(1);
+            return arr.join('');
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
 
-  [1]: https://segmentfault.com/img/bVbqqze
+	
+### 28. 实现 strStr()
+- 刷题进度:
+    - [x] 双遍历.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双遍历.
+    - 思路: 第一次遍历确认起点，第二次遍历确认是否全匹配.
+    - 复杂度分析:
+        - 时间: O(hLen * nLen). 第一次遍历确认起点O(hLen)，第二次遍历确认是否全匹配O(nLen).
+        - 空间: O(1). 常量级额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var strStr = function(haystack, needle) {
+            let [hLen, nLen] = [haystack.length, needle.length];
+            if (nLen === 0) return 0;
+            if (hLen < nLen) return -1;
+            for (let i=0, len=hLen-nLen+1; i<len; i++) {
+                if (haystack[i] === needle[0]) {
+                    let flag = true;
+                    for (let j=1; j<nLen; j++) {
+                        if (haystack[i+j] !== needle[j]) {
+                            flag = false;
+                            break;   
+                        }
+                    }
+                    if (flag) return i;
+                }
+            }
+            return -1;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 14. 最长公共前缀
+- 刷题进度:
+    - [x] 两次遍历.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 两次遍历.
+    - 思路: 第一次遍历第一单词的字母，第二次遍历用其他单词的同位置字符对比.
+    - 复杂度分析:
+        - 时间: O(n * k). n 为单词总数，k 为结果长度.
+        - 空间: O(k). 额外使用了一个数组.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var longestCommonPrefix = function(strs) {
+            if (strs.length === 0) return '';
+            let strsLen = strs.length;
+            let arr = [];
+            for (let i=0, len=strs[0].length; i<len; i++) {
+                for (let j=1; j<strsLen; j++) {
+                    if (strs[0][i] !== strs[j][i]) {
+                        return arr.join('');
+                    }
+                }
+                arr.push(strs[0][i]);
+            }
+            return arr.join('');
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
