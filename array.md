@@ -588,3 +588,45 @@
     - 实现:
         ``` js
         ```
+
+### 118. 杨辉三角
+- 刷题进度:
+    - [ ] 双遍历构建法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双遍历构建法.
+    - 思路: 第一层为层数遍历，第二层遍历用于每层构建.
+    - 复杂度分析:
+        - 时间: O(n^2). n 为层数. 第二层遍历长度从 1 -> n ， 共 n(n+1)/2 次, 故 O(n^2).
+        - 空间: O(1). 常量级额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var generate = function(numRows) {
+            let res = Array.from({length: numRows}, () => [1]);
+            for (let i=0; i<numRows; i++) {
+                for (let j=1; j<=i; j++) {
+                    if (j<i) res[i][j] = res[i-1][j-1] + res[i-1][j];
+                    else if (j === i) res[i][j] = 1; 
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
