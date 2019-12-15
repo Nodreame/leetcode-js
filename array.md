@@ -630,3 +630,257 @@
         ``` js
         ```
 
+### 344. 反转字符串
+- 刷题进度:
+    - [x] 双指针.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双指针.
+    - 思路: 如上.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var reverseString = function(s) {
+            if (s.length === 0) return s;
+            let [i, j] = [0, s.length-1];
+            while (i < j) {
+                [s[i], s[j]] = [s[j], s[i]];
+                i++;
+                j--;
+            }
+            return s;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 561. 数组拆分 I
+- 刷题进度:
+    - [x] 排序 + 取偶数下标.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 排序 + 取偶数下标.
+    - 思路: 
+    - 复杂度分析:
+        - 时间: O(n). 砍半遍历推进共 O(n/2).
+        - 空间: O(1). 常量级额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var arrayPairSum = function(nums) {
+            nums.sort((a, b) => a-b);
+            let res = 0;
+            for (let i=0, len=nums.length; i<len; i+=2) {
+                res += nums[i];
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 485. 最大连续1的个数
+- 刷题进度:
+    - [x] 双指针法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理: 
+- 初始思路: 双指针法.
+    - 思路: i 指针逐位推进，如果 i 位为 1，则开启 j指针的推进直到 非1 或 到达数组末尾.
+    - 复杂度分析:
+        - 时间: O(n^2).
+        - 空间: O(1). 常量级额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var findMaxConsecutiveOnes = function(nums) {
+            let max = 0;
+            for (let i=0, len=nums.length; i<len; i++) {
+                if (nums[i] === 1) {
+                    let count = 1;
+                    for (let j=i+1; j<len; j++) {
+                        if (nums[j] === 1) count++;
+                        else break;
+                    }
+                    max = Math.max(max, count);
+                }
+            }
+            return max;  
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 209. 长度最小的子数组
+- 刷题进度:
+    - [x] 快慢指针两次遍历.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 快慢指针两次遍历.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n^2). 两次遍历.
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var minSubArrayLen = function(s, nums) {
+            let res = Number.POSITIVE_INFINITY;
+            for (let i=0, len = nums.length; i<len; i++) {
+                if (nums[i] >= s) {
+                    return 1; // 特殊化：一个数就满足，必须最短，加速方法.
+                } else {
+                    let count = 0;
+                    let sum = 0;
+                    for (let j=i; j<len; j++) {
+                        sum += nums[j];
+                        count++;
+                        if (sum >= s) res = Math.min(res, count);
+                    }
+                }
+            }
+            return res === Number.POSITIVE_INFINITY ? 0 : res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 189	旋转数组
+- 刷题进度:
+    - [x] 弹出+头插.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理: k有可能极大，所以先用数组长度 len 将 k 取余.
+- 初始思路: 弹出+头插.
+    - 思路: 一次循环.
+    - 复杂度分析:
+        - 时间: O(k * n). 循环处理后的k次O(k)， 弹出和头插复杂度均为 O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var rotate = function(nums, k) {
+            if (nums.length === 0) return nums;
+            let len = nums.length;
+            k = k % len;
+            for (let i=0; i<k; i++) {
+                nums.unshift(nums.pop());
+            }
+            return nums;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 119. 杨辉三角 II
+- 刷题进度:
+    - [x] 全部生成.
+    - [ ] TODO：生成器.
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 全部生成.
+    - 思路: 全部生成再取对应下标的行数.
+    - 复杂度分析:
+        - 时间: O(n^2). 生成 1->n 的杨辉三角，故耗时为 O(n^2).
+        - 空间: O(n^2). 与同等级别的额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var getRow = function(rowIndex) {
+            let arr = Array.from({length: rowIndex+1}, ()=>[1]);
+            for (let i=1; i<=rowIndex; i++) {
+                let j = 1;
+                while (arr[i].length !== i+1) {
+                    arr[i][j] = arr[i-1][j] ? arr[i-1][j-1] + arr[i-1][j] : 1;
+                    j++;
+                }
+            }
+            return arr[rowIndex];
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
