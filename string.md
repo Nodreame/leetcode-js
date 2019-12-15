@@ -854,3 +854,73 @@
     - 实现:
         ``` js
         ```
+
+### 151. 翻转字符串里的单词
+- 刷题进度:
+    - [x] 正则预处理 + 转数组反转.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 正则预处理 + 转数组反转.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n). 转数组 O(n), 反转 O(n), 合并 O(n).
+        - 空间: O(n). 转数组占用 n 长度额外空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var reverseWords = function(s) {
+            if (s.length === 0) return s;
+            s = s.trim().replace(/\s+/g, ' ');
+            return s.split(' ').reverse().join(' ');
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 557. 反转字符串中的单词 III
+- 刷题进度:
+    - [x] 一行.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 一行.
+    - 思路: 分割为数组 & 反转 & 组合，再以一个空格分割为数组 & 反转 & 组合.
+    - 复杂度分析:
+        - 时间: O(n+k). 首次分割为数组O(n) & 反转O(n) & 组合O(n), 再以一个空格分割为数组O(k) & 反转O(k) & 组合O(k).
+        - 空间: O(n+k). 首次 O(n) 额外空间，再次 O(k) 额外空间.
+    - Leetcode 结果:
+        - 执行用时: 92 ms, 在所有 JavaScript 提交中击败了 71.5 %的用户
+        - 内存消耗: 41MB, 在所有 JavaScript 提交中击败 95 %的用户
+    - 实现:
+        ``` js
+        var reverseWords = function(s) {
+            return s.split('').reverse().join('').split(' ').reverse().join(' ');
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
