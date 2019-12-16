@@ -1178,7 +1178,7 @@
 ### 141. 环形链表
 - 刷题进度:
     - [x] 置空推进法
-    - [ ] xxx
+    - [x] 快慢指针法
     - [ ] xxx
 - 难度: easy
 - 题意解析: 给定一个链表，判断是否为环形链表.
@@ -1204,16 +1204,25 @@
             return !head.val;
         };
         ```
-- 第二思路:
-    - 思路:
+- 第二思路: 快慢指针法
+    - 思路: 快慢指针，成环则迟早能够重合.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(x+n_slow*c+y). 等同于慢指针步数，设非环部分长度为x, 环起点到相遇位置长度为y，到达相遇位置时慢指针运行环数为n_slow, 环长度为c.
+        - 空间: O(1). 常量级额外空间.
     - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 91 %的用户
+        - 内存消耗: 37.9 MB, 在所有 JavaScript 提交中击败 5 %的用户
     - 实现:
         ``` js
+        var hasCycle = function(head) {
+            if (!head) return false;
+            let slow = fast = head;
+            while (fast && fast.next) {
+                [slow, fast] = [slow.next, fast.next.next];
+                if (slow == fast) return true;
+            }
+            return false;
+        };
         ```
 
 
@@ -1453,6 +1462,102 @@
         };
         ```
 - 第二思路: 对象.
+    - 思路:
+    - 复杂度分析:
+        - 时间: getO(n), addAtHead O(1), addAtTail O(1), addAtIndex O(idx), deleteAtIndex O(idx). 
+        - 空间: 同时间.
+    - Leetcode 结果:
+        - 执行用时: 156 ms, 在所有 JavaScript 提交中击败了 42.6 %的用户
+        - 内存消耗: 42.6 MB, 在所有 JavaScript 提交中击败 19.6 %的用户
+    - 实现:
+        ``` js
+        var MyLinkedList = function() {
+            this.head = null;
+        };
+        MyLinkedList.prototype.get = function(index) {
+            let tmp = this.head;
+            let count = 0;
+            while (tmp) {
+                if (count === index) return tmp.val;
+                count++;
+                tmp = tmp.next;
+            }
+            return -1;
+        };
+        MyLinkedList.prototype.addAtHead = function(val) {
+            this.head = { val: val, next: this.head };
+        };
+        MyLinkedList.prototype.addAtTail = function(val) {
+            let tmp = this.head;
+            while (tmp.next) tmp = tmp.next;
+            tmp.next = { val: val, next: null};
+        };
+        MyLinkedList.prototype.addAtIndex = function(index, val) {
+            if (index === 0) {
+                this.addAtHead(val);
+            } else {
+                let tmp = this.head;
+                let count = 0;
+                while (count !== index-1) [tmp, count] = [tmp.next, count+1];
+                let next = tmp.next;
+                tmp.next = { val: val, next: next };
+            }
+        };
+        MyLinkedList.prototype.deleteAtIndex = function(index) {
+            if (index === 0) {
+                this.head = this.head.next;
+            } else {
+                let tmp = this.head;
+                let count = 0;
+                while (count !== index-1 && tmp) [tmp, count] = [tmp.next, count+1];
+                if (tmp && tmp.next) tmp.next = tmp.next.next;
+            }
+        };
+        ```
+
+### 142. 环形链表 II
+- 刷题进度:
+    - [x] 快慢指针法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理: 输入为空则返回 null.
+- 初始思路: 快慢指针法.
+    - 思路: 先用快慢指针相遇, 相遇后重置慢指针到 head, 相遇即为环起点.
+        - 前置：设非环部分长度为x, 环起点到相遇位置长度为y，到达相遇位置时慢指针运行环数为n_s, 快指针运行环数为n_f, 环长度为c.
+        - 第一次相遇: 
+            - 表达式 1：慢指针步数 x+n_s\*c+y
+            - 表达式 2：快指针步数为慢指针两倍 2(x+n_s\*c+y)
+            - 表达式 3：快指针又有关于 n_f 的表达式 x+n_f\*c+y
+            - 表达式计算：表达式 2 = 表达式 3
+                - 2(x+n_s\*c+y) = x+n_f\*c+y => x + y = (n_f - 2 \* n_s)\*c
+        - 第二次相遇：
+            - 可得 x + y 是 环长度c 的整数倍, x 为从头走到环起点的距离.
+            - 想要求 x，可以让一个指针从 head 开始走，一个从当前的快慢指针交汇处开始走, 再次相遇即到达环起点.
+    - 复杂度分析:
+        - 时间: O(2x+n_s\*c+y).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var detectCycle = function(head) {
+            if (!head) return null;
+            let [fast, slow] = [head, head];
+            while (fast && fast.next) {
+                [fast, slow] = [fast.next.next, slow.next];
+                if (fast == slow) {
+                    slow = head;
+                    while (fast != slow) [fast, slow] = [fast.next, slow.next];
+                    return slow;
+                }
+            }
+            return null;
+        };
+        ```
+- 第二思路:
     - 思路:
     - 复杂度分析:
         - 时间: 
