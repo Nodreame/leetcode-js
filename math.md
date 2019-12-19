@@ -349,3 +349,61 @@
     - 实现:
         ``` js
         ```
+
+### 693. 交替位二进制数
+- 刷题进度:
+    - [x] 暴力法(先转数组再遍历检测).
+    - [x] 一次遍历.
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 暴力法(先转数组再遍历检测).
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(logn).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: 34.2 MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var hasAlternatingBits = function(n) {
+            let arr = [];
+            while (n !== 0) {
+                arr.push(n % 2);
+                n = Math.floor(n / 2);
+            }
+            for (let i=0, len=arr.length; i<len; i++) {
+                if (typeof arr[i+1] !== 'undefined' && arr[i] === arr[i+1]) {
+                    return false;
+                }
+            } 
+            return true;
+        };
+        ```
+- 第二思路: 一次遍历.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(logn).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 90 %的用户
+        - 内存消耗: 34 MB, 在所有 JavaScript 提交中击败 17.5 %的用户
+    - 实现:
+        ``` js
+        var hasAlternatingBits = function(n) {
+            let flag;
+            while (n !== 0) {
+                let tmp = n % 2;
+                n = Math.floor(n / 2);
+                if (typeof flag === undefined) {
+                    flag = tmp;
+                } else {
+                    if (flag === tmp) return false;
+                    flag = tmp;
+                }
+            }
+            return true;
+        };
+        ```
