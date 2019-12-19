@@ -999,3 +999,46 @@
     - 实现:
         ``` js
         ```
+
+### 387. 字符串中的第一个唯一字符
+- 刷题进度:
+    - [x] Map + 检索 from val=1.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: Map + 检索 from val=1.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var swapPairs = function(head) {
+            if (!head || !head.next) return head;
+            let res = new ListNode(0);
+            res.next = head;
+            let prev = res;
+            while (prev.next && prev.next.next) {
+                let [fst, snd] = [prev.next, prev.next.next];
+                [prev.next, fst.next, snd.next] = [snd, snd.next, fst];
+                prev = prev.next.next;
+            }
+            return res.next;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
