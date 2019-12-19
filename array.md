@@ -633,7 +633,7 @@
 ### 344. 反转字符串
 - 刷题进度:
     - [x] 双指针.
-    - [ ] xxx
+    - [x] 递归.
     - [ ] xxx
 - 难度: easy.
 - 题意解析:
@@ -652,23 +652,30 @@
             if (s.length === 0) return s;
             let [i, j] = [0, s.length-1];
             while (i < j) {
-                [s[i], s[j]] = [s[j], s[i]];
-                i++;
-                j--;
+                [s[i], s[j], i, j] = [s[j], s[i], i+1, j-1];
             }
-            return s;
         };
         ```
-- 第二思路:
+- 第二思路: 递归.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O(n).
+        - 空间: O(n). 递归空间.
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
         ``` js
+        var reverseString = function(s) {
+            helper(0, s.length-1, s);
+        };
+
+        function helper (i, j, arr) {
+            if (i < j) {
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+                helper(++i, --j, arr);
+            }
+        }
         ```
 
 ### 561. 数组拆分 I
@@ -883,4 +890,137 @@
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
         ``` js
+        ```
+
+### 217. 存在重复
+- 刷题进度:
+    - [x] Set.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: Set.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(1).
+        - 空间: O(n). Set 空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var containsDuplicate = function(nums) {
+            let set = new Set(nums);
+            return set.size !== nums.length;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 136. 只出现一次的数字
+- 刷题进度:
+    - [x] Map.
+    - [x] 双重遍历原地去重法.
+    - [x] 排序.
+    - [x] 异或.
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: Map.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(n). Map空间.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var singleNumber = function(nums) {
+            let map = new Map();
+            for (let i=0, len=nums.length; i<len; i++) {
+                map.set(nums[i], map.has(nums[i]) ? map.get(nums[i])+1 : 1);
+            }
+            for (let [k,v] of map) {
+                if (v===1) return k;
+            }
+        };
+        ```
+- 第二思路: 双重遍历原地去重法.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n^2).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var singleNumber = function(nums) {
+            for (let i=0, len=nums.length; i<len; i++) {
+                for (let j=i+1; j<len; j++) {
+                    if (nums[i] === nums[j]) {
+                        nums.splice(j, 1);
+                        nums.splice(i, 1);
+                        i--;
+                        len-=2;
+                        break;
+                    }
+                }
+            }
+            return nums[0];
+        };
+        ```
+- 第三思路: 排序.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(nlogn). 排序耗时.
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var singleNumber = function(nums) {
+            nums.sort((a,b) => a-b);
+            for (let i=0, len=nums.length; i<len; i++) {
+                if (typeof nums[i+1] !== 'undefined') {
+                    if (nums[i] === nums[i+1]) {
+                        i++;
+                    } else {
+                        return nums[i]
+                    }
+                } else {
+                    return nums[i];
+                }
+            }
+        };
+        ```
+- 第四思路: 异或.
+    - 思路: 相同数都被异或为 0，剩下的就是结果.
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 90 %的用户
+        - 内存消耗: 35.6 MB, 在所有 JavaScript 提交中击败 51.7 %的用户
+    - 实现:
+        ``` js
+        var singleNumber = function(nums) {
+            let ans = nums[0];
+            for (let i=1, len=nums.length; i<len; i++) {
+                ans ^= nums[i];
+            }
+            return ans;
+        };
         ```
