@@ -1042,3 +1042,105 @@
     - 实现:
         ``` js
         ```
+
+### 49. 字母异位词分组
+- 刷题进度:
+    - [x] Map(字母重排, 原值数组]
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路: Map(字母重排, 原值数组]
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n^k). k 为字符平均长度.
+        - 空间: O(n). map 最大为 n.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var groupAnagrams = function(strs) {
+            let map = new Map();
+            strs.forEach(item => {
+                let key = item.split('').sort().join('');
+                if (map.has(key)) map.get(key).push(item);
+                else map.set(key, [item]);
+            });
+            return Array.from(map.values());
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 149. 直线上最多的点数
+- 刷题进度:
+    - [x] 双遍历放，斜率存Map
+    - [ ] xxx
+    - [ ] xxx
+- 难度: hard.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双遍历放，斜率存Map
+    - 思路: 每轮计算出当前最大值, 遇到相同的点直接加一退出即可.
+    - 复杂度分析:
+        - 时间: O(n^2).
+        - 空间: O(n).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var maxPoints = function(points) {
+            let len = points.length;
+            if (len < 3) return len; 
+            let res = 0;
+            for (let i=0; i<len; i++) {
+                let max = 0;
+                let duplicate = 0;
+                let map = new Map();
+                for (let j=i+1; j<len; j++) {
+                    let [x, y] = [points[j][0] - points[i][0], points[j][1] - points[i][1]];
+                    if (x === 0 && y === 0) {
+                        duplicate++;
+                        continue;
+                    }
+                    let gcdNum = gcd(x, y);
+                    let slope = `${Math.floor(y/gcdNum)}|${Math.floor(x/gcdNum)}`;
+                    map.set(slope, map.has(slope) ? map.get(slope)+1 : 1);
+                    max = Math.max(max, map.get(slope));
+                    console.log(`[${i}, ${j}, ${gcdNum}, ${slope}, ${map.get(slope)}`);
+                }
+                res = Math.max(res, duplicate+max+1);
+            }
+            return res;
+        };
+
+        function gcd (a, b) {
+            while (b !== 0) {
+                [a, b] = [b, a % b];
+            }
+            return a;
+        }
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```

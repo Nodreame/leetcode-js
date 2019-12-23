@@ -186,3 +186,99 @@
             return max;
         };
         ```
+
+### 205. 同构字符串
+- 刷题进度:
+    - [x] Map.
+    - [x] IndexOf.
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: Map.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var isIsomorphic = function(s, t) {
+            if (s.length !== t.length) return false;
+            let map = new Map();
+            for (let i=0, len=s.length; i<len; i++) {
+                if (map.has(s[i])) {
+                    if (map.get(s[i]) !== t[i]) return false;
+                } else {
+                    for (let [k, v] of map) {
+                        if (v === t[i]) return false;
+                    }
+                    map.set(s[i], t[i]);
+                }
+            }
+            return true;
+        };
+        ```
+- 第二思路: IndexOf.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var isIsomorphic = function(s, t) {
+            if (s.length !== t.length) return false;
+            for (let i=0, len=s.length; i<len; i++) {
+                if (s.indexOf(s[i]) !== t.indexOf(t[i])) return false;
+            }
+            return true;
+        };
+        ```
+
+### 451. 根据字符出现频率排序
+- 刷题进度:
+    - [x] 计数后借助数组整合.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 计数后借助数组整合.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var frequencySort = function(s) {
+            let map = new Map();
+            for (let i=0, len=s.length; i<len; i++) {
+                map.set(s[i], map.has(s[i]) ? map.get(s[i])+1 : 1);
+            }
+            let arr = [];
+            for (let [k, v] of map) {
+                arr[v-1] = arr[v-1] ? arr[v-1] : '';
+                arr[v-1] += Array.from({length: v}, ()=>k).join('');
+            }
+            return arr.reverse().join('');
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```

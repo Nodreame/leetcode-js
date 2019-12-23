@@ -1024,3 +1024,345 @@
             return ans;
         };
         ```
+
+### 349. 两个数组的交集
+- 刷题进度:
+    - [x] 双 Set.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双 Set.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var intersection = function(nums1, nums2) {
+            let [set1, set2] = [new Set(nums1), new Set(nums2)];
+            let res = [];
+            for (let s of set2) {
+                if (set1.has(s)) res.push(s);
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 350. 两个数组的交集 II
+- 刷题进度:
+    - [ ] 双 map 暴力.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: 
+- 题意解析:
+- 输入处理:
+- 初始思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var intersect = function(nums1, nums2) {
+            let [map1, map2] = [new Map(), new Map()];
+            for (let i=0, len=nums1.length; i<len; i++) {
+                map1.set(nums1[i], map1.has(nums1[i]) ? map1.get(nums1[i])+1 : 1);
+            }
+            for (let i=0, len=nums2.length; i<len; i++) {
+                map2.set(nums2[i], map2.has(nums2[i]) ? map2.get(nums2[i])+1 : 1);
+            }
+            let res = [];
+            for (let [k1, v1] of map1) {
+                for (let [k2, v2] of map2) {
+                    if (k1 === k2) {
+                        let min = Math.min(v1, v2);
+                        for (let i=0; i<min; i++) res.push(k1);
+                    } 
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 15.三数之和
+- 刷题进度:
+    - [x] for + twoSum.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: for + twoSum.
+    - 思路: 
+    - 复杂度分析:
+        - 时间: O(n^2). 排序 O(nLogn) + for(n) * twoSum O(n).
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: 628 ms, 在所有 JavaScript 提交中击败了 5 %的用户
+        - 内存消耗: 56.7 MB, 在所有 JavaScript 提交中击败 12.3 %的用户
+    - 实现:
+        ``` js
+        var threeSum = function(nums) {
+            let len = nums.length;
+            nums.sort((a,b) => a-b);
+            if (nums.length < 3) return [];
+            if (nums[0] > 0 && nums[len-1] > 0) return [];
+            if (nums[0] < 0 && nums[len-1] < 0) return [];
+            if (nums[0] === 0 && nums[len-1] === 0) return [[0,0,0]];
+            let map = new Map();
+            for (let i=0, limitLen=len-2; i<limitLen; i++) {
+                let tmp = nums[i];
+                let matchArr = twoSum (nums.slice(i+1), -tmp);
+                matchArr.forEach(item => {
+                    item.unshift(tmp);
+                    map.set(item.join(''), item);
+                });
+            }
+            return Array.from(map.values());
+        };
+
+        function twoSum (arr, target) {
+            let map = new Map();
+            let res = [];
+            for (let i=0, len=arr.length; i<len; i++) {
+                if (map.has(target - arr[i])) {
+                    res.push([target - arr[i], arr[i]]); 
+                } else {
+                    map.set(arr[i], i);
+                }
+            }
+            return res;
+        }
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 18. 四数之和
+- 刷题进度:
+    - [x] 双for + twosum.（合并写法）
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双for + twosum.（合并写法）
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n^3). 排序 O(nLogn) + 双 for(n^2) * twoSum O(n).
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var fourSum = function(nums, target) {
+            let len = nums.length;
+            if (len < 4) return [];
+            nums = nums.sort((a, b) => a-b);
+            if (nums[0]>0 && nums[len-1]>0) return [];
+            if (nums[0]<0 && nums[len-1]<0) return [];
+            if (nums[0] === nums[len-1]) return target === 0 ? [[0, 0, 0, 0]] : [];
+            let map = new Map();
+            for (let m=0, mLen=len-3; m<mLen; m++) {
+                for (let i=m+1, iLen=len-2; i<iLen; i++) {
+                    let tmp = target - nums[m] - nums[i];
+                    let tmpMap = new Map();
+                    let matchArr = [];
+                    for (let j=i+1; j<len; j++) {
+                        if (tmpMap.has(nums[j])) {
+                            matchArr.push([tmp-nums[j], nums[j]]);
+                        } else {
+                            tmpMap.set(tmp-nums[j], j);
+                        }
+                    }
+                    matchArr.forEach(item => {
+                        item.unshift(nums[i]);
+                        item.unshift(nums[m]);
+                        map.set(item.join(''), item);
+                    });
+                }
+            }
+            return Array.from(map.values());
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 454.四数相加 II
+- 刷题进度:
+    - [x] 砍半放map，剩余双遍历对比.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 砍半放map，剩余双遍历对比.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n^2). 砍半放入 Map O(n^2) + 剩余双遍历 O(n^2).
+        - 空间: O(n^2). map 最多存在 n^2 个键值对.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var fourSumCount = function(A, B, C, D) {
+            let len = A.length;
+            let count = 0;
+            let map = new Map();
+            for (let i=0; i<len; i++) {
+                for (let j=0; j<len; j++) {
+                    let tmp = A[i] + B[j];
+                    map.set(tmp, map.has(tmp) ? map.get(tmp)+1: 1);
+                }
+            }
+            for (let i=0; i<len; i++) {
+                for (let j=0; j<len; j++) {
+                    let tmp = 0 - C[i] - D[j];
+                    if (map.has(tmp)) count+=map.get(tmp);
+                }
+            }
+            return count;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 219 存在重复元素 II    
+- 刷题进度:
+    - [x] 双指针推进.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy. 
+- 题意解析:
+- 输入处理:
+- 初始思路: 双指针推进.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n*k).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var containsNearbyDuplicate = function(nums, k) {
+            let len = nums.length;
+            for (let m=k; m>0; m--) {
+                for (let i=0; i<len-m; i++) {
+                    let j = i+m;
+                    if (nums[i] === nums[j]) return true; 
+                }
+            }
+            return false;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+    
+### 220 存在重复元素 III
+- 刷题进度:
+    - [x] 双指针推进.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 双指针推进.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n*k).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var containsNearbyAlmostDuplicate = function(nums, k, t) {
+            for (let m=k; m>0; m--) {
+                for (let i=0, len=nums.length; i<len-m; i++) {
+                    let j = i + m;
+                    if (Math.abs(nums[i] - nums[j]) <= t) return true;
+                }
+            }
+            return false;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+

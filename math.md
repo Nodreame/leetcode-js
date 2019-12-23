@@ -407,3 +407,60 @@
             return true;
         };
         ```
+
+### 50. Pow(x, n)
+- 刷题进度:
+    - [x] 砍半递归.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 砍半递归.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(logn).
+        - 空间: O(logn).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var myPow = function(x, n) {
+            if (n === 0) return 1;
+            let flag = n > 0;
+            return flag ? pow(x, n, 1) : 1 / pow(x, -n, 1);
+        };
+
+        function pow (x, n, e) {
+            if (n === 0) return e;
+            if (n % 2 === 0) return pow(x*x, Math.floor(n/2), e);
+            if (n % 2 === 1) return pow(x, n-1, e*x);
+        }
+        ```
+- 第二思路: 砍半迭代.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(logn).
+        - 空间: o(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var myPow = function(x, n) {
+            if (n === 0) return 1;
+            let flag = n > 0;
+            return flag ? pow(x, n) : 1 / pow(x, -n);
+        };
+
+        function pow (x, n) {
+            let res = 1;
+            while (n !== 0) {
+                if (n % 2 === 1) res *= x;
+                x *= x;
+                n = Math.floor(n / 2);
+            }
+            return res;
+        }
+        ```
