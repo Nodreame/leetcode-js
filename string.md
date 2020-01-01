@@ -1018,17 +1018,19 @@
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
         ``` js
-        var swapPairs = function(head) {
-            if (!head || !head.next) return head;
-            let res = new ListNode(0);
-            res.next = head;
-            let prev = res;
-            while (prev.next && prev.next.next) {
-                let [fst, snd] = [prev.next, prev.next.next];
-                [prev.next, fst.next, snd.next] = [snd, snd.next, fst];
-                prev = prev.next.next;
+        var firstUniqChar = function(s) {
+            let len = s.length;
+            let map = new Map();
+            for (let i=0; i<len; i++) {
+                map.set(s[i], map.has(s[i]) ? map.get(s[i])+1 : 1);
             }
-            return res.next;
+            let resIdx = len + 1;
+            for (let [k, v] of map) {
+                if (v === 1) {
+                    resIdx = Math.min(resIdx, s.indexOf(k));
+                }
+            }
+            return resIdx === len+1 ? -1 : resIdx;
         };
         ```
 - 第二思路:
@@ -1132,6 +1134,136 @@
             }
             return a;
         }
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 7. 整数反转
+- 刷题进度:
+    - [x] 暴力(利用 JS 数字 2^31 不溢出).
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 暴力(利用 JS 数字 2^31 不溢出).
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(x.length).
+        - 空间: O(x.length). 额外数组.
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var reverse = function(x) {
+            let flag = x >= 0;
+            let numStr = /[0-9]{1,}$/g.exec(x)[0];
+            let reNumStr = numStr.split('').reverse().join('');
+            let num = reNumStr / (flag ? 1 : -1);
+            let max = Math.pow(2, 31) - 1;
+            let min = -1 * (max + 1)
+            return num < max && num > min ? num : 0;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 8. 字符串转换整数 (atoi)
+- 刷题进度:
+    - [x] TODO:（待优化）暴力 + 正则.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 暴力 + 正则.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var myAtoi = function(str) {
+            str = str.replace(/^\s+/g, '');
+            let sNum = '';
+            if (/^\d+/g.test(str)) {
+                sNum = /^\d+/g.exec(str)[0];
+            } else {
+                if (/^\-[\d]+/g.test(str) || /^\+[\d]+/g.test(str)) {
+                    sNum = /^\-[\d]+/g.test(str) ? /^\-[\d]+/g.exec(str): 
+                        /^\+[\d]+/g.exec(str);
+                } else {
+                    return 0;
+                }
+            }
+            let num = sNum / 1;
+            console.log(num);
+            let max = Math.pow(2, 31) - 1;
+            let min = -1 * (max + 1);
+            if (num > max) return max;
+            if (num < min) return min;
+            return num;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 38. 报数
+- 刷题进度:
+    - [ ] 正则.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 正则.
+    - 思路: [ZenyK 的答案](https://leetcode-cn.com/problems/count-and-say/solution/tong-guo-zheng-ze-he-bing-xiang-tong-yuan-su-wan-c/)
+    - 复杂度分析:
+        - 时间: O(n). n 为第几项.
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var countAndSay = function(n) {
+            let s = '1';
+            for (let i=1; i<n; i++) {
+                s = s.replace(/(\d)\1*/g, item => `${item.length}${item[0]}`)
+            }
+            return s;
+        };
         ```
 - 第二思路:
     - 思路:
