@@ -3,11 +3,14 @@
 ## Leetcode 刷题
 
 ### 234. 回文链表
+- 刷题进度:
+    - [ ] TODO：快慢指针 + 后半链表反转
+    - [ ] TODO：快慢指针 + 前半链表反转
+    - [x] 快慢指针 + 数组&后边链表对比
 - from：学习完极客时间《数据结构与算法之美》第六篇|链表（上）[https://time.geekbang.org/column/article/e34d5d1bb5c8ef3b18076bc2d2fad33a/share?code=QL4k0yL62vmfx42gu7VS9i592A2AV6EbqBJEXwyI22Y%3D&oss_token=aae64bcf6e8563e6]后过来实践.
 - 难度：easy (感觉是 medium)
 - 题意解析：给定一个链表，判断其是否为回文链表.
-- 初始思路：无
-- 思路1：快慢指针（有中间变量）：用一个慢指针(每次指向下一个节点)和一个快指针(每次指向下下个节点)来遍历链表，找到链表中点后反转后半部分内容，与原链表对比.
+- 初始思路：快慢指针（有中间变量）：用一个慢指针(每次指向下一个节点)和一个快指针(每次指向下下个节点)来遍历链表，找到链表中点后反转后半部分内容，与原链表对比.
     - 复杂度分析：遍历链表故时间为O(n)，采用了中间遍历存储后半部分链表故空间O(n)，空间复杂度不满足要求;
     - 步骤如下：
         - 0) 加预处理：
@@ -69,8 +72,42 @@
             return true;
         };
         ```
-- 思路2：快慢指针（无中间变量）用一个慢指针(每次指向下一个节点)和一个快指针(每次指向下下个节点)来遍历链表，慢指针不断反转自身直到找到链表中点，找到后直接开始对比操作.
-
+- 第二思路：快慢指针（无中间变量）用一个慢指针(每次指向下一个节点)和一个快指针(每次指向下下个节点)来遍历链表，慢指针不断反转自身直到找到链表中点，找到后直接开始对比操作.
+- 第三思路：快慢指针 + 数组&后边链表对比
+    - 思路: 
+        - STEP1. 快指针推进：快慢指针同时出发，慢指针持续将值加入数组.
+        - STEP2. 慢指针推进：
+            - 如果快指针为 null 则弹出数组最后一位 (head 为奇数时，快慢指针推进后 fast 为 null，故在此去除中间值)
+            - 将慢指针推进一位
+            - 开始对比
+    - 复杂度分析:
+        - 时间: O(n). 慢指针合计遍历链表一遍.
+        - 空间: O(n). 数组消耗.
+    - Leetcode 结果:
+        - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 63 %的用户
+        - 内存消耗: 41.5 MB, 在所有 JavaScript 提交中击败 27.5 %的用户
+    - 实现:
+        ``` js
+        var isPalindrome = function(head) {
+            if (!head || !head.next) return true;
+            let res = new ListNode(-1);
+            res.next = head;
+            let [slow, fast] = [res, res];
+            let arr = [];
+            while (fast && fast.next) {
+                [fast, slow] = [fast.next.next, slow.next];
+                arr.push(slow.val);
+            }
+            // head 为奇数时，快慢指针推进后 fast 为 null，故在此去除中间值
+            if (!fast) arr.pop();
+            slow = slow.next; // 将 slow 推进到后半部分
+            while (slow) {
+                if (slow.val !== arr.pop()) return false;
+                slow = slow.next;
+            }
+            return true;
+        };
+        ```
 
 ### 141. 链表中环的检测 
 - from: 极客时间《数据结构与算法之美》第七篇|链表（下）[https://time.geekbang.org/column/article/fda84f8a5e99425f9ccf15c8076313b7/share?code=QL4k0yL62vmfx42gu7VS9i592A2AV6EbqBJEXwyI22Y%3D] 课后题02.
@@ -1229,7 +1266,7 @@
 ### 61. 旋转链表
 - 刷题进度:
     - [x] 循环头插
-    - [ ] xxx
+    - [x] 计数倒装
     - [ ] xxx
 - 难度: medium
 - 题意解析: 给定一个链表，将每个节点循环右移k次，返回最终结果.
@@ -1265,7 +1302,7 @@
             return res.next;
         };
         ```
-- 第二思路:
+- 第二思路: 计数倒装
     - 思路:
     - 复杂度分析:
         - 时间: 
@@ -1275,6 +1312,24 @@
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
         ``` js
+        var rotateRight = function(head, k) {
+            if (!head || !head.next) return head;
+            let [tmp, len] = [head, 0];
+            while (tmp) [tmp, len] = [tmp.next, len+1];
+            k = k % len;
+            if (k === 0) return head;
+            
+            let curr = head;
+            for (let i=0, count=len-k-1; i<count; i++) curr = curr.next;
+            let next = curr.next;
+            curr.next = null;
+            let tmpNext = next;
+            while (tmpNext.next) {
+                tmpNext = tmpNext.next;
+            }
+            tmpNext.next = head;
+            return next;
+        };
         ```
 
 ### 725. 分隔链表
@@ -1555,6 +1610,94 @@
                 }
             }
             return null;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 19. 删除链表的倒数第N个节点
+- 刷题进度:
+    - [ ] 计数定位
+    - [x] 快慢指针
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 计数定位
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+- 第二思路: 快慢指针
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var removeNthFromEnd = function(head, n) {
+            let res = new ListNode(0);
+            res.next = head;
+            let [fast, slow] = [res, res];
+            for (let i=0; i<n+1; i++) fast = fast.next;
+            while (fast && slow) {
+                fast = fast.next;
+                slow = slow.next;
+            }
+            slow.next = slow.next.next;
+            return res.next;
+        };
+        ```
+
+### 2. 两数相加
+- 刷题进度:
+    - [x] 链表推进
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 链表推进
+    - 思路: 用一个新链表承载推进结果.
+    - 复杂度分析:
+        - 时间: O(m+n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 236 ms, 在所有 JavaScript 提交中击败了 5 %的用户
+        - 内存消耗: 46.2 MB, 在所有 JavaScript 提交中击败 5 %的用户
+    - 实现:
+        ``` js
+        var addTwoNumbers = function(l1, l2) {
+            let carry = 0;
+            let res = new ListNode(-1);
+            let prev = res;
+            while (l1 || l2 || carry) {
+                let tmp = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry;
+                console.log(tmp);
+                carry = tmp > 9 ? 1 : 0;
+                prev.next = new ListNode(tmp % 10);
+                prev = prev.next;
+                [l1, l2] = [l1 ? l1.next : l1, l2 ? l2.next : l2]
+            }
+            return res.next;
         };
         ```
 - 第二思路:
