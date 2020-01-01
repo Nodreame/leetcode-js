@@ -1366,3 +1366,203 @@
         ``` js
         ```
 
+### 36. 有效的数独
+- 刷题进度:
+    - [x] 暴力三段法
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 暴力三段法.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n). 遍历耗时.
+        - 空间: O(n). 额外Set 及 数组空间消耗.
+    - Leetcode 结果:
+        - 执行用时: 100 ms, 在所有 JavaScript 提交中击败了 30 %的用户
+        - 内存消耗: 38 MB, 在所有 JavaScript 提交中击败 27 %的用户
+    - 实现:
+        ``` js
+        var isValidSudoku = function(board) {
+            // 1. 横排比较
+            for (let i=0, len=board.length; i<len; i++) {
+                let tmpArr = board[i].filter(x => x > 0);
+                if (tmpArr.length !== new Set(tmpArr).size) return false;
+            }
+            // 2. 纵列比较
+            for (let i=0, len=board.length; i<len; i++) {
+                let tmpArr = [
+                    board[0][i], board[1][i], board[2][i], board[3][i], board[4][i],
+                    board[5][i],board[6][i], board[7][i], board[8][i]
+                ];
+                tmpArr = tmpArr.filter(x => x > 0);
+                if (tmpArr.length !== new Set(tmpArr).size) return false;
+            }
+            // 3. 3*3内比较
+            for (let i=0; i<3; i++) {
+                for (let j=0; j<3; j++) {
+                    let tmpArr = [
+                        board[3*i][3*j], board[3*i][3*j+1], board[3*i][3*j+2],
+                        board[3*i+1][3*j], board[3*i+1][3*j+1], board[3*i+1][3*j+2],
+                        board[3*i+2][3*j], board[3*i+2][3*j+1], board[3*i+2][3*j+2]
+                    ];
+                    tmpArr = tmpArr.filter(x => x > 0);
+                    if (tmpArr.length !== new Set(tmpArr).size) return false;
+                }
+            }
+            
+            return true;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 48. 旋转图像
+- 刷题进度:
+    - [x] 对角线翻转+每行反转.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理: 空数组处理.
+- 初始思路: 对角线翻转+每行反转.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n^2).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var rotate = function(matrix) {
+            if (matrix.length === 0 || matrix[0].length === 0) return [];
+            let len = matrix.length;
+            for (let i=0; i<len; i++) {
+                for (let j=i; j<len; j++) {
+                    if (i!==j) [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
+                }
+            }
+            for (let i=0; i<len; i++) {
+                let [a, b] = [0, len-1];
+                while (a < b) {
+                    [matrix[i][a], matrix[i][b]] = [matrix[i][b], matrix[i][a]];
+                    [a, b] = [a+1, b-1];
+                }
+            }
+            return matrix;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 54. 螺旋矩阵 II
+- 刷题进度:
+    - [x] 暴力法.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: medium.
+- 题意解析:
+- 输入处理:
+- 初始思路: 暴力法.
+    - 思路: 设定 xy 的上下限，暴力循环缩进.
+    - 复杂度分析:
+        - 时间: O(n^2).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 51 %的用户.
+        - 内存消耗: 34.5 MB, 在所有 JavaScript 提交中击败 15 %的用户.
+    - 实现:
+        ``` js
+        var generateMatrix = function(n) {
+            let res = Array.from({ length: n }, () => []);
+            let [minX, maxX, minY, maxY] = [0, n-1, 0, n-1];
+            let count = 1;
+            while (true) {
+                for (let i=minX; i<=maxX; i++) [res[minY][i], count] = [count, count+1];
+                minY++;
+                if (minY > maxY) break;
+                for (let i=minY; i<=maxY; i++) [res[i][maxX], count] = [count, count+1];
+                maxX--;
+                if (minX > maxX) break;
+                for (let i=maxX; i>=minX; i--) [res[maxY][i], count] = [count, count+1];
+                maxY--;
+                if (minY > maxY) break;
+                for (let i=maxY; i>=minY; i--) [res[i][minX], count] = [count, count+1];
+                minX++;
+                if (minX > maxX) break;
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 5295. 和为零的N个唯一整数
+- 刷题进度:
+    - [x] 判断奇偶 + 折半推进.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 判断奇偶 + 折半推进.
+    - 思路:
+    - 复杂度分析:
+        - 时间: O(n).
+        - 空间: O(1).
+    - Leetcode 结果:
+        - 执行用时: 56 ms, 在所有 JavaScript 提交中击败了 100 %的用户
+        - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 100 %的用户
+    - 实现:
+        ``` js
+        var sumZero = function(n) {
+            if (n <= 0) return [];
+            let res = [];
+            if (n % 2 === 1) {
+                res.push(0);
+                n -= 1;
+            }
+            for (let i=1, len=n/2+1; i<len; i++) res.push(i, -i);
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
