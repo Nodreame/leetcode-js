@@ -282,3 +282,166 @@
     - 实现:
         ``` js
         ```
+
+### 705. 设计哈希集合
+- 刷题进度:
+    - [x] 数组 x 链表
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 数组 x 链表
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        function ListNode (val) {
+            this.val = val;
+            this.next = null;
+        }
+        var MyHashSet = function() {
+            this.arr = Array.from({ length: 5 }, () => new ListNode(-1));
+        };
+        MyHashSet.prototype.add = function(key) {
+            let idx = key % 5;
+            let head = this.arr[idx];
+            let prev = head;
+            while (prev.val !== key && prev.next) {
+                prev = prev.next;
+            }
+            if (prev.val !== key) prev.next = new ListNode(key);
+        };
+        MyHashSet.prototype.remove = function(key) {
+            let idx = key % 5;
+            let head = this.arr[idx];
+            let prev = head;
+            while (prev.next) {
+                if (prev.next.val === key) {
+                    prev.next = prev.next.next;
+                    break;
+                }
+                prev = prev.next;
+            }
+        };
+        MyHashSet.prototype.contains = function(key) {
+            let idx = key % 5;
+            let head = this.arr[idx];
+            let prev = head;
+            while (prev.next) {
+                if (prev.next.val === key) return true;
+                prev = prev.next;
+            }
+            return false;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 706. 设计哈希映射
+- 刷题进度:
+    - [x] 数组 x 链表.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: 数组 x 链表.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var MyHashMap = function() {
+            this.arr = Array.from({length: 5}, ()=>[]);
+        };
+        MyHashMap.prototype.put = function(key, value) {
+            let [idx1, idx2] = [key % 5, Math.floor(key / 5)];
+            this.arr[idx1][idx2] = value;
+        };
+        MyHashMap.prototype.get = function(key) {
+            let [idx1, idx2] = [key % 5, Math.floor(key / 5)];
+            let tmp = this.arr[idx1][idx2];
+            return typeof tmp !== 'undefined' ? tmp : -1;
+        };
+        MyHashMap.prototype.remove = function(key) {
+            let [idx1, idx2] = [key % 5, Math.floor(key / 5)];
+            this.arr[idx1][idx2] = undefined;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
+
+### 599. 两个列表的最小索引总和
+- 刷题进度:
+    - [x] HashMap.
+    - [ ] xxx
+    - [ ] xxx
+- 难度: easy.
+- 题意解析:
+- 输入处理:
+- 初始思路: HashMap.
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        var findRestaurant = function(list1, list2) {
+            let map = new Map();
+            for (let i=0, len=list1.length; i<len; i++) {
+                map.set(list1[i], i);
+            }
+            let count = Number.POSITIVE_INFINITY;
+            let res = null;
+            for (let i=0, len=list2.length; i<len; i++) {
+                if (map.has(list2[i])) {
+                    let tmpCount = map.get(list2[i]) + i;
+                    if (count > tmpCount) [count, res] = [tmpCount, [list2[i]]];
+                    else if (count === tmpCount) res.push(list2[i]);
+                }
+            }
+            return res;
+        };
+        ```
+- 第二思路:
+    - 思路:
+    - 复杂度分析:
+        - 时间: 
+        - 空间: 
+    - Leetcode 结果:
+        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
+        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+    - 实现:
+        ``` js
+        ```
