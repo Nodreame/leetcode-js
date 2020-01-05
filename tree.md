@@ -1,5 +1,3 @@
-# tree 树专题
-
 ## 零、基础知识
 
 ### 1. 树的基础概念
@@ -11,7 +9,7 @@
         - 当 n>1 时，其余结点可被分成m(m>0)个互不相交的有限集合,每个集合都是一棵树，并且称为根(root)的子树;
 - 树的相关概念：
     - 结点的度: 结点所拥有子树的数目;
-    - 结点关系: 
+    - 结点关系:
         - 孩子结点: 某结点子树的根节点;
         - 双亲结点: 某结点对于其子树;
         - 兄弟结点: 同一个双亲结点的孩子结点们;
@@ -54,6 +52,7 @@
 ## 一、Leetcode 刷题
 
 ### 144. 二叉树的前序遍历 preorderTraversal
+
 - 刷题进度:
     - [x] 模板递归法(DFS)
     - [x] 含状态的模板迭代法(DFS) & 优化模板迭代法(DFS)
@@ -75,6 +74,7 @@
         - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了98.77%的用户
         - 内存消耗 : 34.1 MB, 在所有 JavaScript 提交中击败5.18%的用户
     - 实现(新):
+
         ``` js
         var preorderTraversal = function(root) {
             if (!root) return [];     // 在此先做一次节点判空，循环中就不用做节点判空了
@@ -90,13 +90,14 @@
             // 2. process
             res.push(node.val);                                         // 根
 
-            // 3. drill down                                            
+            // 3. drill down
             node.left? recursion(node.left, res): '';          // 左
             node.right? recursion(node.right, res): '';        // 右
-            
+
             // 4.  recover
         }
         ```
+
 - 第二思路: 含状态的模板迭代法(DFS).**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
     - 思路: 用栈辅助存储未处理的值,每个节点加上标志位flag,标志位的作用是标志节点的身份是否为处理完成的节点.
     - 复杂度分析:
@@ -106,6 +107,7 @@
         - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  96.30%的用户
         - 内存消耗 : 34.1MB, 在所有 JavaScript 提交中击败  5.18%的用户
     - 实现:
+
         ``` js
             var preorderTraversal = function(root) {
                 if (!root) return [];
@@ -128,6 +130,7 @@
                 return res;
             };
         ```
+
 - 第三思路：优化模板迭代法(DFS).
     - 思路：由第二思路的"模板迭代法"所衍生的写法，通过将两次遍历节点的过程改为一次遍历，有效将时间复杂度O(2n)降到O(n).同时由于不使用标志位及减少了压栈次数，故空间复杂度也得到了优化.
     - 复杂度分析：
@@ -137,6 +140,7 @@
         - 执行用时 :68 ms, 在所有 JavaScript 提交中击败了97.78%的用户
         - 内存消耗 :33.6 MB, 在所有 JavaScript 提交中击败了51.30%的用户
     - 实现：
+
         ``` js
         var preorderTraversal = function(root) {
             if (!root || root.val === null) return [];
@@ -160,10 +164,11 @@
             return res;
         };
         ```
-- 第四思路: 模板迭代法2(DFS). 
+
+- 第四思路: 模板迭代法2(DFS).
     - 思路: 不断检测当前节点是否存在：
         - true: 塞val进结果，塞node进栈，继续左子树 DFS推进;
-        - false: 弹栈赋值给node, node 右子树推进一步，循环继续 
+        - false: 弹栈赋值给node, node 右子树推进一步，循环继续
     - 复杂度分析:
         - 时间: 执行次数等同于树节点个数，故 O(n)
         - 空间: 结果数组是必备空间所以不占复杂度，占空间的是栈的大小
@@ -174,6 +179,7 @@
         - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了 96.68%的用户
         - 内存消耗 : 33.8MB, 在所有 JavaScript 提交中击败 17.62%的用户
     - 实现:
+
         ``` js
         var preorderTraversal = function(root) {
             if (!root) return [];
@@ -192,6 +198,7 @@
             return res;
         };
         ```
+
 - 第五思路: 栈只存右节点(DFS, 迭代)
     - 思路: 栈只存右节点，在左斜树的情况下空间复杂度近似O(1)
     - 复杂度分析:
@@ -201,6 +208,7 @@
         - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗 : 33.8MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var preorderTraversal = function(root) {
             if (!root) return [];
@@ -220,6 +228,7 @@
         ```
 
 ### 94. 二叉树的中序遍历 inorderTraversal
+
 - 刷题进度:
     - [x] 模板递归法(DFS).
     - [x] 含状态的模板迭代法(DFS).
@@ -238,6 +247,7 @@
         - 执行用时 : 60 ms, 在所有 JavaScript 提交中击败了99.84%的用户
         - 内存消耗 : 34 MB, 在所有 JavaScript 提交中击败6.34%的用户
     - 实现:
+
         ``` js
         var inorderTraversal = function(root) {
             if (!root) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
@@ -249,25 +259,27 @@
         function recursion (node, res) {
             // 1. terminator
             //if (!node || node.val===null) return;         // 旧.
-            
+
             // 2. process
             // 3. drill down
             node.left? recursion(node.left, res): '';          // 左
             res.push(node.val);                                         // 根
             node.right? recursion(node.right, res): '';        // 右
-            
+
             // 4. recover
         }
         ```
+
 - 第二思路: 模板迭代法.**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
     - 思路: 用栈辅助存储未处理的值,每个节点加上标志位flag,标志位的作用是标志节点的身份是否为处理完成的节点.
     - 复杂度分析:
         - 时间: O(n). 耗时点在于每个结点会经历两次遍历(塞入->弹出->标记->塞入->弹出)，也就是时间复杂度是O(2n);
-        - 空间: O(n). 分析同上. 
+        - 空间: O(n). 分析同上.
     - Leetcode 结果:
         - 执行用时 : 84ms, 在所有 JavaScript 提交中击败了  78.76%的用户
         - 内存消耗 : 33.4MB, 在所有 JavaScript 提交中击败  93.28%的用户
     - 实现:
+
         ``` js
         var inorderTraversal = function(root) {
             if (!root || root.val===null) return [];
@@ -290,6 +302,7 @@
             return res;
         };
         ```
+
 - 第三思路：模板迭代法2(DFS).
     - 思路：不断检测当前节点是否存在
         - true: DFS左子树(同时插入栈)，直到为空。
@@ -305,6 +318,7 @@
         - 执行用时 :88 ms, 在所有 JavaScript 提交中击败了73.33%的用户
         - 内存消耗 :33.5 MB, 在所有 JavaScript 提交中击败了86.94%的用户
     - 实现：
+
         ``` js
         var inorderTraversal = function(root) {
             let res = [];
@@ -324,6 +338,7 @@
         ```
 
 ### 145. 二叉树的后序遍历 postorderTraversal
+
 - 刷题进度:
     - [x] 模板递归法解答(四步解题)
     - [x] 模板迭代法解答
@@ -341,6 +356,7 @@
         - 执行用时 : 72 ms, 在所有 JavaScript 提交中击败了93.75 %的用户
         - 内存消耗 : 33.7 MB, 在所有 JavaScript 提交中击败31.15%的用户
     - 实现:
+
         ``` js
         var preorderTraversal = function(root) {
             if (!root) return [];        // 在此先做一次节点判空，循环中就不用做节点判空了
@@ -352,16 +368,17 @@
         function recursion (node, res) {
             // 1. terminator
             //if (!node || node.val===null) return;         // 旧.
-            
+
             // 2. process
             // 3. drill down
             node.left? recursion(node.left, res): '';          // 左
             node.right? recursion(node.right, res): '';        // 右
             res.push(node.val);                                         // 根
-            
+
             // 4. recover
         }
         ```
+
 - 第二思路: 模板迭代法.**Tip: 思路类似递归法。取代"优化迭代法"新晋第二位，原因是能够同模板套用解题**
     - 思路:用栈辅助存储未处理的值,每个节点加上标志位flag,标志位的作用是标志节点的身份是否为处理完成的节点.
     - 复杂度分析:
@@ -371,6 +388,7 @@
         - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了  81.91%的用户
         - 内存消耗 : 34.2MB, 在所有 JavaScript 提交中击败  5.74%的用户
     - 实现:
+
         ``` js
         var postorderTraversal = function(root) {
             if (!root) return [];
@@ -393,6 +411,7 @@
             return res;
         };
         ```
+
 - 第三思路.1：结果反转法(迭代,DFS,类似前序).
     - 初始思路：通过判断左右子树是否空来实现，但是存在判断上的问题(除非改变树内容)，所以先看答案了.
     - 简易思路：后序顺序为:左-右-根，其入栈顺序为: 根-右-左，和前序相近，用前序方式实现并将结果反转即可.
@@ -405,22 +424,24 @@
             - 执行用时 : 68 ms, 在所有 JavaScript 提交中击败了96.79%的用户
             - 内存消耗 : 33.9 MB, 在所有 JavaScript 提交中击败了9.84%的用户
         - 实现：
+
             ``` js
             var postorderTraversal = function(root) {
                 if (!root) return [];
                 let res = [];
                 let stack = [root];
-                
+
                 while (stack.length>0) {
                     let node = stack.pop();
                     if (node.left) stack.push(node.left);
                     if (node.right) stack.push(node.right);
                     res.push(node.val);
                 }
-                
+
                 return res.reverse();
             };
             ```
+
 - 第三思路.2: 前序头插法(迭代,DFS,类似前序)
     - 思路: 类似第三思路，将结尾反转改为结果头插.
     - 复杂度分析:
@@ -430,6 +451,7 @@
         - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  90.68%的用户
         - 内存消耗 : 34.1MB, 在所有 JavaScript 提交中击败  5.74%的用户
     - 实现:
+
         ``` js
         var postorderTraversal = function(root) {
             if (!root) return [];
@@ -447,6 +469,7 @@
         ```
 
 ### 102. 二叉树的层次遍历 levelOrder
+
 - 刷题进度:
     - [x] 模板递归法(DFS)
     - [x] 模板状态迭代法(DFS)
@@ -454,7 +477,7 @@
     - [x] 模板递归法(BFS)
 - 难度: medium
 - 题意解析: 自顶向下逐层遍历并放入数组
-- 初始思路: 模板递归法(DFS). 
+- 初始思路: 模板递归法(DFS).
     - 思路: 每层加上level做标记。某level第一次出现创建数组并插入res, 同level数值放入同一数组。
     - 复杂度:
         - 时间: O(n).等同二叉树节点个数，故为 O(n)
@@ -463,6 +486,7 @@
         - 执行用时 : 72 ms, 在所有 JavaScript 提交中击败了 91 %的用户
         - 内存消耗 : 34.5 MB, 在所有 JavaScript 提交中击败 80 %的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];    // 上提到这里，递归方法中无需再做处理
@@ -483,15 +507,17 @@
             // 4. recover
         }
         ```
+
 - 第二思路: 模板状态迭代法(DFS).
     - 思路: 给节点加上level开始迭代.
     - 复杂度分析:
-        - 时间: O(n). 
-        - 空间: O(n). 
+        - 时间: O(n).
+        - 空间: O(n).
     - Leetcode 结果:
         - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 96 %的用户
         - 内存消耗: 35.2 MB, 在所有 JavaScript 提交中击败 5.47 %的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -515,6 +541,7 @@
             return res;
         }
         ```
+
 - 第三思路: 模板状态迭代法(BFS).
     - 思路: 创建res、queue、level. 提前将root塞进queue，以queue>0为条件开始循环. 先向res加入[]，然后再以queue长度为次数循环加 res 和 queue.
     - 复杂度分析:
@@ -524,6 +551,7 @@
         - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 98.34 %的用户
         - 内存消耗 : 35.1MB, 在所有 JavaScript 提交中击败 7.46 %的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -531,7 +559,7 @@
             let queue = [];
             let level = 0;
             queue.push(root);
-            
+
             // 1. terminate
             while (queue.length > 0) {
                 res[level] = [];
@@ -548,6 +576,7 @@
             return res;
         }
         ```
+
 - 第四思路: 模板递归法(BFS).
     - 思路: 模仿BFS迭代思路，如果只是单节点递归最终必将沦为 DFS，故将一层的数据组合传递.
     - 复杂度分析:
@@ -557,6 +586,7 @@
         - 执行用时: 68 ms, 在所有 JavaScript 提交中击败了 96 %的用户
         - 内存消耗: 34.7 MB, 在所有 JavaScript 提交中击败 47 %的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -580,6 +610,7 @@
         ```
 
 ### 226. 翻转二叉树 invertTree
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 迭代法(DFS).
@@ -595,23 +626,25 @@
         - 执行用时 : 64ms, 在所有 JavaScript 提交中击败了  99.23%的用户
         - 内存消耗 : 34.4MB, 在所有 JavaScript 提交中击败  5.92%的用户
     - 实现:
+
         ``` js
         var invertTree = function(root) {
             // 1. terminate
             if (!root) return root;
-            
+
             // 2. process
             [root.left, root.right] = [root.right, root.left];
-            
+
             // 3. drill down
             if (root.left) invertTree(root.left);
             if (root.right) invertTree(root.right);
-            
+
             // 4. recover
-            
+
             return root;
         };
         ```
+
 - 第二思路: 迭代法(DFS).
     - 思路: 思路基本同上，初始压栈 -》循环（弹栈-左右交换-左右压栈）-》返回
     - 复杂度分析:
@@ -621,6 +654,7 @@
         - 执行用时 : 72ms, 在所有 JavaScript 提交中击败了  95.38%的用户
         - 内存消耗 : 33.5 MB, 在所有 JavaScript 提交中击败  82.84%的用户
     - 实现:
+
         ``` js
         var invertTree = function(root) {
             if (!root) return root;
@@ -640,12 +674,13 @@
         ```
 
 ### 104. 二叉树最大深度 maxDepth
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 自迭代法(DFS).
     - [x] 迭代法(DFS).
     - [x] 迭代法(BFS).
-    
+
 - 难度: easy
 - 题意解析: 计算**根节点**到**最远叶子节点**的**最长路径**上的**节点数**.
 - 初始思路: 递归法(DFS).
@@ -657,6 +692,7 @@
         - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 99.6 %的用户
         - 内存消耗 : 37.5 MB, 在所有 JavaScript 提交中击败 10.3 %的用户
     - 实现:
+
         ``` js
         var maxDepth = function(root) {
             let res = [0];
@@ -674,6 +710,7 @@
             if(root.right) iteration(root.right, level, res);
         }
         ```
+
 - 第二思路: 自递归法(DFS).
     - 思路: 最大深度即 1+root左右子树的最大深度，开始递归.
     - 复杂度分析:
@@ -683,18 +720,20 @@
         - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了 99 %的用户
         - 内存消耗 : 36.7MB, 在所有 JavaScript 提交中击败 95 %的用户
     - 实现:
+
         ``` js
         var maxDepth = function(root) {
             // root为null -> 0
             // root无左右子树 -> 1
-            // root有一颗子树 -> lvL||lvR + 1 
+            // root有一颗子树 -> lvL||lvR + 1
             // root有两颗子树 -> max(lvL, lvR) + 1
             if (!root) return 0;
             return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
         };
         ```
+
 - 第三思路: 迭代法(DFS)
-    - 思路: 用栈存储{node: node, level: level}对象, 
+    - 思路: 用栈存储{node: node, level: level}对象,
     - 复杂度分析:
         - 时间: O(n).
         - 空间: O(logn).
@@ -702,6 +741,7 @@
         - 执行用时 : 80 ms, 在所有 JavaScript 提交中击败了 92.9 %的用户
         - 内存消耗 : 37 MB, 在所有 JavaScript 提交中击败 60.4 %的用户
     - 实现:
+
         ``` js
         var maxDepth = function(root) {
             if (!root) return 0;
@@ -724,6 +764,7 @@
             return res;
         };
         ```
+
 - 第四思路: 迭代法(BFS)
     - 思路: 每层累加一次.
     - 复杂度分析:
@@ -733,6 +774,7 @@
         - 执行用时 : 64 ms, 在所有 JavaScript 提交中击败了 99.6 %的用户
         - 内存消耗 : 36.7 MB, 在所有 JavaScript 提交中击败 95.7 %的用户
     - 实现:
+
         ``` js
         var maxDepth = function(root) {
             if (!root) return 0;
@@ -750,8 +792,8 @@
         };
         ```
 
-
 ### 111. 二叉树最小深度 minDepth
+
 - 刷题进度:
     - [x] 初版递归法(DFS)
     - [x] 自递归法(DFS)
@@ -774,6 +816,7 @@
         - 执行用时 : 72 ms, 在所有 JavaScript 提交中击败了 97.6 %的用户
         - 内存消耗 : 37.5 MB, 在所有 JavaScript 提交中击败 23.5 %的用户
     - 实现:
+
         ``` js
         var minDepth = function(root) {
             if (!root) return 0;
@@ -788,6 +831,7 @@
             return Math.min(recursion(node.left), recursion(node.right)) + 1;
         }
         ```
+
 - 第二思路: 递归法(DFS).
     - 思路：并不是root特殊，而是最小深度的计算方式为"从root到最近叶子节点", 而叶子节点的意思是"没有子节点的节点", 故结论该题可用"自递归"求解.
         - root空                     ->  0
@@ -800,23 +844,26 @@
         - 执行用时 : 68 ms, 在所有 JavaScript 提交中击败了 99 %的用户
         - 内存消耗 : 37.5 MB, 在所有 JavaScript 提交中击败 22.2 %的用户
     - 实现:
+
         ``` js
         var minDepth = function(root) {
             if (!root) return 0;
-            return root.left && root.right? 
+            return root.left && root.right?
                 1+Math.min(minDepth(root.left), minDepth(root.right)):
                 1+minDepth(root.left)+minDepth(root.right);
         };
         ```
+
 - 第三思路: 迭代法(DFS).
     - 思路: 迭代是循环，故重点在于循环中何时计算最小值，分析可知是节点两子树皆空时可以计算.
     - 复杂度分析:
         - 时间: O(n).
-        - 空间: O(logn). 
+        - 空间: O(logn).
     - Leetcode 结果:
         - 执行用时 : 84 ms, 在所有 JavaScript 提交中击败了 88.6 %的用户
         - 内存消耗 : 37.2 MB, 在所有 JavaScript 提交中击败 51.8 %的用户
     - 实现:
+
         ``` js
         var minDepth = function(root) {
             if (!root) return 0;
@@ -841,6 +888,7 @@
             return min;
         };
         ```
+
 - 第四思路: 迭代法(BFS).
     - 思路: 同迭代法(DFS),搜索到节点子树皆空时计算最小值.
     - 复杂度分析:
@@ -850,6 +898,7 @@
         - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 96.5 %的用户
         - 内存消耗: 37.2 MB, 在所有 JavaScript 提交中击败 52.5 %的用户
     - 实现:
+
         ``` js
         var minDepth = function(root) {
             if (!root) return 0;
@@ -876,6 +925,7 @@
             return min;
         };
         ```
+
 - 第五思路: 优化迭代法(BFS).
     - 思路: 写迭代法(BFS)的过程中意识到:
         - 由于使用BFS故每次将遍历一层，若本层出现节点子树皆空即可停止循环直接退出.减少了之后的运算及其他子树的向下推进.
@@ -887,6 +937,7 @@
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 99.6 %的用户
         - 内存消耗: 36.9 MB, 在所有 JavaScript 提交中击败 87.65 %的用户
     - 实现:
+
         ``` js
         var minDepth = function(root) {
             if (!root) return 0;
@@ -912,8 +963,8 @@
         };
         ```
 
-
 ### 98. 验证二叉搜索树 isValidBST
+
 - 刷题进度:
     - [x] 中序遍历递归
     - [ ] 中序遍历迭代
@@ -929,6 +980,7 @@
         - 执行用时 : 84ms, 在所有 JavaScript 提交中击败了  99.18%的用户
         - 内存消耗 : 37.4MB, 在所有 JavaScript 提交中击败  57.23%的用户
     - 实现:
+
         ``` js
         var isValidBST = function(root) {
             // 空树也是二叉搜索树
@@ -940,7 +992,7 @@
         function recursion (node, arr) {
             // 1. terminate
             if (!node) return true;
-            
+
             // 2. process
             // 3. drill down
             //   DFS 到最左，开始验证，保证每个节点都是：
@@ -952,24 +1004,26 @@
                 }
             }
             return false;       // 对比失败，非二叉搜索树
-            
+
             // 4. recover
         }
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
-
 ### 236. 二叉树的最近公共祖先 lowestCommonAncestor
+
 - 刷题进度:
     - [x] 递归法.
     - [ ] xxx
@@ -985,15 +1039,16 @@
         - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了  100%的用户
         - 内存消耗 : 41.5MB, 在所有 JavaScript 提交中击败  34.56%的用户
     - 实现:
+
         ``` js
         var lowestCommonAncestor = function(root, p, q) {
             // 1. terminate
             if (!root || root.val===p.val || root.val===q.val) return root;
-            
+
             // 3. drill down
             let left = lowestCommonAncestor(root.left, p, q);
             let right = lowestCommonAncestor(root.right, p, q);
-            
+
             // 2. process
             if (left != null && right != null) {
                 return root;
@@ -1005,19 +1060,22 @@
             return null;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 429. N叉树的层序遍历
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 迭代法(DFS).
@@ -1034,6 +1092,7 @@
         - 执行用时 : 964ms, 在所有 JavaScript 提交中击败了  85.21%的用户
         - 内存消耗 : 86.2MB, 在所有 JavaScript 提交中击败  19.74%的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -1045,20 +1104,21 @@
 
         function recursion (level, node, res) {
             // 1. terminate
-            
+
             // 2. process
             if (!res[level]) res[level] = [];
             res[level].push(node.val);
             if (!node.children || node.children.length===0) return;
-            
-            // 3. drill down 
+
+            // 3. drill down
             for (let i=0, len = node.children.length; i<len; i++) {
                 recursion(level+1, node.children[i], res);
             }
-            
+
             // 4. recover
         }
         ```
+
 - 第二思路: 迭代法(DFS).
     - 思路: node 加上 level 标志，用 stack 存储未处理节点；
     - 复杂度分析:
@@ -1068,6 +1128,7 @@
         - 执行用时 : 928ms, 在所有 JavaScript 提交中击败了  92.25%的用户
         - 内存消耗 : 81.6MB, 在所有 JavaScript 提交中击败  38.16%的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -1081,7 +1142,7 @@
                 let currLevel = node.level;
                 if (!res[currLevel]) res[currLevel] = [];
                 res[currLevel].push(node.val);
-                
+
                 // 3. drill down
                 if (!node.children || node.children.length===0) continue;
                 let childLen = node.children.length;
@@ -1091,12 +1152,13 @@
                         stack.push(node.children[i]);
                     }
                 }
-                
+
                 // 4. recover
-            } 
+            }
             return res;
         };
         ```
+
 - 第三思路: 递归法(BFS).
     - 思路: 传递 level、queue、res 来递归, 一层处理完递归处理下一层.
     - 复杂度分析:
@@ -1106,6 +1168,7 @@
         - 执行用时 : 888 ms, 在所有 JavaScript 提交中击败了 98.59 %的用户
         - 内存消耗 : 77.5 MB, 在所有 JavaScript 提交中击败 81.58%的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -1119,7 +1182,7 @@
         function recursion (level, queue, res) {
             // 1. terminate
             if (queue.length===0) return;
-            
+
             // 2. process
             res[level] = [];
             for (let i=0, len=queue.length; i<len; i++) {
@@ -1130,11 +1193,12 @@
                     queue.push(node.children[j]);
                 }
             }
-            
+
             // 3. drill down
             recursion(level+1, queue, res);
         }
         ```
+
 - 第四思路: 迭代法(BFS).
     - 思路: 每次处理一层，并用 queue 存储下一层节点.
     - 复杂度分析:
@@ -1144,6 +1208,7 @@
         - 执行用时 : 924 ms, 在所有 JavaScript 提交中击败了 94.37%的用户
         - 内存消耗 : 80.5 MB, 在所有 JavaScript 提交中击败  59.21%的用户
     - 实现:
+
         ``` js
         var levelOrder = function(root) {
             if (!root) return [];
@@ -1170,13 +1235,14 @@
         ```
 
 ### 107. 二叉树的层次遍历 II
+
 - 刷题进度:
     - [ ] 102反转结果法 复杂度:102复杂度+反转数组复杂度
     - [ ] 先获取最大深度，再DFS或BFS 复杂度: 104复杂度+102复杂度
     - [ ] 102 递归x迭代(BFSxDFS), 插入数组顺序调整  复杂度：102复杂度
 
-
 ### 103. 二叉树的锯齿形层次遍历
+
 - 刷题进度:
     - [x] 102递归法(BFS).
     - [x] 102迭代法(BFS).
@@ -1192,28 +1258,30 @@
         - 执行用时 : 76ms, 在所有 JavaScript 提交中击败了 90.44 %的用户
         - 内存消耗 : 32MB, 在所有 JavaScript 提交中击败 43.75 %的用户
     - 实现:
+
         ``` js
         function recursion (level, queue, res) {
             // 1. terminate
             if (queue.length === 0) return;
-            
+
             res[level] = [];
             // 2. process
             for (let i=0, len=queue.length; i<len; i++) {
                 let node = queue.shift();
                 res[level].push(node.val);
-                
+
                 if (node.left) queue.push(node.left);
                 if (node.right) queue.push(node.right);
             }
             if(level%2===1) res[level].reverse();
-            
-            // 3. drill down 
+
+            // 3. drill down
             recursion(level+1, queue, res);
-            
+
             // 4. recover
         }
         ```
+
 - 第二思路: 迭代法(BFS).
     - 思路: 同 102迭代法(BFS).
     - 复杂度分析:
@@ -1223,6 +1291,7 @@
         - 执行用时 : 68ms, 在所有 JavaScript 提交中击败了  98.53%的用户
         - 内存消耗 : 34.4MB, 在所有 JavaScript 提交中击败  6.25%的用户
     - 实现:
+
         ``` js
         var zigzagLevelOrder = function(root) {
             if (!root) return [];
@@ -1249,6 +1318,7 @@
         ```
 
 ### 529. 扫雷游戏
+
 - 刷题进度:
     - [ ] xxx
     - [ ] xxx
@@ -1266,30 +1336,34 @@
     - 'M'打开直接更新为'X'即可;
     - 'E'打开要判断周围,
     - 非'M' & 'E', 直接返回即可;
-- 初始思路: 
+- 初始思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时 : ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗 : MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 100. 相同的树
+
 - 刷题进度:
     - [x] 自递归.
     - [x] 迭代.
@@ -1306,6 +1380,7 @@
         - 执行用时 : 56 ms, 在所有 JavaScript 提交中击败了 99.5 %的用户
         - 内存消耗 : 34.1MB, 在所有 JavaScript 提交中击败 5.3 %的用户
     - 实现:
+
         ``` js
         var isSameTree = function(p, q) {
             if (p===null && q===null) return true;
@@ -1314,6 +1389,7 @@
             return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
         };
         ```
+
 - 第二思路: 迭代.
     - 思路: 创建栈，塞入原始数据，在不断推进的过程中做判断，能够完全完成为 true.
     - 复杂度分析:
@@ -1323,6 +1399,7 @@
         - 执行用时 : 52 ms, 在所有 JavaScript 提交中击败了 99,8 %的用户
         - 内存消耗 : 33.8 MB, 在所有 JavaScript 提交中击败 18.6 %的用户
     - 实现:
+
         ``` js
         var isSameTree = function(p, q) {
             let stack = [[p, q]];
@@ -1347,6 +1424,7 @@
         ```
 
 ### 112. 路径总和
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 迭代法(DFS).
@@ -1364,6 +1442,7 @@
         - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 98 %的用户
         - 内存消耗: 37 MB, 在所有 JavaScript 提交中击败 70 %的用户
     - 实现:
+
         ``` js
         var hasPathSum = function(root, sum) {
             if (!root) return false;
@@ -1379,6 +1458,7 @@
             return recursion(node.left, total+node.val, sum) || recursion(node.right, total+node.val, sum);
         }
         ```
+
 - 第二思路: 迭代法(DFS).
     - 思路: 在模板迭代法的 while 部分加入"叶子节点判断条件", 并将获取到的累积值加入 res.
     - 复杂度分析:
@@ -1388,6 +1468,7 @@
         - 执行用时: 76 ms, 在所有 JavaScript 提交中击败了 96.4 %的用户
         - 内存消耗: 37.1 MB, 在所有 JavaScript 提交中击败 55 %的用户
     - 实现:
+
         ``` js
         var hasPathSum = function(root, sum) {
             if (!root) return false;
@@ -1409,6 +1490,7 @@
             return false;
         };
         ```
+
 - 第三思路: 递归法(BFS).
     - 思路: BFS 方式都是借助数组存储一层结果，再对整层进行处理.
     - 复杂度分析:
@@ -1418,6 +1500,7 @@
         - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 90.9 %的用户
         - 内存消耗: 37.2 MB, 在所有 JavaScript 提交中击败 39.7 %的用户
     - 实现:
+
         ``` js
         var hasPathSum = function(root, sum) {
             if (!root) return false;
@@ -1445,6 +1528,7 @@
             return recursion(tempArr, sum);
         }
         ```
+
 - 第四思路: 迭代法(BFS).
     - 思路: BFS 模板迭代法加上"叶子节点判断"即可.
     - 复杂度分析:
@@ -1454,6 +1538,7 @@
         - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 98.3 %的用户
         - 内存消耗: 37.1 MB, 在所有 JavaScript 提交中击败 54.6 %的用户
     - 实现:
+
         ``` js
         var hasPathSum = function(root, sum) {
             if (!root) return false;
@@ -1477,6 +1562,7 @@
         ```
 
 ### 113. 路径总和 II
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 优化递归法(DFS).【首选】
@@ -1493,6 +1579,7 @@
         - 执行用时: 88 ms, 在所有 JavaScript 提交中击败了 94.5 %的用户
         - 内存消耗: 46.5 MB, 在所有 JavaScript 提交中击败 5.77 %的用户
     - 实现:
+
         ``` js
         var pathSum = function(root, sum) {
             let res = [];
@@ -1516,6 +1603,7 @@
             }
         }
         ```
+
 - 第二思路: 优化递归法(DFS).
     - 思路: 用一个临时数组存储当前元素，如果匹配再复制该数组插入结果，其他位置也稍有优化.
     - 复杂度分析:
@@ -1525,6 +1613,7 @@
         - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 100 %的用户
         - 内存消耗: 36.9 MB, 在所有 JavaScript 提交中击败 96 %的用户
     - 实现:
+
         ``` js
         var pathSum = function(root, sum) {
             let res = [];
@@ -1541,9 +1630,10 @@
             sum -= node.val; // calc
             if (node.left) recursion(node.left, res, saveArr, sum);
             if (node.right) recursion(node.right, res, saveArr, sum);
-            saveArr.pop(); // pop after finish 
+            saveArr.pop(); // pop after finish
         }
         ```
+
 - 第三思路: 迭代法(BFS).
     - 思路: 思路同DFS递归法.
     - 复杂度分析:
@@ -1553,6 +1643,7 @@
         - 执行用时: 92 ms, 在所有 JavaScript 提交中击败了 93 %的用户
         - 内存消耗: 41 MB, 在所有 JavaScript 提交中击败 48 %的用户
     - 实现:
+
         ``` js
         var pathSum = function(root, sum) {
             let res = [];
@@ -1575,8 +1666,8 @@
         };
         ```
 
-
 ### 110. 平衡二叉树
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [ ] xxx
@@ -1593,6 +1684,7 @@
         - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了 98.4 %的用户
         - 内存消耗: 37.4 MB, 在所有 JavaScript 提交中击败 69.3 %的用户
     - 实现:
+
         ``` js
         var isBalanced = function(root) {
             return recursion(root) !== -1;
@@ -1608,6 +1700,7 @@
         ```
 
 ### 108. 将有序数组转换为二叉搜索树
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [ ] xxx
@@ -1626,6 +1719,7 @@
         - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 99.5 %的用户
         - 内存消耗: 37.6 MB, 在所有 JavaScript 提交中击败 53.2 %的用户
     - 实现:
+
         ``` js
         var sortedArrayToBST = function(nums) {
             if (nums.length === 0) return null;
@@ -1651,12 +1745,14 @@
             let nodeR = null;
             if (arrR[midIdxR]!==undefined) {
                 nodeR = new TreeNode(arrR[midIdxR]);
-                recursion(nodeR, arrR.slice(0, midIdxR), arrR.slice(midIdxR+1, lenR));   
+                recursion(nodeR, arrR.slice(0, midIdxR), arrR.slice(midIdxR+1, lenR));
             }
             root.right = nodeR;
         }
         ```
+
     - 抽出calc方法版本：
+
         ``` js
         var sortedArrayToBST = function(nums) {
             let res = calc(nums);
@@ -1682,12 +1778,14 @@
             if (arr[midIdx] !== undefined) {
                 root = new TreeNode(arr[midIdx]);
                 arrL = arr.slice(0, midIdx);
-                arrR = arr.slice(midIdx+1, len);        
+                arrR = arr.slice(midIdx+1, len);
             }
             return [root, arrL, arrR];
         }
         ```
+
     - 最简版本：
+
         ``` js
         var sortedArrayToBST = function(nums) {
             return recursion(nums, 0, nums.length-1);
@@ -1704,12 +1802,13 @@
         ```
 
 ### 235. 二叉搜索树的最近公共祖先
+
 - 刷题进度:
     - [x] 二分自递归
     - [x] 二分循环
     - [ ] xxx
 - 难度: easy.
-- 题意解析: 在给定二叉搜索树（树中值不重复）中，找到最靠近两个给定节点的公共祖先，可为其本身. 
+- 题意解析: 在给定二叉搜索树（树中值不重复）中，找到最靠近两个给定节点的公共祖先，可为其本身.
     - Tip: 二叉搜索树性质，左<根，右>根, 每个节点具有相同性质. 故可以通过当前值与给定值大小对比判定.
 - 输入处理: 空树即结果为null.
 - 初始思路: 二分自递归
@@ -1721,6 +1820,7 @@
         - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 99 %的用户
         - 内存消耗: 43.6 MB, 在所有 JavaScript 提交中击败 76.85 %的用户
     - 实现:
+
         ``` js
         var lowestCommonAncestor = function(root, p, q) {
             let [rootVal, pVal, qVal] = [root.val, p.val, q.val];
@@ -1733,6 +1833,7 @@
             }
         };
         ```
+
 - 第二思路: 二分循环
     - 思路: 用循环复现上面的递归.
     - 复杂度分析:
@@ -1742,6 +1843,7 @@
         - 执行用时: 88 ms, 在所有 JavaScript 提交中击败了 97.8 %的用户
         - 内存消耗: 43.4 MB, 在所有 JavaScript 提交中击败 88.9 %的用户
     - 实现:
+
         ``` js
         var lowestCommonAncestor = function(root, p, q) {
             let [pVal, qVal] = [p.val, q.val];
@@ -1760,6 +1862,7 @@
         ```
 
 ### 257. 二叉树的所有路径
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 迭代法(DFS).
@@ -1776,6 +1879,7 @@
         - 执行用时: 64 ms, 在所有 JavaScript 提交中击败了 96.5 %的用户
         - 内存消耗: 34.2 MB, 在所有 JavaScript 提交中击败 78 %的用户
     - 实现:
+
         ``` js
         var binaryTreePaths = function(root) {
             if (!root) return [];
@@ -1793,6 +1897,7 @@
             if (node.right) recursion(node.right, res, tmpS+'->'+node.right.val);
         }
         ```
+
 - 第二思路: 迭代法(DFS).
     - 思路: 模仿递归法(DFS).
     - 复杂度分析:
@@ -1802,6 +1907,7 @@
         - 执行用时: 56 ms, 在所有 JavaScript 提交中击败了 99.5 %的用户
         - 内存消耗: 34.3 MB, 在所有 JavaScript 提交中击败 76 %的用户
     - 实现:
+
         ``` js
         var binaryTreePaths = function(root) {
             if (!root) return [];
@@ -1827,6 +1933,7 @@
         ```
 
 ### 404. 左叶子之和
+
 - 刷题进度:
     - [x] 递归法(DFS).
     - [x] 迭代法(DFS).
@@ -1844,6 +1951,7 @@
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.3 %的用户
         - 内存消耗: 34.1 MB, 在所有 JavaScript 提交中击败 55.5 %的用户
     - 实现:
+
         ``` js
         var sumOfLeftLeaves = function(root) {
             let res = [0];
@@ -1860,7 +1968,8 @@
             if (node.right) recursion(node.right, false, res);
         }
         ```
-- 第二思路: 迭代法(DFS). 
+
+- 第二思路: 迭代法(DFS).
     - 思路: 用迭代实现DFS递归思路.
     - 复杂度分析:
         - 时间: O(n).
@@ -1869,6 +1978,7 @@
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.3 %的用户
         - 内存消耗: 33.7 MB, 在所有 JavaScript 提交中击败 100 %的用户
     - 实现:
+
         ``` js
         var sumOfLeftLeaves = function(root) {
             if (!root) return 0;
@@ -1877,15 +1987,16 @@
             while (stack.length > 0) {
                 let tmp = stack.pop();
                 if (!tmp.left && !tmp.right && tmp.isLeft) res += tmp.val;
-                if (tmp.right) stack.push(tmp.right);            
+                if (tmp.right) stack.push(tmp.right);
                 if (tmp.left) {
                     tmp.left.isLeft = true;
-                    stack.push(tmp.left);            
+                    stack.push(tmp.left);
                 }
             }
             return res;
         };
         ```
+
 - 第三思路: 迭代法(BFS).
     - 思路: 层次遍历.
     - 复杂度分析:
@@ -1895,6 +2006,7 @@
         - 执行用时: 56 ms, 在所有 JavaScript 提交中击败了 98.6 %的用户
         - 内存消耗: 34.1 MB, 在所有 JavaScript 提交中击败 55.6 %的用户
     - 实现:
+
         ``` js
         var sumOfLeftLeaves = function(root) {
             if (!root) return 0;
@@ -1914,6 +2026,7 @@
             return res;
         };
         ```
+
 - 第四思路: 递归法(BFS).
     - 思路: 层次遍历.
     - 复杂度分析:
@@ -1923,6 +2036,7 @@
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 97.3 %的用户
         - 内存消耗: 34.8 MB, 在所有 JavaScript 提交中击败 22.2 %的用户
     - 实现:
+
         ``` js
         var sumOfLeftLeaves = function(root) {
             if (!root) return 0;
@@ -1947,6 +2061,7 @@
         ```
 
 ### 501. 二叉搜索树中的众数
+
 - 刷题进度:
     - [x] 先递归(DFS)，再比对.
     - [x] 中序遍历过程中比对赋值(不适用额外空间).
@@ -1963,6 +2078,7 @@
         - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 96.9 %的用户
         - 内存消耗: 41.6 MB, 在所有 JavaScript 提交中击败 57.7 %的用户
     - 实现:
+
         ``` js
         var findMode = function(root) {
             if(!root) return [];
@@ -1990,6 +2106,7 @@
             if (node.right) recursion(node.right, map);
         }
         ```
+
 - 第二思路: 中序遍历过程中比对赋值(不适用额外空间).
     - 思路: 利用二叉搜索树性质，中序遍历即从小到大遍历，无需转数据即可逐步计算。
     - 复杂度分析:
@@ -1999,6 +2116,7 @@
         - 执行用时: 84 ms, 在所有 JavaScript 提交中击败了 96.9 %的用户
         - 内存消耗: 40.3 MB, 在所有 JavaScript 提交中击败 84.6 %的用户
     - 实现:
+
         ``` js
         var findMode = function(root) {
             if (!root) return [];

@@ -1,8 +1,5 @@
-# hashmap
-
-## Leetcode 刷题
-
 ### 1. 两数之和 twoSum
+
 - 刷题进度:
     - [x] 暴力解.
     - [x] Hashmap.
@@ -18,6 +15,7 @@
         - 执行用时 : 160ms, 在所有 JavaScript 提交中击败了  61.99%的用户
         - 内存消耗 : 34.6MB, 在所有 JavaScript 提交中击败  60.04%的用户
     - 实现:
+
         ``` js
         var twoSum = function(nums, target) {
             let len = nums.length;
@@ -32,6 +30,7 @@
             return [];
         };
         ```
+
 - 第二思路: Hashmap.
     - 思路: 使用 Hashmap存储[目标值，当前位置]，循环 nums 尝试找到符合的目标值共同返回下标，找不到则返回空数组.
     - 复杂度分析:
@@ -41,20 +40,21 @@
         - 执行用时 : 80ms, 在所有 JavaScript 提交中击败了  95.80%的用户
         - 内存消耗 : 35.4MB, 在所有 JavaScript 提交中击败  18.10%的用户
     - 实现:
+
         ``` js
         let map = new Map();
         for (let i=0, len=nums.length; i<len; i++) {
             let temp = nums[i];
             if (map.has(temp)) {
                 return [map.get(temp), i]
-            } 
+            }
             map.set(target-temp, i);
         }
         return [];
         ```
 
-
 ### 242. 有效的字母异位词 isAnagram
+
 - 刷题进度:
     - [x] 数组法.
     - [x] 字符串排序法.
@@ -72,6 +72,7 @@
         - 执行用时 : 88ms, 在所有 JavaScript 提交中击败了  97.99%的用户
         - 内存消耗 : 36.3MB, 在所有 JavaScript 提交中击败  73.03%的用户
     - 实现:
+
         ``` js
         var isAnagram = function(s, t) {
             let arr = Array.from({length: 26}, (v,i)=>0);
@@ -84,6 +85,7 @@
             return arr.every(v=>v===0);
         };
         ```
+
 - 第二思路: 字符串排序法.
     - 思路:重排序两个字符串，然后比较即可.
     - 复杂度分析:
@@ -93,6 +95,7 @@
         - 执行用时 : 160ms, 在所有 JavaScript 提交中击败了  52.01%的用户
         - 内存消耗 : 38.2MB, 在所有 JavaScript 提交中击败  39.48%的用户
     - 实现:
+
         ``` js
         var isAnagram = function(s, t) {
             if (s.length !== t.length) return false;
@@ -101,6 +104,7 @@
             return s === t;
         };
         ```
+
 - 进阶对策：字符串包含 unicode 码
     - 思路: 使用 Hashmap 存储[字符, s中出现次数-t中出现次数]. 最后检查 Hashmap 是否全部 value 为 0 即可.
     - 复杂度分析:
@@ -110,18 +114,19 @@
         - 执行用时 : 104ms, 在所有 JavaScript 提交中击败了  87.81%的用户
         - 内存消耗 : 36.3MB, 在所有 JavaScript 提交中击败  73.03%的用户
     - 实现:
+
         ``` js
         var isAnagram = function(s, t) {
             if (s.length !== t.length) return false;
-            
+
             let map = new Map();
             for (let i=0, len=s.length; i<len; i++) {
-                if (!map.has(s[i])) map.set(s[i], 0); 
+                if (!map.has(s[i])) map.set(s[i], 0);
                 map.set(s[i], map.get(s[i])+1);
                 if (!map.has(t[i])) map.set(t[i], 0);
                 map.set(t[i], map.get(t[i])-1);
             }
-            
+
             for (let [key, value] of map.entries()) {
                 if (value!==0) return false;
             }
@@ -130,12 +135,13 @@
         ```
 
 ### 3. 无重复字符的最长子串 lengthOfLongestSubstring
+
 - 刷题进度:
     - [x] 字符串滑动窗口
     - [x] Hashmap 滑动窗口
 - 难度: medium
 - 题意解析: 找出某字符串中不含重复字符的"最长子串"的长度
-- 初始思路: 
+- 初始思路:
     - 思路: 用 max 存储最大长度，用 start不重复子串的存储开始位置，用 end 不断推进. 每次推进都判断是否出现重复，若出现则 start 等于**重复位置下标+1**.
     - 复杂度分析:
         - 时间: O(n^2). 遍历一次字符串复杂度为n,内部有indexOf查下标复杂度最好为1(全部字符重复)最坏为n(全部字符不重复)，故最好时间复杂度为 O(n),最坏为 O(n^2).
@@ -144,6 +150,7 @@
         - 执行用时 : 108ms, 在所有 JavaScript 提交中击败了  96.51%的用户
         - 内存消耗 : 36.3MB, 在所有 JavaScript 提交中击败  98.47%的用户
     - 实现:
+
         ``` js
         var lengthOfLongestSubstring = function(s) {
             let len = s.length;
@@ -163,6 +170,7 @@
             return max;
         };
         ```
+
 - 第二思路:
     - 思路: 使用 map 存储[字母，字母的数组下标]，方式类似初始思路.
     - 复杂度分析:
@@ -172,6 +180,7 @@
         - 执行用时 : 108ms, 在所有 JavaScript 提交中击败了  96.51%的用户
         - 内存消耗 : 37.4MB, 在所有 JavaScript 提交中击败  90.71%的用户
     - 实现:
+
         ``` js
         var lengthOfLongestSubstring = function(s) {
             let map = new Map();
@@ -179,7 +188,7 @@
             for (let start=0, end=0, len=s.length; end<len; end++) {
                 if (map.has(s[end])) {
                     start = Math.max(map.get(s[end])+1, start);     // 用 Math.max 避免 start 回退
-                } 
+                }
                 map.set(s[end], end);
                 max = Math.max(max, end-start+1);
             }
@@ -188,6 +197,7 @@
         ```
 
 ### 205. 同构字符串
+
 - 刷题进度:
     - [x] Map.
     - [x] IndexOf.
@@ -198,12 +208,13 @@
 - 初始思路: Map.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var isIsomorphic = function(s, t) {
             if (s.length !== t.length) return false;
@@ -221,15 +232,17 @@
             return true;
         };
         ```
+
 - 第二思路: IndexOf.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var isIsomorphic = function(s, t) {
             if (s.length !== t.length) return false;
@@ -241,6 +254,7 @@
         ```
 
 ### 451. 根据字符出现频率排序
+
 - 刷题进度:
     - [x] 计数后借助数组整合.
     - [ ] xxx
@@ -251,12 +265,13 @@
 - 初始思路: 计数后借助数组整合.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var frequencySort = function(s) {
             let map = new Map();
@@ -271,19 +286,22 @@
             return arr.reverse().join('');
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 705. 设计哈希集合
+
 - 刷题进度:
     - [x] 数组 x 链表
     - [ ] xxx
@@ -294,12 +312,13 @@
 - 初始思路: 数组 x 链表
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         function ListNode (val) {
             this.val = val;
@@ -340,19 +359,22 @@
             return false;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 706. 设计哈希映射
+
 - 刷题进度:
     - [x] 数组 x 链表.
     - [ ] xxx
@@ -363,12 +385,13 @@
 - 初始思路: 数组 x 链表.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var MyHashMap = function() {
             this.arr = Array.from({length: 5}, ()=>[]);
@@ -387,19 +410,22 @@
             this.arr[idx1][idx2] = undefined;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 599. 两个列表的最小索引总和
+
 - 刷题进度:
     - [x] HashMap.
     - [ ] xxx
@@ -410,12 +436,13 @@
 - 初始思路: HashMap.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var findRestaurant = function(list1, list2) {
             let map = new Map();
@@ -434,14 +461,16 @@
             return res;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```

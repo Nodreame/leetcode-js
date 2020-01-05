@@ -1,8 +1,10 @@
 ### 709 toLowerCase
+
 - 难度：easy
 - 标签：**ASCII码**
 - 初始思路：大写字母ASCII范围65-90，小写字母ASCII范围97-122，func_大写转小写即为val+32
-    ``` 
+
+    ``` bash
     resultStr = ''
     for(str) {
         if (str[i] in 大写字母ASCII码范围) {
@@ -13,27 +15,31 @@
     }
     return resultStr
     ```
+
 - 复杂度：时间 O(N), 空间 O(1)
 - 优化：
     第一次优化：使用正则判断字符是否处于大写字母ASCII码范围，只有处于该范围内才进行进行转ASCII处理，结果复杂度不变，减少了转换ASCII码的次数。实现如下：
+
     ``` js
     var toLowerCase = function(str) {
         let resultStr = '';
         for (let i=0, strLen=str.length; i<strLen; i++) {
             let tempChar = str[i];
-            resultStr += /[A-Z]/.test(tempChar)? 
+            resultStr += /[A-Z]/.test(tempChar)?
                 String.fromCharCode(tempChar.charCodeAt()+32)
                 : tempChar;
         }
         return resultStr;
     };
     ```
-   
+
 ### 804 uniqueMorseRepresentations
+
 - 难度：easy
 - 初始思路：使用Set存储计算结果
 - 复杂度: 时间：双for=>O(n^2), 空间：最差情况即全部字符串Morse码不同时为O(n)
 - 实现：
+
     ``` js
     var uniqueMorseRepresentations = function(words) {
         let morseArr = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."];
@@ -48,43 +54,48 @@
         return set.size;
     };
     ```
-    
+
 ### 929 numUniqueEmails
+
 - 难度：easy
 - 标签：Set  **正则**
 - 题意分析：只需关注@前面部分，遇.去掉，遇+忽略其后字符;
 - 初始思路：基于@分割，前面部分正则去点，然后取加号之前的部分，组合放入set去重;
     - 复杂度：时间O(n)，空间O(n)
     - 实现
-       ``` js
-       var numUniqueEmails = function(emails) {
-            let set = new Set();
-            for (let i=0, emailsLen=emails.length; i<emailsLen; i++) {
-                let tempArr = emails[i].split('@');
-                let localStr = tempArr[0];
-                localStr = localStr.replace(/\./g, '');
-                let indexAdd = localStr.indexOf('+');
-                if (indexAdd>-1) { localStr=localStr.slice(0, indexAdd); }
-                set.add(localStr+'@'+tempArr[1]);
-            }
-            return set.size;
-        };
-       ```
+
+    ``` js
+    var numUniqueEmails = function(emails) {
+        let set = new Set();
+        for (let i=0, emailsLen=emails.length; i<emailsLen; i++) {
+            let tempArr = emails[i].split('@');
+            let localStr = tempArr[0];
+            localStr = localStr.replace(/\./g, '');
+            let indexAdd = localStr.indexOf('+');
+            if (indexAdd>-1) { localStr=localStr.slice(0, indexAdd); }
+            set.add(localStr+'@'+tempArr[1]);
+        }
+        return set.size;
+    };
+    ```
+
 - 首次优化：先基于加号分割再正则去点，组合操作一起提高可读性；
     - 实现：
-        ``` js
-        var numUniqueEmails = function(emails) {
-            let set = new Set();
-            for (let i=0, emailsLen=emails.length; i<emailsLen; i++) {
-                let tempArr = emails[i].split('@');
-                let localStr = tempArr[0].split('+')[0].replace(/\./g, '');
-                set.add(localStr+'@'+tempArr[1]);
-            }
-            return set.size;
-        };
-        ```
-    
-### 22 generateParenthesis 
+
+    ``` js
+    var numUniqueEmails = function(emails) {
+        let set = new Set();
+        for (let i=0, emailsLen=emails.length; i<emailsLen; i++) {
+            let tempArr = emails[i].split('@');
+            let localStr = tempArr[0].split('+')[0].replace(/\./g, '');
+            set.add(localStr+'@'+tempArr[1]);
+        }
+        return set.size;
+    };
+    ```
+
+### 22 generateParenthesis
+
 - 难度： medium
 - 标签：**递归**
 - 初始思路：创建校验函数，生成所有情况的组合后逐个校验；
@@ -97,14 +108,15 @@
     - 思路：用函数不断根据左右括号规则运行添加，最终生成目标结果；
     - 复杂度：时间O(n)、空间O(n)
     - 实现：
-    ```
+
+    ``` js
     var generateParenthesis = function(n) {
         let arr = [];
         if (n===0) return [];
         calcFunc(arr, n, 0, 0, '');  
         return arr;
     };
-    
+
     function calcFunc(resultArr, N, leftNum, rightNum, currStr) {
         if (leftNum+rightNum === N*2) {
             resultArr.push(currStr);
@@ -117,13 +129,16 @@
             calcFunc(resultArr, N, leftNum, rightNum+1, currStr+')');
         }
     }
-   ```
+
+    ```
 
 ### 657 judgeCircle
+
 - 难度：easy
 - 初始思路：放置两个计数器，for字符串并增减计数器，最终计数器归0则True;
     - 复杂度：时间O(n) 空间O(1)
     - 实现：
+
       ``` js
       var judgeCircle = function(moves) {
         let [x, y] = [0, 0];
@@ -131,9 +146,9 @@
             if (moves[i] === 'L') {
                 x++;
             } else if (moves[i] === 'R') {
-                x--;       
-            } else if (moves[i] === 'U') { 
-                y++; 
+                x--;
+            } else if (moves[i] === 'U') {
+                y++;
             } else if (moves[i] === 'D') {
                 y--;
             }
@@ -141,9 +156,11 @@
         return (x===0 && y===0)? true: false;
       };
       ```
+
 - 思路二:使用Hashmap做需要字符数量的存储，及最后用以对比
     - 复杂度：时间O(n) 空间O(1)
     - 实现：
+
     ``` js
     let map = new Map();
     map.set('U', 0);
@@ -157,11 +174,13 @@
     ```
 
 ### 344 reverseString
+
 - 难度：easy
 - 题意分析：原地翻转数组并输出，空间复杂度需为O(1)
 - 思路：首尾ij向中间推进并交换，i<j判断失败则退出
     - 复杂度：时间O(n), 空间O(1)
     - 实现：
+
     ``` js
     var reverseString = function(s) {
         let [i, j] = [0, s.length-1];
@@ -173,14 +192,16 @@
         return s
     };
     ```
-    
+
 ### 890 findAndReplacePattern
+
 - 难度：medium
 - 题意分析：word和pattern的每个字母能构成**不重复映射**即满足条件
 - 初始思路：for words, 再for pattern.length, 当map不存在当前字母则添加，当map存在当前字母时比对，成功继续,失败next word
     - Tip:隐蔽规则：**“没有两个字母映射到同一个字母”**, 即字母列表&对应pattern列表长度应始终一致（借助set与map长度对比)
     - 复杂度：时间O(n)，空间O(n)
     - 实现:
+
     ``` js
     var findAndReplacePattern = function(words, pattern) {
         let resultArr = [];
@@ -210,15 +231,18 @@
         return resultArr;
     };
     ```
+
     - 围观：
         - 排名第一：遍历pattern用pattern.indexOf(item)获取下标数组，使words也按照这个方法对比；
         - 其他：大同小异封装方法,只封装一次用以检测足矣;
     - 总结:本题其实是:"如何制定对比word和pattern的规则",注意点是一一映射
 
 ### 557 reverseWords
+
 - 难度：easy
 - 题意分析："注意"中提到，"每个单词由**单个空格**分隔，且字符串中**不会有任何额外的空格**"，于是解题只需要先基于**单个空格**作分割，然后依次反转每个单词就行(时间复杂度：O(n^2)，空间复杂度：O(n^2))
 - 实现：
+
     ``` JS
     var reverseWords = function(s) {
         let resultS = ''
@@ -229,7 +253,9 @@
         return resultS.trim()
     };
     ```
+
 - 思路二：遍历字符串并处理每段单词（记录开始位，遇到【下位为空格or最后一位】记录结束位&处理，处理完成后记录结束位+2为起始位），时间空间复杂度不变，减少了split('').reverse().join('')造成的空间损耗，实现如下：
+
     ``` js
     var reverseWords = function(s) {
         let arr = s.split('')
@@ -243,7 +269,7 @@
         }
         return arr.join('')
     };
-    
+
     function reserveArr (targetArr, sIndex, eIndex) {
         // console.log('[sIndex, eIndex]:', [sIndex, eIndex])
         while (sIndex < eIndex) {
@@ -253,280 +279,305 @@
         }
     }
     ```
-    
+
 ### 537 complexNumberMultiply
+
 - 难度：medium
 - 题意分析：根据给定的**两个**格式为**a+bi**的复数字符串，计算出**a+bi**格式的结果字符串
 - 思路：使用**字符串分割**或者**正则**提取输入字符串的a和b值，计算得出结果a和b值，填充入模板字符串并返回
     - 复杂度：时空均O(1)
     - 实现：
-        ``` js
-        var complexNumberMultiply = function(a, b) {
-            let [aArr, bArr] = [a.split('+'), b.split('+')]
-            let [a1, b1] = [aArr[0], aArr[1].split('i')[0]]
-            let [a2, b2] = [bArr[0], bArr[1].split('i')[0]]
-            let [aResult, bResult] = [a1*a2-b1*b2, a1*b2+a2*b1]
-            return `${aResult}+${bResult}i`
-        }
-        ```
+
+    ``` js
+    var complexNumberMultiply = function(a, b) {
+        let [aArr, bArr] = [a.split('+'), b.split('+')]
+        let [a1, b1] = [aArr[0], aArr[1].split('i')[0]]
+        let [a2, b2] = [bArr[0], bArr[1].split('i')[0]]
+        let [aResult, bResult] = [a1*a2-b1*b2, a1*b2+a2*b1]
+        return `${aResult}+${bResult}i`
+    }
+    ```
+
 ### 521 findLUSlength
+
 - 难度：easy
 - 题意分析：这道题着重题意分析，目标是获取最长特殊序列（定义：**独有**的最长子序列）。可得两字符串不相同时必定不互为子序列，故取长者返回；若相等则互为子序列而非**最长特殊序列**，即不存在，返回-1
 - 实现：
+
     ``` js
     var findLUSlength = function(a, b) {
-        if (a === b) { 
-            return -1 
+        if (a === b) {
+            return -1
         } else {
             return Math.max(a.length, b.length)
         }
     };
     ```
-    
+
 ### 791 customSortString
+
 - 难度：medium
 - 题意解析：使T按照S的顺序做排列，S中不存在的字符可随意排列
 - 思路一：暴力思路（不推荐）。切分S形成顺序数组，并以此形成char+count的Map。for T并加入Map，for SArr按序形成结果字符串
     - 特点：思路简单，空间占用多，代码繁琐
     - 复杂度:时间O(T), 空间O(S+2T)
     - 实现：
-        ``` js
-        var customSortString = function(S, T) {
-            let orderArr = S.split('')
-            let countMap = new Map()
-            let resultS = ''
-            for (let i=0, SLen=S.length; i<SLen; i++) {
-                countMap.set(S[i], 0)
+
+    ``` js
+    var customSortString = function(S, T) {
+        let orderArr = S.split('')
+        let countMap = new Map()
+        let resultS = ''
+        for (let i=0, SLen=S.length; i<SLen; i++) {
+            countMap.set(S[i], 0)
+        }
+        for (let i=0, TLen=T.length; i<TLen; i++) {
+            if (countMap.has(T[i])) {
+                countMap.set(T[i], countMap.get(T[i])+1)
+            } else {
+                countMap.set(T[i], 1)
+                orderArr.push(T[i])
             }
-            for (let i=0, TLen=T.length; i<TLen; i++) {
-                if (countMap.has(T[i])) {
-                    countMap.set(T[i], countMap.get(T[i])+1)    
-                } else {
-                    countMap.set(T[i], 1)
-                    orderArr.push(T[i])
-                }
+        }
+        for (let i=0, orderArrLen=orderArr.length; i<orderArrLen; i++) {
+            for (let j=0; j<countMap.get(orderArr[i]); j++) {
+                resultS += orderArr[i]
             }
-            for (let i=0, orderArrLen=orderArr.length; i<orderArrLen; i++) {
-                for (let j=0; j<countMap.get(orderArr[i]); j++) {
-                    resultS += orderArr[i]
-                }
-            }
-            return resultS
-        };
-        ```
+        }
+        return resultS
+    };
+    ```
+
 - 思路二：用Map存储S顺序，然后用数组存储每个S位置所对应的所有T字符，整合输出
     - 特点：思路&代码清晰
     - 实现：
-        ``` js
-        var customSortString = function(S, T) {
-            let SLen = S.length
-            let map = new Map()
-            let resultArr = Array.from({length: SLen+1}, ()=>'')
-            for (let i=0; i<SLen; i++) {
-                map.set(S[i], i)
+
+    ``` js
+    var customSortString = function(S, T) {
+        let SLen = S.length
+        let map = new Map()
+        let resultArr = Array.from({length: SLen+1}, ()=>'')
+        for (let i=0; i<SLen; i++) {
+            map.set(S[i], i)
+        }
+        for (let i=0, TLen=T.length; i<TLen; i++) {
+            if (map.has(T[i])) {
+                resultArr[map.get(T[i])] += T[i]
+            } else {
+                resultArr[SLen] += T[i]
             }
-            for (let i=0, TLen=T.length; i<TLen; i++) {
-                if (map.has(T[i])) {
-                    resultArr[map.get(T[i])] += T[i]
-                } else {
-                    resultArr[SLen] += T[i]
-                }
-            }
-            return resultArr.join('')
-        };
-        ```
+        }
+        return resultArr.join('')
+    };
+    ```
+
 ### 893 numSpecialEquivGroups
+
 - 难度：easy
 - 题意分析：目标是将数组内特殊等价的字符串归纳为一组并求总数组长度。判断是否为特殊等价的依据是，奇位字符相同&偶位字符相同（忽略顺序）。
 - 思路：for数组，取得item并将其分开为奇字符串及偶字符串，sort两个字符串并整合放入Set中，Set长度即结果。
     - 实现
-        ``` js
-        var numSpecialEquivGroups = function(A) {
-          let set = new Set();
-          let itemSize = A[0].length;
-          for (let i=0, ALen=A.length; i<ALen; i++) {
-            let [oArr, eArr] = [[], []];
-            for (let j=0; j<itemSize; j++) {
-              if (j%2===0) { eArr.push(A[i][j]) }
-              else { oArr.push(A[i][j]) }
-            }
-            set.add(oArr.sort().join('')+eArr.sort().join(''));
-          }
-          return set.size;
-        };
-        ```
+
+    ``` js
+    var numSpecialEquivGroups = function(A) {
+        let set = new Set();
+        let itemSize = A[0].length;
+        for (let i=0, ALen=A.length; i<ALen; i++) {
+        let [oArr, eArr] = [[], []];
+        for (let j=0; j<itemSize; j++) {
+            if (j%2===0) { eArr.push(A[i][j]) }
+            else { oArr.push(A[i][j]) }
+        }
+        set.add(oArr.sort().join('')+eArr.sort().join(''));
+        }
+        return set.size;
+    };
+    ```
 
 ### 12. intToRoman
+
 - 难度：medium
 - 题意分析：将一个0~3999的数转换为罗马数字
 - 初始思路：枚举0~9(间隔1)、10-90(间隔10)、100~900(间隔100)、1000-3000(间隔1000), 然后循环取数字最后一位取得对应字符串，累加结果。
     - 实现：
-        ```
-        var intToRoman = function(num) {
-            let fixedArr = [
-                ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
-                ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
-                ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'],
-                ['', 'M', 'MM', 'MMM']
-            ];
-            let resultStr = '';
-            let count = 0;
-            while (num!==0) {
-                resultStr = fixedArr[count++][num%10] + resultStr
-                num = Math.floor(num/10)
-            }
-            return resultStr;
-        };
-        ```
+
+    ``` js
+    var intToRoman = function(num) {
+        let fixedArr = [
+            ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
+            ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'],
+            ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'],
+            ['', 'M', 'MM', 'MMM']
+        ];
+        let resultStr = '';
+        let count = 0;
+        while (num!==0) {
+            resultStr = fixedArr[count++][num%10] + resultStr
+            num = Math.floor(num/10)
+        }
+        return resultStr;
+    };
+    ```
+
 - 优化思路：直接一路暴力if下来，免去了预先定义数组及从二维数组中取值，故速度空间都得到节省。
     - 实现：
-        ``` js
-        var intToRoman = function(num) {
-            let resultStr = ''
-            if (num>=1000) {
-                for (let i=0, len=Math.floor(num/1000); i<len; i++) {
-                    resultStr += 'M'
-                }
-                num = num%1000
+
+    ``` js
+    var intToRoman = function(num) {
+        let resultStr = ''
+        if (num>=1000) {
+            for (let i=0, len=Math.floor(num/1000); i<len; i++) {
+                resultStr += 'M'
             }
-            if (num>=900) {
-                resultStr += 'CM'
-                num -= 900
+            num = num%1000
+        }
+        if (num>=900) {
+            resultStr += 'CM'
+            num -= 900
+        }
+        if (num>=500) {
+            resultStr += 'D'
+            num -= 500
+        }
+        if (num>=400) {
+            resultStr += 'CD'
+            num -= 400
+        }
+        if (num>=100) {
+            for (let i=0, len=Math.floor(num/100); i<len; i++) {
+                resultStr += 'C'
             }
-            if (num>=500) {
-                resultStr += 'D'
-                num -= 500
+            num = num%100
+        }
+        if (num>=90) {
+            resultStr += 'XC'
+            num -= 90
+        }
+        if (num>=50) {
+            resultStr += 'L'
+            num -= 50
+        }
+        if (num>=40) {
+            resultStr += 'XL'
+            num -= 40
+        }
+        if (num>=10) {
+            for (let i=0, len=Math.floor(num/10); i<len; i++) {
+                resultStr += 'X'
             }
-            if (num>=400) {
-                resultStr += 'CD'
-                num -= 400
+            num = num%10
+        }
+        if (num>=9) {
+            resultStr += 'IX'
+            num -= 9
+        }
+        if (num>=5) {
+            resultStr += 'V'
+            num -= 5
+        }
+        if (num>=4) {
+            resultStr += 'IV'
+            num -= 4
+        }
+        if (num>=1) {
+            for (let i=0; i<num; i++) {
+                resultStr += 'I'
             }
-            if (num>=100) {
-                for (let i=0, len=Math.floor(num/100); i<len; i++) {
-                    resultStr += 'C'
-                }
-                num = num%100
-            }
-            if (num>=90) {
-                resultStr += 'XC'
-                num -= 90
-            }
-            if (num>=50) {
-                resultStr += 'L'
-                num -= 50
-            }
-            if (num>=40) {
-                resultStr += 'XL'
-                num -= 40
-            }
-            if (num>=10) {
-                for (let i=0, len=Math.floor(num/10); i<len; i++) {
-                    resultStr += 'X'
-                }
-                num = num%10
-            }
-            if (num>=9) {
-                resultStr += 'IX'
-                num -= 9
-            }
-            if (num>=5) {
-                resultStr += 'V'
-                num -= 5
-            }
-            if (num>=4) {
-                resultStr += 'IV'
-                num -= 4
-            }
-            if (num>=1) {
-                for (let i=0; i<num; i++) {
-                    resultStr += 'I'
-                }
-            }
-            return resultStr;
-        };
-        ```
+        }
+        return resultStr;
+    };
+    ```
+
 ### 13. romanToInt
+
 - 难度：easy
 - 题意分析：将罗马数字转换为数字
 - 思路：创建对象映射单个罗马数字与数值的关系，遍历罗马数字字符串，比较第 i 位与第 i+1 位的值，如果第 i 位的值小于第 i+1 位，则额外计算，其他情况直接计算获得结果。
     - 实现：
-        ``` js
-        var romanToInt = function(s) {
-            let fixedObj = {
-                '': 0,
-                'I': 1,
-                'V': 5,
-                'X': 10,
-                'L': 50,
-                'C': 100,
-                'D': 500,
-                'M': 1000
-            };
-            let result = 0;
-            for (let i=0; i<s.length; i++) {
-                if (s[i+1] && fixedObj[s[i+1]]>fixedObj[s[i]]) {
-                    result += fixedObj[s[i+1]] - fixedObj[s[i++]];
-                } else {
-                    result += fixedObj[s[i]];
-                }
-            }
-            return result;
+
+    ``` js
+    var romanToInt = function(s) {
+        let fixedObj = {
+            '': 0,
+            'I': 1,
+            'V': 5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000
         };
-        ```
+        let result = 0;
+        for (let i=0; i<s.length; i++) {
+            if (s[i+1] && fixedObj[s[i+1]]>fixedObj[s[i]]) {
+                result += fixedObj[s[i+1]] - fixedObj[s[i++]];
+            } else {
+                result += fixedObj[s[i]];
+            }
+        }
+        return result;
+    };
+    ```
+
 ### 1016. queryString
+
 - 难度：medium
 - 题意解析：确认 1~N 的每个数的二进制表示都是 S 的子串。
 - 思路：编写一个数字转二进制字符串方法（避开32位限制），for 数组转换结果，确定是否在 S 中都存在。(由于只要一个二进制字符串不匹配就退出故实际运行时间应该是更低的)
     - 复杂度: 时间 O(n), 空间 O(N)
     - 实现：
-        ``` js
-        var queryString = function(S, N) {
-            for (let i=0; i<=N; ++i) {
-                if (S.indexOf(num2bin(i)) === -1) {
-                    return false;
-                }
+
+    ``` js
+    var queryString = function(S, N) {
+        for (let i=0; i<=N; ++i) {
+            if (S.indexOf(num2bin(i)) === -1) {
+                return false;
             }
-            return true;
-        };
-        
-        function num2bin (num){
-            let binStr = '';
-            while(num>0) {
-                binStr = num%2 + binStr;
-                num = Math.floor(num/2);
-            }
-            return binStr;
         }
-        ```
+        return true;
+    };
+
+    function num2bin (num){
+        let binStr = '';
+        while(num>0) {
+            binStr = num%2 + binStr;
+            num = Math.floor(num/2);
+        }
+        return binStr;
+    }
+    ```
 
 ### 49. groupAnagrams
+
 - 难度：medium
 - 题意解析：将字符串数组中，字母组成相同的词归纳到同一数组内，再合并进数组。
 - 初始思路：遍历数组，对item进行 sort 并作为 map 的key，value 为计数器的计数（也是结果数组的 index），根据map.has(key)的情况，数组分别尾增新数组或在特定数组中尾插单词。
     - 复杂度：时间 O(n), 空间复杂度O(n)
     - 实现：
-        ``` js
-        var groupAnagrams = function(strs) {
-            let map = new Map();
-            let resultArr = [];
-            let count = 0;
-            for (let i=0, arrLen=strs.length; i<arrLen; i++) {
-                let tempStr = strs[i].split('').sort().join('');
-                if (map.has(tempStr)) {
-                    let index = map.get(tempStr);
-                    resultArr[index].push(strs[i]);
-                } else {
-                    map.set(tempStr, count);
-                    resultArr[count++] = [strs[i]];
-                }
+
+    ``` js
+    var groupAnagrams = function(strs) {
+        let map = new Map();
+        let resultArr = [];
+        let count = 0;
+        for (let i=0, arrLen=strs.length; i<arrLen; i++) {
+            let tempStr = strs[i].split('').sort().join('');
+            if (map.has(tempStr)) {
+                let index = map.get(tempStr);
+                resultArr[index].push(strs[i]);
+            } else {
+                map.set(tempStr, count);
+                resultArr[count++] = [strs[i]];
             }
-            return resultArr;
-        };
-        ```
-        
+        }
+        return resultArr;
+    };
+    ```
+
 - 优化思路：用 map 存放 a-z 映射到26个质数的键值对，用每次"拆分 item 对获得乘积" 替换 "sort item"的过程
     - 复杂度：同上. 中间的从 item 获取 key 的过程被简化了。
     - 实现：
+
         ``` js
         var groupAnagrams = function(strs) {
             var fixedObj={
@@ -579,12 +630,14 @@
         ```
 
 ### 824. toGoatLatin
+
 - 难度：easy
 - 题意解析：句子可被空格分割为 n 个单词，每个单词处理如下：
     - 单词开头为元音则尾部+ma+a*(单词在数组中的下标+1)；
     - 非元音开头则单词摘出开头+开头+ma+a*(单词在数组中的下标+1)；
 - 解题思路：按照题意编写代码
     - 实现：
+
         ``` js
         var toGoatLatin = function(S) {
             let arr = S.split(' ');
@@ -596,7 +649,7 @@
                     tempArr = tempArr.splice(1, tempArr.length)
                     tempArr.push(arr[i][0])
                     tempArr.push('ma')
-                    arr[i] = tempArr.join('') 
+                    arr[i] = tempArr.join('')
                 }
                 for (let j=0, len=i+1; j<len; j++) {
                     arr[i] += 'a'
@@ -607,10 +660,12 @@
         ```
 
 ### 609.findDuplicate
+
 - 难度：medium
 - 题意解析：给定一个二维数组，每个子数组第一个元素为根目录，第二到第 n 个元素为文件+文件内容，目标是将相同文本内容的文件路径名放入同一数组。
 - 初始思路：创建 map，双 for 循环组装出实际文件路径，并将内容作为key，数组为 value 放入 map, 相同数组不断插入 value，最后取 map.values() 整合出目标二维数组。
     - 实现：
+
         ``` js
         var findDuplicate = function(paths) {
             let map = new Map();
@@ -636,10 +691,12 @@
             return resultArr
         };
         ```
+
 - 优化思路：
     - 优化点1：将中间的"两次切分字符串"改为"字符串截取"，减少了空间消耗；
     - 优化点2：最后从 map.values()生产目标二维数组的过程使用 ES6语法的 Array.from + filter 代替，提高执行效率（副作用是加大内存消耗）；
         - 实现：
+
         ``` js
         var findDuplicate = function(paths) {
             let map = new Map();
@@ -662,11 +719,13 @@
         ```
 
 ### 49. groupAnagrams
+
 - 难度：medium
 - 题意解析：从包含数个字符串的数组中获取包含字母完全相同的字符串。
 - 初始解法：通过键值对方法，将每个字符串的字母排序形成键，键相同的字符串放到一起。
     - 复杂度：时间O(n)、空间O(n)
     - 实现：
+
     ``` js
     var groupAnagrams = function(strs) {
         let map = new Map();
@@ -682,13 +741,15 @@
     };
     ```
 
-###  788. rotatedDigits
+### 788. rotatedDigits
+
 - 难度：easy
 - 题意解析：计算 1-》N 中间的数字有多少个是好数，好数的定位为180旋转后仍为数字且不与原数相等。即满足数字为好数的前提是：
     - 1）翻转后所有数字有效（0，1，2，5，6，8，9）；
     - 2）至少一个数字为不同数；（2，5，6，9）
 - 初始解法：所有数均为有效=》没有无效数字=》不包含(3，4，7), 故只要满足包含(2,5,6,9)且不包含(3,4,7)即符合要求，用正则可以简单得出结果。
     - 实现：
+
     ``` js
     var rotatedDigits = function(N) {
     let count = 0;
@@ -702,6 +763,7 @@
     ```
 
 ### 67. 二进制求和
+
 - 刷题进度:
     - [x] 补零同位相加法.
     - [ ] xxx
@@ -718,6 +780,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var addBinary = function(a, b) {
             // 计算长度补0
@@ -734,7 +797,7 @@
                     b = tmpArr.join('');
                     lenB = b.length;
                 }
-            } 
+            }
             let count = lenA-1;
             let arr = [];
             let carry = 0;
@@ -748,20 +811,22 @@
             return arr.join('');
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
-	
 ### 28. 实现 strStr()
+
 - 刷题进度:
     - [x] 双遍历.
     - [ ] xxx
@@ -778,6 +843,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var strStr = function(haystack, needle) {
             let [hLen, nLen] = [haystack.length, needle.length];
@@ -789,7 +855,7 @@
                     for (let j=1; j<nLen; j++) {
                         if (haystack[i+j] !== needle[j]) {
                             flag = false;
-                            break;   
+                            break;
                         }
                     }
                     if (flag) return i;
@@ -798,19 +864,22 @@
             return -1;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 14. 最长公共前缀
+
 - 刷题进度:
     - [x] 两次遍历.
     - [ ] xxx
@@ -827,6 +896,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var longestCommonPrefix = function(strs) {
             if (strs.length === 0) return '';
@@ -843,19 +913,22 @@
             return arr.join('');
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 151. 翻转字符串里的单词
+
 - 刷题进度:
     - [x] 正则预处理 + 转数组反转.
     - [ ] xxx
@@ -872,6 +945,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var reverseWords = function(s) {
             if (s.length === 0) return s;
@@ -879,19 +953,22 @@
             return s.split(' ').reverse().join(' ');
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 557. 反转字符串中的单词 III
+
 - 刷题进度:
     - [x] 一行.
     - [ ] xxx
@@ -908,30 +985,34 @@
         - 执行用时: 92 ms, 在所有 JavaScript 提交中击败了 71.5 %的用户
         - 内存消耗: 41MB, 在所有 JavaScript 提交中击败 95 %的用户
     - 实现:
+
         ``` js
         var reverseWords = function(s) {
             return s.split('').reverse().join('').split(' ').reverse().join(' ');
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
-    
+
 ### 1108. IP 地址无效化
+
 - 刷题进度:
     - [x] 正则替换.
     - [ ] xxx
     - [ ] xxx
 - 难度: easy.
-- 题意解析: 
+- 题意解析:
 - 输入处理:
 - 初始思路: 正则替换.
     - 思路: 字符串替换，直接正则.
@@ -942,40 +1023,45 @@
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 81 %的用户
         - 内存消耗: 34.2 MB, 在所有 JavaScript 提交中击败 100 %的用户
     - 实现:
+
         ``` js
         var defangIPaddr = function(address) {
             return address.replace(/\./g, '[.]');
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 1221. 分割平衡字符串
+
 - 刷题进度:
     - [ ] xxx
     - [ ] xxx
     - [ ] xxx
-- 难度: 
+- 难度:
 - 题意解析:
 - 输入处理:
 - 初始思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var balancedStringSplit = function(s) {
             let res = 0;
@@ -988,19 +1074,22 @@
             return res;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 387. 字符串中的第一个唯一字符
+
 - 刷题进度:
     - [x] Map + 检索 from val=1.
     - [ ] xxx
@@ -1011,12 +1100,13 @@
 - 初始思路: Map + 检索 from val=1.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var firstUniqChar = function(s) {
             let len = s.length;
@@ -1033,24 +1123,27 @@
             return resIdx === len+1 ? -1 : resIdx;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 49. 字母异位词分组
+
 - 刷题进度:
     - [x] Map(字母重排, 原值数组]
     - [ ] xxx
     - [ ] xxx
-- 难度: 
+- 难度:
 - 题意解析:
 - 输入处理:
 - 初始思路: Map(字母重排, 原值数组]
@@ -1062,6 +1155,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var groupAnagrams = function(strs) {
             let map = new Map();
@@ -1073,19 +1167,22 @@
             return Array.from(map.values());
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 149. 直线上最多的点数
+
 - 刷题进度:
     - [x] 双遍历放，斜率存Map
     - [ ] xxx
@@ -1102,10 +1199,11 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var maxPoints = function(points) {
             let len = points.length;
-            if (len < 3) return len; 
+            if (len < 3) return len;
             let res = 0;
             for (let i=0; i<len; i++) {
                 let max = 0;
@@ -1135,19 +1233,22 @@
             return a;
         }
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 7. 整数反转
+
 - 刷题进度:
     - [x] 暴力(利用 JS 数字 2^31 不溢出).
     - [ ] xxx
@@ -1164,6 +1265,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var reverse = function(x) {
             let flag = x >= 0;
@@ -1175,19 +1277,22 @@
             return num < max && num > min ? num : 0;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 8. 字符串转换整数 (atoi)
+
 - 刷题进度:
     - [x] TODO:（待优化）暴力 + 正则.
     - [ ] xxx
@@ -1198,12 +1303,13 @@
 - 初始思路: 暴力 + 正则.
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var myAtoi = function(str) {
             str = str.replace(/^\s+/g, '');
@@ -1212,7 +1318,7 @@
                 sNum = /^\d+/g.exec(str)[0];
             } else {
                 if (/^\-[\d]+/g.test(str) || /^\+[\d]+/g.test(str)) {
-                    sNum = /^\-[\d]+/g.test(str) ? /^\-[\d]+/g.exec(str): 
+                    sNum = /^\-[\d]+/g.test(str) ? /^\-[\d]+/g.exec(str):
                         /^\+[\d]+/g.exec(str);
                 } else {
                     return 0;
@@ -1227,19 +1333,22 @@
             return num;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 38. 报数
+
 - 刷题进度:
     - [ ] 正则.
     - [ ] xxx
@@ -1256,6 +1365,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var countAndSay = function(n) {
             let s = '1';
@@ -1265,14 +1375,16 @@
             return s;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```

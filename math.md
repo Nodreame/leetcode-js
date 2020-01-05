@@ -1,4 +1,5 @@
 ### 191. 位1的个数【汉明重量】
+
 - 刷题进度:
     - [x] 取余推进.
     - [ ] xxx
@@ -7,7 +8,7 @@
 - 题意解析:
 - 输入处理:
 - 初始思路: 取余推进.
-    - 思路: 
+    - 思路:
     - 复杂度分析:
         - 时间: O(n).
         - 空间: O(1).
@@ -15,6 +16,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var hammingWeight = function(n) {
             let count = 0;
@@ -26,19 +28,22 @@
             };
         }
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 461. 汉明距离
+
 - 刷题进度:
     - [x] 倒序二进制数组对比.
     - [ ] xxx
@@ -47,14 +52,15 @@
 - 题意解析:
 - 输入处理:
 - 初始思路: 倒序二进制数组对比.
-    - 思路: 
+    - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var hammingDistance = function(x, y) {
             let [arrX, arrY] = [[], []];
@@ -75,19 +81,22 @@
             return count;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 190. 颠倒二进制位
+
 - 刷题进度:
     - [x] 倒序数组补零后计算.
     - [ ] xxx
@@ -104,6 +113,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var reverseBits = function(n) {
             let arr = [];
@@ -117,19 +127,22 @@
             return res;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 268. 缺失数字
+
 - 刷题进度:
     - [x] "目标总和" 减去 "当前总和".
     - [ ] xxx
@@ -146,6 +159,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var missingNumber = function(nums) {
             let len = nums.length;
@@ -154,19 +168,22 @@
             return total - sum;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 412. Fizz Buzz
+
 - 刷题进度:
     - [x] 遍历替换法.
     - [ ] xxx
@@ -175,14 +192,15 @@
 - 题意解析:
 - 输入处理:
 - 初始思路: 遍历替换法.
-    - 思路: 
+    - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var fizzBuzz = function(n) {
             let res = [];
@@ -196,19 +214,22 @@
             return res;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 204. 计数质数
+
 - 刷题进度:
     - [x] 暴力法.
     - [x] 取反法.
@@ -225,6 +246,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var countPrimes = function(n) {
             let count = 0;
@@ -244,19 +266,22 @@
             return arr.length;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 326. 3的幂
+
 - 刷题进度:
     - [x] 循环.
     - [ ] xxx
@@ -273,6 +298,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var isPowerOfThree = function(n) {
             let count = 0;
@@ -281,19 +307,22 @@
             return tmp === n;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 12.整数转罗马数字
+
 - 刷题进度:
     - [x] Map.
     - [ ] xxx
@@ -310,6 +339,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var romanToInt = function(s) {
             let map = new Map();
@@ -338,19 +368,22 @@
             return res;
         };
         ```
+
 - 第二思路:
     - 思路:
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间:
+        - 空间:
     - Leetcode 结果:
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         ```
 
 ### 693. 交替位二进制数
+
 - 刷题进度:
     - [x] 暴力法(先转数组再遍历检测).
     - [x] 一次遍历.
@@ -367,6 +400,7 @@
         - 执行用时: 72 ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: 34.2 MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var hasAlternatingBits = function(n) {
             let arr = [];
@@ -378,10 +412,11 @@
                 if (typeof arr[i+1] !== 'undefined' && arr[i] === arr[i+1]) {
                     return false;
                 }
-            } 
+            }
             return true;
         };
         ```
+
 - 第二思路: 一次遍历.
     - 思路:
     - 复杂度分析:
@@ -391,6 +426,7 @@
         - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 90 %的用户
         - 内存消耗: 34 MB, 在所有 JavaScript 提交中击败 17.5 %的用户
     - 实现:
+
         ``` js
         var hasAlternatingBits = function(n) {
             let flag;
@@ -409,6 +445,7 @@
         ```
 
 ### 50. Pow(x, n)
+
 - 刷题进度:
     - [x] 砍半递归.
     - [ ] xxx
@@ -425,6 +462,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var myPow = function(x, n) {
             if (n === 0) return 1;
@@ -438,6 +476,7 @@
             if (n % 2 === 1) return pow(x, n-1, e*x);
         }
         ```
+
 - 第二思路: 砍半迭代.
     - 思路:
     - 复杂度分析:
@@ -447,6 +486,7 @@
         - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
         - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
     - 实现:
+
         ``` js
         var myPow = function(x, n) {
             if (n === 0) return 1;
