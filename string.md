@@ -934,13 +934,13 @@
 - 题意解析: 
 - 输入处理:
 - 初始思路: 正则替换.
-    - 思路: 
+    - 思路: 字符串替换，直接正则.
     - 复杂度分析:
-        - 时间: 
-        - 空间: 
+        - 时间: O()
+        - 空间: O(1)
     - Leetcode 结果:
-        - 执行用时: ms, 在所有 JavaScript 提交中击败了  %的用户
-        - 内存消耗: MB, 在所有 JavaScript 提交中击败  %的用户
+        - 执行用时: 60 ms, 在所有 JavaScript 提交中击败了 81 %的用户
+        - 内存消耗: 34.2 MB, 在所有 JavaScript 提交中击败 100 %的用户
     - 实现:
         ``` js
         var defangIPaddr = function(address) {
