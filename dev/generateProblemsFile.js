@@ -1,4 +1,3 @@
-// const axios = require('axios')
 const { getProblems, getTranslation } = require('./api/leetcode')
 const fs = require('fs')
 
@@ -136,8 +135,8 @@ function generateProblemFiles (problems, folderName) {
   //  1. leetcode 文件夹确认
   if(!fs.existsSync(folderName)) fs.mkdirSync(folderName)
   //  2. 读取包含占位字符的模板文件
-  if(!fs.existsSync('template.md')) { console.log('TODO: 从 Github 上拉取，暂时略过') }
-  const tplContent = fs.readFileSync('template.md', 'utf8')
+  if(!fs.existsSync('./dev/template.md')) { console.log('TODO: 从 Github 上拉取，暂时略过') }
+  const tplContent = fs.readFileSync('./dev/template.md', 'utf8')
   //  3. 需要获取现有 leetcode 文件夹下文件与 problems 做 diff (不能修改到已有的题目文件)
   const existsFileNames = fs.readdirSync(`./${folderName}`)
   const genProblems = getDiffProblemsWithExistsFiles(problems, existsFileNames)

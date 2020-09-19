@@ -1,4 +1,4 @@
-# Leetcode-note-js
+# Leetcode-js
 
 - Code: [LeetcodeInJS](https://github.com/Nodreame/LeetcodeInJS)
 
