@@ -25,7 +25,7 @@ async function main () {
       return problemMap.has(v) ? problemMap.get(v) : null
     }).filter(v => v!==null)
     return {
-      title: `${topic.translatedName} ${topic.name}`,
+      title: `${topic.translatedName ? topic.translatedName : ''}${topic.name}`,
       problems,
     }
   })
@@ -43,15 +43,15 @@ main()
 
 // 填充模板
 function fillTpl (item) {
-  const tpl = `### {title}\r\n|题目|难度|手撸标签|题解|\r\n|-|-|-|-|\r\n{table}`
+  const tpl = `## {title}\r\n|题目|难度|手撸标签|题解|完成情况|\r\n|-|-|-|-|-|\r\n{table}`
   const tdArr = []
   item.problems.forEach (v => {
     const problemName = `${v.feId}.${v.titleZh}`
     const problemUrl = `https://leetcode-cn.com/problems/${v.slug}/`
     const difficulty = v.level === 1 ? 'Easy' : (v.level === 2 ? 'Medium' : 'Hard')
-    const answerName = `${v.feId}_${v.titleZh}.md`
+    const answerName = `${v.feId}_${v.titleZh}.md`.replace(/\s/g, '')
     const answerUrl = `https://github.com/Nodreame/leetcode-js/tree/master/leetcode/${answerName}`
-    tdArr.push(`|[${problemName}](${problemUrl})|${difficulty}||[${answerName}](${answerUrl})|`)
+    tdArr.push(`|[${problemName}](${problemUrl})|${difficulty}||[${answerName}](${answerUrl})|0%|`)
   })
   return tpl.replace('{title}', item.title).replace('{table}', tdArr.join('\r\n'))
 }
