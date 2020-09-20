@@ -15,7 +15,12 @@ function getTranslation () {
   return axios.post('https://leetcode-cn.com/graphql', translateParams)
 }
 
+function getTags () {
+  return axios.get('https://leetcode-cn.com/problems/api/tags/')
+}
+
 module.exports = {
   getProblems,
-  getTranslation
+  getTranslation,
+  getTags,
 }
