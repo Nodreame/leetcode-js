@@ -68,6 +68,7 @@ function localizeProblems (arr=[], map) {
   if (!map) return arr
   return arr.map(item => {
     const idStr = String(item.id)
+    item.feId = item.feId.replace(/\s/g, '')
     return {
       ...item,
       titleZh: (map.has(idStr) ? map.get(idStr) : item.title).replace(/\s/g, '')
