@@ -70,7 +70,7 @@ function localizeProblems (arr=[], map) {
     const idStr = String(item.id)
     return {
       ...item,
-      titleZh: map.has(idStr) ? map.get(idStr) : item.title
+      titleZh: (map.has(idStr) ? map.get(idStr) : item.title).replace(/\s/g, '')
     }
   })
 }
