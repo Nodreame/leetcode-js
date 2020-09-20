@@ -1568,10 +1568,10 @@
 
 |题目|难度|题解|完成情况|备注|
 |-|-|-|-|-|
-|[2.两数相加](https://leetcode-cn.com/problems/add-two-numbers/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/2_两数相加.md)|:construction_worker:施工中||
-|[19.删除链表的倒数第N个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/19_删除链表的倒数第N个节点.md)|:construction_worker:施工中||
-|[21.合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/21_合并两个有序链表.md)|:construction_worker:施工中||
-|[23.合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/23_合并K个升序链表.md)|:construction_worker:施工中||
+|[2.两数相加](https://leetcode-cn.com/problems/add-two-numbers/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/2_两数相加.md)|:white_check_mark: 2/2|链表遍历 & 链表创建|
+|[19.删除链表的倒数第N个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/19_删除链表的倒数第N个节点.md)|:white_check_mark: 2/2|链表节点删除 & 链表快慢指针|
+|[21.合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/21_合并两个有序链表.md)|:white_check_mark: 2/2|链表递归|
+|[23.合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/23_合并K个升序链表.md)|:construction_worker: 2/5|【推荐】21题的进化版本, 多种算法解答|
 |[24.两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/24_两两交换链表中的节点.md)|:construction_worker:施工中||
 |[25.K个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/25_K个一组翻转链表.md)|:construction_worker:施工中||
 |[61.旋转链表](https://leetcode-cn.com/problems/rotate-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/61_旋转链表.md)|:construction_worker:施工中||
