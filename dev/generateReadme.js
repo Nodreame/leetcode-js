@@ -43,15 +43,14 @@ main()
 
 // 填充模板
 function fillTpl (item) {
-  const tpl = `## {title}\r\n|题目|难度|手撸标签|题解|完成情况|\r\n|-|-|-|-|-|\r\n{table}`
+  const tpl = `## {title}\r\n|题目|难度|题解|完成情况|备注|\r\n|-|-|-|-|-|\r\n{table}`
   const tdArr = []
   item.problems.forEach (v => {
-    const problemName = `${v.feId}.${v.titleZh}`
-    const problemUrl = `https://leetcode-cn.com/problems/${v.slug}/`
+    const problem = `[${v.feId}.${v.titleZh}](https://leetcode-cn.com/problems/${v.slug}/)`
     const difficulty = v.level === 1 ? 'Easy' : (v.level === 2 ? 'Medium' : 'Hard')
     const answerName = `${v.feId}_${v.titleZh}.md`.replace(/\s/g, '')
     const answerUrl = `https://github.com/Nodreame/leetcode-js/tree/master/leetcode/${answerName}`
-    tdArr.push(`|[${problemName}](${problemUrl})|${difficulty}||[${answerName}](${answerUrl})|0%|`)
+    tdArr.push(`|${problem}|${difficulty}|[题解](${answerUrl})|:construction_worker:施工中||`)
   })
   return tpl.replace('{title}', item.title).replace('{table}', tdArr.join('\r\n'))
 }
