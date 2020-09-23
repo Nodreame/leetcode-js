@@ -1572,13 +1572,13 @@
 |[19.删除链表的倒数第N个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/19_删除链表的倒数第N个节点.md)|:white_check_mark: 2/2|链表节点删除 & 链表快慢指针|
 |[21.合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/21_合并两个有序链表.md)|:white_check_mark: 2/2|链表递归|
 |[23.合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/23_合并K个升序链表.md)|:construction_worker: 2/5|【推荐】21题的进化版本, 多种算法解答|
-|[24.两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/24_两两交换链表中的节点.md)|:construction_worker:施工中||
+|[24.两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/24_两两交换链表中的节点.md)|:white_check_mark: 2/2|链表反转 递归|
 |[25.K个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/25_K个一组翻转链表.md)|:construction_worker:施工中||
 |[61.旋转链表](https://leetcode-cn.com/problems/rotate-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/61_旋转链表.md)|:construction_worker:施工中||
 |[82.删除排序链表中的重复元素II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/82_删除排序链表中的重复元素II.md)|:construction_worker:施工中||
 |[83.删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/83_删除排序链表中的重复元素.md)|:construction_worker:施工中||
 |[86.分隔链表](https://leetcode-cn.com/problems/partition-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/86_分隔链表.md)|:construction_worker:施工中||
-|[92.反转链表II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/92_反转链表II.md)|:construction_worker:施工中||
+|[92.反转链表II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/92_反转链表II.md)|:white_check_mark: 2/2|链表反转 递归|
 |[109.有序链表转换二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/109_有序链表转换二叉搜索树.md)|:construction_worker:施工中||
 |[138.复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/138_复制带随机指针的链表.md)|:construction_worker:施工中||
 |[141.环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/141_环形链表.md)|:construction_worker:施工中||
@@ -1588,8 +1588,8 @@
 |[148.排序链表](https://leetcode-cn.com/problems/sort-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/148_排序链表.md)|:construction_worker:施工中||
 |[160.相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/160_相交链表.md)|:construction_worker:施工中||
 |[203.移除链表元素](https://leetcode-cn.com/problems/remove-linked-list-elements/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/203_移除链表元素.md)|:construction_worker:施工中||
-|[206.反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/206_反转链表.md)|:construction_worker:施工中||
-|[234.回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/234_回文链表.md)|:construction_worker:施工中||
+|[206.反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/206_反转链表.md)|:white_check_mark: 3/3|链表反转 递归 尾递归|
+|[234.回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/234_回文链表.md)|:construction_worker:2/3|链表反转 快慢指针 递归|
 |[237.删除链表中的节点](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/237_删除链表中的节点.md)|:construction_worker:施工中||
 |[328.奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/328_奇偶链表.md)|:construction_worker:施工中||
 |[369.给单链表加一](https://leetcode-cn.com/problems/plus-one-linked-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/369_给单链表加一.md)|:construction_worker:施工中||
