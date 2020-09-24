@@ -1574,7 +1574,7 @@
 |[23.合并K个升序链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/23_合并K个升序链表.md)|:construction_worker: 2/5|【推荐】21题的进化版本, 多种算法解答|
 |[24.两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/24_两两交换链表中的节点.md)|:white_check_mark: 2/2|链表反转 递归|
 |[25.K个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/25_K个一组翻转链表.md)|:construction_worker:施工中||
-|[61.旋转链表](https://leetcode-cn.com/problems/rotate-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/61_旋转链表.md)|:construction_worker:施工中||
+|[61.旋转链表](https://leetcode-cn.com/problems/rotate-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/61_旋转链表.md)|:white_check_mark: 2/2|环链表|
 |[82.删除排序链表中的重复元素II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/82_删除排序链表中的重复元素II.md)|:construction_worker:施工中||
 |[83.删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/83_删除排序链表中的重复元素.md)|:construction_worker:施工中||
 |[86.分隔链表](https://leetcode-cn.com/problems/partition-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/86_分隔链表.md)|:construction_worker:施工中||
@@ -1613,7 +1613,7 @@
 |[面试题02.08.环路检测](https://leetcode-cn.com/problems/linked-list-cycle-lcci/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/面试题02.08_环路检测.md)|:construction_worker:施工中||
 |[面试题02.03.删除中间节点](https://leetcode-cn.com/problems/delete-middle-node-lcci/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/面试题02.03_删除中间节点.md)|:construction_worker:施工中||
 |[面试题02.05.链表求和](https://leetcode-cn.com/problems/sum-lists-lcci/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/面试题02.05_链表求和.md)|:construction_worker:施工中||
-|[剑指Offer06.从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/剑指Offer06_从尾到头打印链表.md)|:construction_worker:施工中||
+|[剑指Offer06.从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/剑指Offer06_从尾到头打印链表.md)|:white_check_mark: 3/3|链表反转 递归|
 |[剑指Offer22.链表中倒数第k个节点](https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/剑指Offer22_链表中倒数第k个节点.md)|:construction_worker:施工中||
 |[剑指Offer24.反转链表](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/剑指Offer24_反转链表.md)|:construction_worker:施工中||
 |[剑指Offer18.删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/剑指Offer18_删除链表的节点.md)|:construction_worker:施工中||
