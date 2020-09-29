@@ -366,7 +366,7 @@
 |[96.不同的二叉搜索树](https://leetcode-cn.com/problems/unique-binary-search-trees/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/96_不同的二叉搜索树.md)|:construction_worker:施工中||
 |[98.验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/98_验证二叉搜索树.md)|:construction_worker:施工中||
 |[99.恢复二叉搜索树](https://leetcode-cn.com/problems/recover-binary-search-tree/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/99_恢复二叉搜索树.md)|:construction_worker:施工中||
-|[100.相同的树](https://leetcode-cn.com/problems/same-tree/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/100_相同的树.md)|:construction_worker:施工中||
+|[100.相同的树](https://leetcode-cn.com/problems/same-tree/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/100_相同的树.md)|:construction_worker:1/2|递归|
 |[101.对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/101_对称二叉树.md)|:construction_worker:施工中||
 |[102.二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/102_二叉树的层序遍历.md)|:construction_worker:施工中||
 |[103.二叉树的锯齿形层次遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/103_二叉树的锯齿形层次遍历.md)|:construction_worker:施工中||
@@ -1102,7 +1102,7 @@
 
 |题目|难度|题解|完成情况|备注|
 |-|-|-|-|-|
-|[1.两数之和](https://leetcode-cn.com/problems/two-sum/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/1_两数之和.md)|:construction_worker:施工中||
+|[1.两数之和](https://leetcode-cn.com/problems/two-sum/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/1_两数之和.md)|:white_check_mark: 2/2|Map|
 |[4.寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/4_寻找两个正序数组的中位数.md)|:construction_worker:施工中||
 |[11.盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/11_盛最多水的容器.md)|:construction_worker:施工中||
 |[15.三数之和](https://leetcode-cn.com/problems/3sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/15_三数之和.md)|:construction_worker:施工中||
@@ -1134,7 +1134,7 @@
 |[74.搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/74_搜索二维矩阵.md)|:construction_worker:施工中||
 |[75.颜色分类](https://leetcode-cn.com/problems/sort-colors/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/75_颜色分类.md)|:construction_worker:施工中||
 |[78.子集](https://leetcode-cn.com/problems/subsets/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/78_子集.md)|:construction_worker:施工中||
-|[79.单词搜索](https://leetcode-cn.com/problems/word-search/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/79_单词搜索.md)|:construction_worker:施工中||
+|[79.单词搜索](https://leetcode-cn.com/problems/word-search/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/79_单词搜索.md)|:construction_worker: 1/2|回溯|
 |[80.删除排序数组中的重复项II](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/80_删除排序数组中的重复项II.md)|:construction_worker:施工中||
 |[81.搜索旋转排序数组II](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/81_搜索旋转排序数组II.md)|:construction_worker:施工中||
 |[84.柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/84_柱状图中最大的矩形.md)|:construction_worker:施工中||
@@ -1581,7 +1581,7 @@
 |[92.反转链表II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/92_反转链表II.md)|:white_check_mark: 2/2|链表反转 递归|
 |[109.有序链表转换二叉搜索树](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/109_有序链表转换二叉搜索树.md)|:construction_worker:施工中||
 |[138.复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/138_复制带随机指针的链表.md)|:construction_worker:施工中||
-|[141.环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/141_环形链表.md)|:construction_worker:施工中||
+|[141.环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/141_环形链表.md)|:construction_worker:1/2||
 |[142.环形链表II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/142_环形链表II.md)|:construction_worker:施工中||
 |[143.重排链表](https://leetcode-cn.com/problems/reorder-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/143_重排链表.md)|:construction_worker:施工中||
 |[147.对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/147_对链表进行插入排序.md)|:construction_worker:施工中||
