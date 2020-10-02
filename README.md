@@ -1253,7 +1253,7 @@
 |[954.二倍数对数组](https://leetcode-cn.com/problems/array-of-doubled-pairs/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/954_二倍数对数组.md)|:construction_worker:施工中||
 |[962.最大宽度坡](https://leetcode-cn.com/problems/maximum-width-ramp/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/962_最大宽度坡.md)|:construction_worker:施工中||
 |[969.煎饼排序](https://leetcode-cn.com/problems/pancake-sorting/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/969_煎饼排序.md)|:construction_worker:施工中||
-|[509.斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/509_斐波那契数.md)|:construction_worker:施工中||
+|[509.斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/509_斐波那契数.md)|:white_check_mark: 4/4|递归 记忆化递归 递推 动态规划 黄金分割比|
 |[974.和可被K整除的子数组](https://leetcode-cn.com/problems/subarray-sums-divisible-by-k/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/974_和可被K整除的子数组.md)|:construction_worker:施工中||
 |[977.有序数组的平方](https://leetcode-cn.com/problems/squares-of-a-sorted-array/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/977_有序数组的平方.md)|:construction_worker:施工中||
 |[978.最长湍流子数组](https://leetcode-cn.com/problems/longest-turbulent-subarray/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/978_最长湍流子数组.md)|:construction_worker:施工中||
@@ -1423,7 +1423,7 @@
 
 |题目|难度|题解|完成情况|备注|
 |-|-|-|-|-|
-|[1.两数之和](https://leetcode-cn.com/problems/two-sum/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/1_两数之和.md)|:construction_worker:施工中||
+|[1.两数之和](https://leetcode-cn.com/problems/two-sum/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/1_两数之和.md)|:white_check_mark: 2/2|Map|
 |[3.无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/3_无重复字符的最长子串.md)|:construction_worker:施工中||
 |[18.四数之和](https://leetcode-cn.com/problems/4sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/18_四数之和.md)|:construction_worker:施工中||
 |[30.串联所有单词的子串](https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/30_串联所有单词的子串.md)|:construction_worker:施工中||
