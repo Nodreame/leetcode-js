@@ -1104,7 +1104,7 @@
 |-|-|-|-|-|
 |[1.两数之和](https://leetcode-cn.com/problems/two-sum/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/1_两数之和.md)|:white_check_mark: 2/2|Map|
 |[4.寻找两个正序数组的中位数](https://leetcode-cn.com/problems/median-of-two-sorted-arrays/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/4_寻找两个正序数组的中位数.md)|:construction_worker:施工中||
-|[11.盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/11_盛最多水的容器.md)|:construction_worker:施工中||
+|[11.盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/11_盛最多水的容器.md)|:white_check_mark: 1/1|双指针|
 |[15.三数之和](https://leetcode-cn.com/problems/3sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/15_三数之和.md)|:construction_worker:施工中||
 |[16.最接近的三数之和](https://leetcode-cn.com/problems/3sum-closest/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/16_最接近的三数之和.md)|:construction_worker:施工中||
 |[18.四数之和](https://leetcode-cn.com/problems/4sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/18_四数之和.md)|:construction_worker:施工中||
@@ -1156,7 +1156,7 @@
 |[154.寻找旋转排序数组中的最小值II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)|Hard|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/154_寻找旋转排序数组中的最小值II.md)|:construction_worker:施工中||
 |[162.寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/162_寻找峰值.md)|:construction_worker:施工中||
 |[163.缺失的区间](https://leetcode-cn.com/problems/missing-ranges/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/163_缺失的区间.md)|:construction_worker:施工中||
-|[167.两数之和II-输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/167_两数之和II-输入有序数组.md)|:construction_worker:施工中||
+|[167.两数之和II-输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/167_两数之和II-输入有序数组.md)|:white_check_mark: 2/2|Map 双指针|
 |[169.多数元素](https://leetcode-cn.com/problems/majority-element/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/169_多数元素.md)|:construction_worker:施工中||
 |[189.旋转数组](https://leetcode-cn.com/problems/rotate-array/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/189_旋转数组.md)|:construction_worker:施工中||
 |[209.长度最小的子数组](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/209_长度最小的子数组.md)|:construction_worker:施工中||
