@@ -1836,9 +1836,9 @@
 |-|-|-|-|-|
 |[3.无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/3_无重复字符的最长子串.md)|:construction_worker:施工中||
 |[11.盛最多水的容器](https://leetcode-cn.com/problems/container-with-most-water/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/11_盛最多水的容器.md)|:construction_worker:施工中||
-|[15.三数之和](https://leetcode-cn.com/problems/3sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/15_三数之和.md)|:construction_worker:施工中||
+|[15.三数之和](https://leetcode-cn.com/problems/3sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/15_三数之和.md)|:white_check_mark: 2/2|排序 双指针|
 |[16.最接近的三数之和](https://leetcode-cn.com/problems/3sum-closest/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/16_最接近的三数之和.md)|:construction_worker:施工中||
-|[18.四数之和](https://leetcode-cn.com/problems/4sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/18_四数之和.md)|:construction_worker:施工中||
+|[18.四数之和](https://leetcode-cn.com/problems/4sum/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/18_四数之和.md)|:white_check_mark: 2/2|排序 双指针|
 |[19.删除链表的倒数第N个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)|Medium|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/19_删除链表的倒数第N个节点.md)|:construction_worker:施工中||
 |[26.删除排序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/26_删除排序数组中的重复项.md)|:construction_worker:施工中||
 |[27.移除元素](https://leetcode-cn.com/problems/remove-element/)|Easy|[题解](https://github.com/Nodreame/leetcode-js/tree/master/leetcode/27_移除元素.md)|:construction_worker:施工中||
