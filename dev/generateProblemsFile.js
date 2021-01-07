@@ -168,7 +168,7 @@ function getDiffProblemsWithExistsFiles (problems, existsFileNames) {
     console.log('启动初始化 Leetcode 仓库生成逻辑')
     return problems
   }
-  const existsSet = [...existsFileNames.map(v => v.split('_')[0])]
+  const existsSet = new Set([...existsFileNames.map(v => v.split('_')[0])])
   const diffProblems = problems.filter(v => !existsSet.has(String(v.feId)))
   console.log(`待生成问题列表 & 现有leetcode文件夹文件 对比完毕, 存在 ${diffProblems.length} 个新增问题. 具体如下所示:`)
   console.log(diffProblems)
