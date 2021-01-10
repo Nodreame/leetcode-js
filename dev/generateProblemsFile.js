@@ -110,7 +110,7 @@ function diff (problems, folderName, fileName) {
         console.log(`Diff 执行完成, 共新增${diffProblems.length}道题目.`)
         return [false, diffProblems]
       }
-      return diffProblems
+      return [false, []]
     }
   } else {
     // 没有 problems.json 就创建并写数据
