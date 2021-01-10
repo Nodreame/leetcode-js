@@ -27,5 +27,3 @@
 ``` js
 
 ```
-
-**[JS刷题记录 Leetcode-js](https://github.com/Nodreame/leetcode-js)** 每周都会更新刷题心得或者题解, 你的点赞或 star 都将助力我产出更好内容~
