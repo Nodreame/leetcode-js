@@ -5,9 +5,14 @@
   "license": "MIT",
   "scripts": {
     "build-leetcode": "node dev/generateProblemsFile.js",
-    "build-readme": "node dev/generateReadme.js"
+    "build-readme": "node dev/generateReadme.js",
+    "docs:dev": "vuepress dev leetcode",
+    "docs:build": "vuepress build leetcode"
   },
   "dependencies": {
     "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "vuepress": "^1.8.0"
   }
 }
